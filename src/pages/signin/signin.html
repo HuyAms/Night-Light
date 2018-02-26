@@ -1,0 +1,64 @@
+
+<ion-content class="background" padding>
+  <div padding>
+    <ion-row>
+      <ion-col>
+        <img class="logo" src="assets/imgs/logo/nightlight_logo.png"/>
+      </ion-col>
+    </ion-row>
+    <form (ngSubmit)="onSignin(f)" #f="ngForm">
+    <ion-row>
+      <ion-col>
+          <ion-list inset class="no-border">
+            <ion-item *ngIf="isSignup">
+              <ion-label fixed>Full Name</ion-label>
+              <ion-input
+                type="text"
+                ngModel
+                name="full_name"
+                ></ion-input>
+            </ion-item>
+            <ion-item *ngIf="isSignup">
+              <ion-label fixed>Email</ion-label>
+              <ion-input
+                type="email"
+                ngModel
+                name="email"
+                required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label fixed>Username</ion-label>
+              <ion-input
+                type="text"
+                ngModel
+                name="username"
+                required></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label fixed>Password</ion-label>
+              <ion-input
+                type="password"
+                ngModel
+                name="password"
+                required></ion-input>
+            </ion-item>
+          </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <button ion-button class="login-button" type="submit" *ngIf="!isSignup" [disabled]="!f.valid">Login</button>
+        <button ion-button class="login-button" type="submit" *ngIf="isSignup" [disabled]="!f.valid">Create your NightLight account</button>
+      </ion-col>
+    </ion-row>
+    </form>
+    <ion-row>
+      <ion-col>
+        <div>
+          <span (click)="goToSignup()" *ngIf="!isSignup">Or create a new account.</span>
+          <span (click)="goToSignin()" *ngIf="isSignup">Already have an account? Sign in</span>
+        </div>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

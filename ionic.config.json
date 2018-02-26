@@ -1,0 +1,8 @@
+{
+  "name": "nightlight",
+  "app_id": "ccfa756f",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
