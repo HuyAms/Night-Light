@@ -19,7 +19,7 @@ export class HomePage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
-  segmentChanged(event) {
+  onSegmentChange(event) {
     let tab = event.value;
     if (tab == 'new') {
       console.log('new tab loaded');
@@ -27,5 +27,10 @@ export class HomePage {
       console.log('hot tab loaded');
     }
   }
+
+  onRefresh() {
+    console.log('refresh')
+  }
+
 
 }

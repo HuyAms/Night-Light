@@ -6,7 +6,12 @@
 -->
 <ion-header>
   <ion-toolbar>
-    <ion-segment [(ngModel)]="defaultTab" (ionChange)="segmentChanged($event)">
+    <ion-buttons end>
+      <button ion-button icon-only  (click)="onRefresh()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-segment [(ngModel)]="defaultTab" (ionChange)="onSegmentChange($event)">
       <ion-segment-button value="new">New
       </ion-segment-button>
       <ion-segment-button value="hot">Hot
