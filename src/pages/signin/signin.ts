@@ -13,13 +13,13 @@ import {HttpErrorResponse} from '@angular/common/http';
 export class SigninPage{
   isSignup = false;
 
-  constructor(private navCtrl: NavController, private mediaProvider: AuthProvider) {
+  constructor(private navCtrl: NavController, private authProvider: AuthProvider) {
   }
 
   onSubmit(form: NgForm) {
     if(this.isSignup !== true) {
       console.log(form.value);
-      this.mediaProvider.login(form.value).subscribe(response => {
+      this.authProvider.login(form.value).subscribe(response => {
         console.log(response['token']);
 
         //Save token
@@ -35,7 +35,7 @@ export class SigninPage{
       });
     }
     else{
-      this.mediaProvider.register(form.value).subscribe(response => {
+      this.authProvider.register(form.value).subscribe(response => {
         console.log(response);
 
         //Reset form

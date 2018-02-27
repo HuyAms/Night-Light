@@ -12,6 +12,7 @@ import {ProfilePage} from "../pages/profile/profile";
 import {PostPage} from "../pages/post/post";
 import { AuthProvider } from '../providers/auth';
 import {HttpClientModule} from "@angular/common/http";
+import {Autoresize} from "../shared/autoresize.directive";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {HttpClientModule} from "@angular/common/http";
     TabsPage,
     SigninPage,
     ProfilePage,
-    PostPage
+    PostPage,
+    Autoresize
   ],
   imports: [
     BrowserModule,
