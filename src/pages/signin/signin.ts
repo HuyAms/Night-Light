@@ -16,7 +16,7 @@ export class SigninPage{
   constructor(private navCtrl: NavController, private mediaProvider: AuthProvider) {
   }
 
-  onAuthenFormSubmit(form: NgForm) {
+  onSubmit(form: NgForm) {
     if(this.isSignup !== true) {
       console.log(form.value);
       this.mediaProvider.login(form.value).subscribe(response => {

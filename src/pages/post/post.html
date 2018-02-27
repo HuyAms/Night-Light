@@ -7,12 +7,56 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>post</ion-title>
+    <ion-title>Night Light</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-row>
+    <ion-col>
+      <img (click)="onOpenCamera()" class="camera" src="assets/imgs/camera_placeholder.png"/>
+    </ion-col>
+  </ion-row>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <ion-list>
+      <ion-item>
+        <ion-label fixed>Title</ion-label>
+        <ion-input
+          type="text"
+          name="title"
+          ngModel
+          required
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>
+          Story
+        </ion-label>
+        <ion-textarea
+          name="description"
+          ngModel
+          required
+          autoresize
+        ></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <button
+              ion-button
+              block
+              outline
+              type="submit"
+            >
+              Share
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+  </form>
 </ion-content>
