@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController} from 'ionic-angular';
 import {NgForm} from "@angular/forms";
 import {TabsPage} from "../tabs/tabs";
-import {MediaProvider} from '../../providers/media/media';
+import {AuthProvider} from '../../providers/auth';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @IonicPage()
@@ -12,18 +12,23 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class SigninPage{
   isSignup = false;
-  buttonTitle = 'Login';
 
-
-  constructor(private navCtrl: NavController, private mediaProvider: MediaProvider) {
+  constructor(private navCtrl: NavController, private mediaProvider: AuthProvider) {
   }
 
-  onSignin(form: NgForm) {
+  onAuthenFormSubmit(form: NgForm) {
     if(this.isSignup !== true) {
       console.log(form.value);
       this.mediaProvider.login(form.value).subscribe(response => {
         console.log(response['token']);
+
+        //Save token
         localStorage.setItem('token', response['token']);
+
+        //Reset form
+        form.reset()
+
+        //Set Root
         this.navCtrl.setRoot(TabsPage);
       }, (error: HttpErrorResponse) => {
         console.log(error.error.message);
@@ -31,24 +36,19 @@ export class SigninPage{
     }
     else{
       this.mediaProvider.register(form.value).subscribe(response => {
-        console.log('User Creation successful');
-        this.navCtrl.setRoot(SigninPage);
+        console.log(response);
+
+        //Reset form
+        form.reset()
+
+        //Navigate to sign in
+        this.isSignup = false;
+
       }, (error: HttpErrorResponse) => {
         console.log(error.error.message);
       });
     }
   }
-
-  ionViewDidLoad() {
-    if (localStorage.getItem('token') !== null) {
-      this.mediaProvider.getUserData().subscribe(response => {
-        this.navCtrl.setRoot(TabsPage);
-      }, (error: HttpErrorResponse) => {
-        console.log(error);
-      });
-    }
-  }
-
 
   goToSignup() {
     this.isSignup = true;

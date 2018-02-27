@@ -4,6 +4,7 @@ import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {TabsPage} from "../pages/tabs/tabs";
 import {SigninPage} from "../pages/signin/signin";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   templateUrl: 'app.html'
@@ -17,6 +18,13 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+
+      //Check login
+      if (localStorage.getItem('token') !== null) {
+        this.rootPage = TabsPage
+      } else {
+        this.rootPage = SigninPage
+      }
     });
   }
 }

@@ -10,7 +10,7 @@ import {TabsPage} from "../pages/tabs/tabs";
 import {SigninPage} from "../pages/signin/signin";
 import {ProfilePage} from "../pages/profile/profile";
 import {PostPage} from "../pages/post/post";
-import { MediaProvider } from '../providers/media/media';
+import { AuthProvider } from '../providers/auth';
 import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
@@ -40,7 +40,7 @@ import {HttpClientModule} from "@angular/common/http";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    MediaProvider
+    AuthProvider
   ]
 })
 export class AppModule {}

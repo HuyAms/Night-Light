@@ -3,18 +3,17 @@ import { Injectable } from '@angular/core';
 import {NgForm} from "@angular/forms";
 
 /*
-  Generated class for the MediaProvider provider.
+  Generated class for the AuthProvider provider.
 
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
 @Injectable()
-export class MediaProvider {
+export class AuthProvider {
 
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
 
   constructor(public http: HttpClient) {
-    console.log('Hello MediaProvider Provider');
   }
 
   login(formData) {
