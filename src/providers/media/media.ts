@@ -17,16 +17,15 @@ export class MediaProvider {
     console.log('Hello MediaProvider Provider');
   }
 
-  login(form: NgForm) {
+  login(formData) {
     const settings = {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
     };
-
-    return this.http.post(this.apiUrl + '/login', form, settings);
+    return this.http.post(this.apiUrl + '/login', formData, settings);
   }
 
-  register(form: NgForm) {
-    return this.http.post(this.apiUrl + '/users', form);
+  register(formData) {
+    return this.http.post(this.apiUrl + '/users', formData);
   }
 
   getUserData() {
