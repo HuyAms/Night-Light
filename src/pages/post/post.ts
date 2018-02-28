@@ -17,6 +17,7 @@ export class PostPage {
   }
 
 
+
   onSubmit(form: NgForm) {
     console.log(form)
   }

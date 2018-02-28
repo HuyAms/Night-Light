@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController} from 'ionic-angular';
+import {IonicPage, NavController, ToastController} from 'ionic-angular';
 import {NgForm} from "@angular/forms";
 import {TabsPage} from "../tabs/tabs";
 import {AuthProvider} from '../../providers/auth';
@@ -13,7 +13,9 @@ import {HttpErrorResponse} from '@angular/common/http';
 export class SigninPage{
   isSignup = false;
 
-  constructor(private navCtrl: NavController, private authProvider: AuthProvider) {
+  constructor(private navCtrl: NavController,
+              private authProvider: AuthProvider,
+              private toastCtrl: ToastController) {
   }
 
   onSubmit(form: NgForm) {
@@ -30,8 +32,11 @@ export class SigninPage{
 
         //Set Root
         this.navCtrl.setRoot(TabsPage);
+
       }, (error: HttpErrorResponse) => {
         console.log(error.error.message);
+
+        this.presentToast(error.error.message)
       });
     }
     else{
@@ -44,10 +49,23 @@ export class SigninPage{
         //Navigate to sign in
         this.isSignup = false;
 
+        this.presentToast('User was created sucessfully')
+
       }, (error: HttpErrorResponse) => {
         console.log(error.error.message);
+        this.presentToast(error.error.message)
       });
     }
+  }
+
+  presentToast(mess: string) {
+    let toast = this.toastCtrl.create({
+      message: mess,
+      duration: 1500,
+      position: 'bottom'
+    });
+
+    toast.present();
   }
 
   goToSignup() {
