@@ -12,6 +12,8 @@
       </button>
     </ion-buttons>
     <ion-segment [(ngModel)]="defaultTab" (ionChange)="onSegmentChange($event)">
+      <ion-segment-button value="random">Discover
+      </ion-segment-button>
       <ion-segment-button value="new">New
       </ion-segment-button>
       <ion-segment-button value="hot">Hot
