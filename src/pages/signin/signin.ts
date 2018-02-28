@@ -112,10 +112,8 @@ export class SigninPage{
     this.userProvider.getUserData().subscribe(response =>{
       console.log(response);
 
+      //save user id
       localStorage.setItem('user_id', response['user_id']);
-      localStorage.setItem('username', response['username']);
-      localStorage.setItem('email', response['email']);
-      localStorage.setItem('full_name', response['full_name']);
     })
   }
 }

@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 
 @Injectable()
@@ -15,6 +15,13 @@ export class UserService {
       headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
     };
     return this.http.get(this.apiUrl + '/users/user', settings);
+  }
+
+  editUserData(user) {
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
+    };
+    return this.http.put(this.apiUrl + '/users', user ,settings)
   }
 
 }
