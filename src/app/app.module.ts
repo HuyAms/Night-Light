@@ -13,6 +13,7 @@ import {PostPage} from "../pages/post/post";
 import { AuthProvider } from '../providers/auth';
 import {HttpClientModule} from "@angular/common/http";
 import {Autoresize} from "../shared/autoresize.directive";
+import { Camera } from '@ionic-native/camera';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import {Autoresize} from "../shared/autoresize.directive";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthProvider
+    AuthProvider,
+    Camera
   ]
 })
 export class AppModule {}
