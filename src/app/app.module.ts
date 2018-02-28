@@ -10,10 +10,12 @@ import {TabsPage} from "../pages/tabs/tabs";
 import {SigninPage} from "../pages/signin/signin";
 import {ProfilePage} from "../pages/profile/profile";
 import {PostPage} from "../pages/post/post";
-import { AuthProvider } from '../providers/auth';
+import { AuthService } from '../providers/auth.service';
 import {HttpClientModule} from "@angular/common/http";
 import {Autoresize} from "../shared/autoresize.directive";
 import { Camera } from '@ionic-native/camera';
+import {StoryService} from "../providers/story.service";
+import {UserService} from "../providers/user.service";
 
 @NgModule({
   declarations: [
@@ -43,8 +45,10 @@ import { Camera } from '@ionic-native/camera';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthProvider,
-    Camera
+    AuthService,
+    Camera,
+    StoryService,
+    UserService
   ]
 })
 export class AppModule {}

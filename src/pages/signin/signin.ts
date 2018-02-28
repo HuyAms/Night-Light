@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {IonicPage, NavController, ToastController} from 'ionic-angular';
 import {NgForm} from "@angular/forms";
 import {TabsPage} from "../tabs/tabs";
-import {AuthProvider} from '../../providers/auth';
+import {AuthService} from '../../providers/auth.service';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @IonicPage()
@@ -14,7 +14,7 @@ export class SigninPage{
   isSignup = false;
 
   constructor(private navCtrl: NavController,
-              private authProvider: AuthProvider,
+              private authProvider: AuthService,
               private toastCtrl: ToastController) {
   }
 

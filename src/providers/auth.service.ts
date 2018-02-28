@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import {NgForm} from "@angular/forms";
 
 /*
-  Generated class for the AuthProvider provider.
+  Generated class for the AuthService provider.
 
   See https://angular.io/guide/dependency-injection for more info on providers
   and Angular DI.
 */
 @Injectable()
-export class AuthProvider {
+export class AuthService {
 
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
 
@@ -25,25 +25,6 @@ export class AuthProvider {
 
   register(formData) {
     return this.http.post(this.apiUrl + '/users', formData);
-  }
-
-  getUserData() {
-    const settings = {
-      headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
-    };
-    return this.http.get(this.apiUrl + '/users/user', settings);
-  }
-
-  upload(formData) {
-    const settings = {
-      headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
-    };
-
-    return this.http.post(this.apiUrl + '/media', formData, settings).subscribe(response => {
-      console.log(response);
-    }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
-    });
   }
 
 }
