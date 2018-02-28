@@ -16,15 +16,15 @@ export class AuthService {
   constructor(public http: HttpClient) {
   }
 
-  login(formData) {
+  login(user) {
     const settings = {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
     };
-    return this.http.post(this.apiUrl + '/login', formData, settings);
+    return this.http.post(this.apiUrl + '/login', user, settings);
   }
 
-  register(formData) {
-    return this.http.post(this.apiUrl + '/users', formData);
+  register(user) {
+    return this.http.post(this.apiUrl + '/users', user);
   }
 
 }

@@ -4,6 +4,8 @@ import {NgForm} from "@angular/forms";
 import {TabsPage} from "../tabs/tabs";
 import {AuthService} from '../../providers/auth.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {User} from '../../app/interface/user';
+import {UserService} from '../../providers/user.service';
 
 @IonicPage()
 @Component({
@@ -12,49 +14,44 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class SigninPage{
   isSignup = false;
+  user: User = {
+    username: '',
+    password: '',
+    email: '',
+    full_name: ''
+  }
 
   constructor(private navCtrl: NavController,
               private authProvider: AuthService,
-              private toastCtrl: ToastController) {
+              private toastCtrl: ToastController,
+              private userProvider: UserService) {
   }
 
   onSubmit(form: NgForm) {
     if(this.isSignup !== true) {
       console.log(form.value);
-      this.authProvider.login(form.value).subscribe(response => {
-        console.log(response['token']);
 
-        //Save token
-        localStorage.setItem('token', response['token']);
+      //Request signin
+      this.user.username = form.value.username;
+      this.user.password = form.value.password;
+      this.initSignin();
 
-        //Reset form
-        form.reset()
+      //Reset form
+      form.reset();
 
-        //Set Root
-        this.navCtrl.setRoot(TabsPage);
-
-      }, (error: HttpErrorResponse) => {
-        console.log(error.error.message);
-
-        this.presentToast(error.error.message)
-      });
     }
     else{
-      this.authProvider.register(form.value).subscribe(response => {
-        console.log(response);
+      //Request signup
+      this.user.username = form.value.username;
+      this.user.password = form.value.password;
+      this.user.email = form.value.email;
+      this.user.full_name = form.value.full_name;
 
-        //Reset form
-        form.reset()
+      this.initSignup();
 
-        //Navigate to sign in
-        this.isSignup = false;
+      //Reset form
+      form.reset();
 
-        this.presentToast('User was created sucessfully')
-
-      }, (error: HttpErrorResponse) => {
-        console.log(error.error.message);
-        this.presentToast(error.error.message)
-      });
     }
   }
 
@@ -68,6 +65,41 @@ export class SigninPage{
     toast.present();
   }
 
+  initSignin(){
+    this.authProvider.login(this.user).subscribe(response => {
+      console.log(response['token']);
+
+      //Save token
+      localStorage.setItem('token', response['token']);
+
+      this.saveUserData();
+
+      //Set Root
+      this.navCtrl.setRoot(TabsPage);
+
+    }, (error: HttpErrorResponse) => {
+      console.log(error.error.message);
+
+      this.presentToast(error.error.message)
+    });
+  }
+
+  initSignup(){
+    this.authProvider.register(this.user).subscribe(response => {
+      console.log(response);
+
+      //Navigate to sign in
+      this.isSignup = false;
+
+      this.presentToast('User was created sucessfully');
+      this.initSignin();
+
+    }, (error: HttpErrorResponse) => {
+      console.log(error.error.message);
+      this.presentToast(error.error.message)
+    });
+  }
+
   goToSignup() {
     this.isSignup = true;
   }
@@ -76,4 +108,14 @@ export class SigninPage{
     this.isSignup = false;
   }
 
+  saveUserData(){
+    this.userProvider.getUserData().subscribe(response =>{
+      console.log(response);
+
+      localStorage.setItem('user_id', response['user_id']);
+      localStorage.setItem('username', response['username']);
+      localStorage.setItem('email', response['email']);
+      localStorage.setItem('full_name', response['full_name']);
+    })
+  }
 }
