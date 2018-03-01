@@ -1,4 +1,4 @@
-import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 
 
@@ -21,10 +21,22 @@ export class StoryService {
     });
   }
 
-  getPost(){
-
+  getSinglePost(id: String){
+    return this.http.get(this.apiUrl + '/media/' + id).subscribe(response => {
+      console.log(response);
+    }, (error: HttpErrorResponse) => {
+      console.log(error.error.message);
+    });
   }
 
-  
+  getAllPost(){
+    return this.http.get(this.apiUrl + '/media').subscribe(response => {
+      console.log(response);
+    }, (error: HttpErrorResponse) => {
+      console.log(error.error.message);
+    });
+  }
+
+
 
 }
