@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { TextToSpeech } from '@ionic-native/text-to-speech';
 
-/**
- * Generated class for the HomePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -15,8 +10,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class HomePage {
   defaultTab = 'new';
+  text: string
+  speaking : boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private textToSpeech: TextToSpeech) {
   }
 
   onSegmentChange(event) {
@@ -30,6 +27,23 @@ export class HomePage {
 
   onRefresh() {
     console.log('refresh')
+  }
+
+  stop() {
+    this.textToSpeech.stop()
+  }
+
+  sayText(){
+    if(this.speaking){
+      this.textToSpeech.speak({text: ''});  // <<< speak an empty string to interrupt.
+      this.speaking = false;
+      return;
+    }
+    this.speaking = true;
+    this.textToSpeech.speak( {text: this.text, locale: 'en-US', rate: 1} )
+      .then((val) => { this.speaking = false;  },
+        (reject) => {console.warn(reject); this.speaking = false; })
+      .catch((err) => {console.error(err); this.speaking = false; });
   }
 
 

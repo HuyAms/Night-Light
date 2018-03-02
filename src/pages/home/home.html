@@ -25,5 +25,15 @@
 
 
 <ion-content padding>
-
+<ion-item>
+  <ion-label stacked>Text</ion-label>
+  <ion-textarea [(ngModel)]="text"></ion-textarea>
+</ion-item>
+  <button
+    ion-button
+    block
+    outline
+    type="button"
+    (click)="sayText()"
+  >Speak</button>
 </ion-content>

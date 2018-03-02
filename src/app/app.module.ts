@@ -16,6 +16,8 @@ import {Autoresize} from "../shared/autoresize.directive";
 import { Camera } from '@ionic-native/camera';
 import {StoryService} from "../providers/story.service";
 import {UserService} from "../providers/user.service";
+import { TextToSpeech } from '@ionic-native/text-to-speech';
+
 
 @NgModule({
   declarations: [
@@ -49,7 +51,7 @@ import {UserService} from "../providers/user.service";
     Camera,
     StoryService,
     UserService,
-    File,
+    TextToSpeech
   ]
 })
 export class AppModule {}
