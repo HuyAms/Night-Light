@@ -41,6 +41,16 @@
           autoresize
         ></ion-textarea>
       </ion-item>
+
+      <ion-item>
+        <p>{{imageURI}}</p>
+        <button ion-button color="secondary" (click) = "onOpenCamera()">Get Image</button>
+      </ion-item>
+      <ion-item>
+        <h4>Image Preview</h4>
+        <img src="{{imageFileName}}" *ngIf="imageFileName" alt="Ionic File" width="300"/>
+      </ion-item>
+
     </ion-list>
     <ion-list>
       <ion-grid>

@@ -9,16 +9,12 @@ export class StoryService {
   constructor(public http: HttpClient) {
   }
 
-  upload(formData) {
+  upload(postInfo) {
     const settings = {
       headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
     };
 
-    return this.http.post(this.apiUrl + '/media', formData, settings).subscribe(response => {
-      console.log(response);
-    }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
-    });
+    return this.http.post(this.apiUrl + '/media', postInfo, settings);
   }
 
   getSinglePost(id: String){
@@ -35,6 +31,14 @@ export class StoryService {
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
     });
+  }
+
+  postTag(postTag) {
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
+    };
+
+    return this.http.post(this.apiUrl + '/tags', postTag, settings);
   }
 
 
