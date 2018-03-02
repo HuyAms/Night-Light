@@ -17,6 +17,8 @@ import { Camera } from '@ionic-native/camera';
 import {StoryService} from "../providers/story.service";
 import {UserService} from "../providers/user.service";
 import { TextToSpeech } from '@ionic-native/text-to-speech';
+import { SocialSharing } from '@ionic-native/social-sharing';
+
 
 
 @NgModule({
@@ -51,7 +53,8 @@ import { TextToSpeech } from '@ionic-native/text-to-speech';
     Camera,
     StoryService,
     UserService,
-    TextToSpeech
+    TextToSpeech,
+    SocialSharing
   ]
 })
 export class AppModule {}
