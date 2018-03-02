@@ -1,4 +1,4 @@
 export class PostTag{
-  fileId: string;
+  file_id: number;
   tag: string;
 }

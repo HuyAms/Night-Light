@@ -4,7 +4,7 @@ import {NgForm} from "@angular/forms";
 import {TabsPage} from "../tabs/tabs";
 import {AuthService} from '../../providers/auth.service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {User} from '../../app/interface/user';
+import {User} from '../../model/user';
 import {UserService} from '../../providers/user.service';
 
 @IonicPage()
@@ -114,6 +114,6 @@ export class SigninPage{
 
       //save user id
       localStorage.setItem('user_id', response['user_id']);
-    })
+    });
   }
 }

@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {NgForm} from "@angular/forms";
-import { Camera, CameraOptions } from '@ionic-native/camera';
-import {PostInfo} from '../../app/interface/postInfo';
 import {StoryService} from '../../providers/story.service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {PostTag} from '../../app/interface/postTag';
+import {PostTag} from '../../model/postTag';
 import {HomePage} from '../home/home';
 
 
@@ -18,68 +16,48 @@ export class PostPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private camera: Camera,
               private storyProvider: StoryService){
   }
 
-  imageURI: string;
-  imageFileName: string;
+  file: File;
 
-  postInfo: PostInfo = {
-    file: '',
-    title: '',
-    description: ''
-  };
   //Tag values to post tag to image
   postTag: PostTag = {
-    fileId: '',
-    tag: 'nightlight' //need to reevaluate
+    file_id: 0,
+    tag: 'nightlight'
+  }
+
+  setFile(evt){
+    console.log(evt.target.files[0]);
+    this.file = evt.target.files[0];
   }
 
   onSubmit(form: NgForm) {
     console.log(form.value);
-    //assign post info
-    this.postInfo.description = form.value.description;
-    this.postInfo.title = form.value.title;
-    this.postInfo.file = this.imageURI;
-    //POST story
-    this.storyProvider.upload(this.postInfo).subscribe(response => {
+    //store file and info in formData
+    const formData = new FormData();
+    formData.append('title', form.value.title);
+    formData.append('description', form.value.description);
+    formData.append('file', this.file);
+    //POST to server
+    this.storyProvider.upload(formData).subscribe(response =>{
       console.log(response);
-      //Post tage to file
-      this.postTag.fileId = response['file_id'];
+      //Get file_id from response and pass it to tagFile()
+      this.postTag.file_id = response['file_id'];
+      console.log(response['file_id']);
       this.tagFile();
-      //return to homepage
       this.navCtrl.setRoot(HomePage);
-    }, (error: HttpErrorResponse) => {
+    },(error: HttpErrorResponse)=>{
       console.log(error.error.message);
-    });
-  }
-
-  onOpenCamera() {
-    const options: CameraOptions = {
-      quality: 100,
-      encodingType: this.camera.EncodingType.JPEG,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY, //allow get image from local storage
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation: true
-    }
-
-    this.camera.getPicture(options).then((imageData) => {
-      //imageData is image JPEG file that we need to send to server
-      console.log(imageData)
-      this.imageURI = imageData; //get image's URI
-    }, (err) => {
-      console.log(err);
-    });
-
+    })
   }
   //post tag
   tagFile(){
     this.storyProvider.postTag(this.postTag).subscribe(response => {
       console.log(response);
-    }, error => {
+    }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
+      console.log(this.postTag);
     })
   }
 

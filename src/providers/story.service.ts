@@ -9,12 +9,12 @@ export class StoryService {
   constructor(public http: HttpClient) {
   }
 
-  upload(postInfo) {
+  upload(formData) {
     const settings = {
       headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
     };
 
-    return this.http.post(this.apiUrl + '/media', postInfo, settings);
+    return this.http.post(this.apiUrl + '/media', formData, settings);
   }
 
   getSinglePost(id: String){
