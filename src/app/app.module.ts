@@ -16,8 +16,6 @@ import {Autoresize} from "../shared/autoresize.directive";
 import { Camera } from '@ionic-native/camera';
 import {StoryService} from "../providers/story.service";
 import {UserService} from "../providers/user.service";
-//import {FileTransfer, FileUploadOptions, FileTransferObject} from '@ionic-native/file-transfer';
-import {File} from '@ionic-native/file';
 
 @NgModule({
   declarations: [
@@ -52,9 +50,6 @@ import {File} from '@ionic-native/file';
     StoryService,
     UserService,
     File,
-    //FileTransferObject,
-    //FileTransfer,
-    //FileUploadOptions
   ]
 })
 export class AppModule {}

@@ -16,9 +16,12 @@
 <ion-content padding>
   <ion-row>
     <ion-col>
-      <img (click)="onOpenCamera()" class="camera" src="assets/imgs/camera_placeholder.png"/>
+      <img class="camera" src="assets/imgs/camera_placeholder.png"/>
     </ion-col>
   </ion-row>
+  <ion-item>
+    <input type="file" name="file" (change)="setFile($event)">
+  </ion-item>
   <form #f="ngForm" (ngSubmit)="onSubmit(f)">
     <ion-list>
       <ion-item>
@@ -40,9 +43,6 @@
           required
           autoresize
         ></ion-textarea>
-      </ion-item>
-      <ion-item>
-        <input type="file" name="file" (change)="setFile($event)">
       </ion-item>
     </ion-list>
     <ion-list>
