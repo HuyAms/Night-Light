@@ -40,7 +40,7 @@ export class HomePage {
       return;
     }
     this.speaking = true;
-    this.textToSpeech.speak( {text: this.text, locale: 'en-US', rate: 1} )
+    this.textToSpeech.speak( {text: this.text, locale: 'en-US', rate: 1.5} )
       .then((val) => { this.speaking = false;  },
         (reject) => {console.warn(reject); this.speaking = false; })
       .catch((err) => {console.error(err); this.speaking = false; });
