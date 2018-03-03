@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {
+  IonicPage, NavController, NavParams,
+  ToastController,
+} from 'ionic-angular';
 import {NgForm} from "@angular/forms";
 import {StoryService} from '../../providers/story.service';
 import {HttpErrorResponse} from '@angular/common/http';
@@ -16,7 +19,8 @@ export class PostPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private storyProvider: StoryService){
+              private storyProvider: StoryService,
+              private toastCtrl: ToastController){
   }
 
   file: File;
@@ -34,11 +38,13 @@ export class PostPage {
 
   onSubmit(form: NgForm) {
     console.log(form.value);
+
     //store file and info in formData
     const formData = new FormData();
     formData.append('title', form.value.title);
     formData.append('description', form.value.description);
     formData.append('file', this.file);
+
     //POST to server
     this.storyProvider.upload(formData).subscribe(response =>{
       console.log(response);
@@ -49,6 +55,8 @@ export class PostPage {
       this.navCtrl.setRoot(HomePage);
     },(error: HttpErrorResponse)=>{
       console.log(error.error.message);
+      this.presentToast("Unable to post. Please check again");
+      form.reset();
     })
   }
   //post tag
@@ -59,6 +67,16 @@ export class PostPage {
       console.log(error.error.message);
       console.log(this.postTag);
     })
+  }
+
+  presentToast(mess: string) {
+    let toast = this.toastCtrl.create({
+      message: mess,
+      duration: 1500,
+      position: 'bottom'
+    });
+
+    toast.present();
   }
 
 }

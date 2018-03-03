@@ -5,6 +5,7 @@ import {Injectable} from "@angular/core";
 @Injectable()
 export class StoryService {
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
+  mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
   constructor(public http: HttpClient) {
   }
@@ -26,11 +27,7 @@ export class StoryService {
   }
 
   getAllPost(){
-    return this.http.get(this.apiUrl + '/media').subscribe(response => {
-      console.log(response);
-    }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
-    });
+    return this.http.get(this.apiUrl + '/tags/nightlight');
   }
 
   postTag(postTag) {

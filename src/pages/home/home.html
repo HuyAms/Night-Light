@@ -25,10 +25,10 @@
 
 
 <ion-content padding>
-<ion-item>
-  <ion-label stacked>Text</ion-label>
-  <ion-textarea [(ngModel)]="text"></ion-textarea>
-</ion-item>
+  <ion-item>
+    <ion-label stacked>Text</ion-label>
+    <ion-textarea [(ngModel)]="text"></ion-textarea>
+  </ion-item>
   <button
     ion-button
     block
@@ -43,4 +43,29 @@
     type="button"
     (click)="onShare()"
   >Share via Facebook</button>
+  <button
+    ion-button
+    block
+    outline
+    type="button"
+    (click)="onGetAllPost()"
+  >Display</button>
+
+  <ion-img width=70% height=100% src="{{postName}}"></ion-img>
+
+  <button
+    ion-button
+    block
+    outline
+    type="button"
+    (click)="onNext()"
+  >Next</button>
+  <button
+    ion-button
+    block
+    outline
+    type="button"
+    (click)="onPrevious()"
+  >Previous</button>
+
 </ion-content>

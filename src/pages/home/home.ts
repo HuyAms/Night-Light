@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {ActionSheetController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {TextToSpeech} from '@ionic-native/text-to-speech';
 import {SocialSharing} from '@ionic-native/social-sharing';
+import {StoryService} from '../../providers/story.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 
 @IonicPage()
@@ -11,11 +13,16 @@ import {SocialSharing} from '@ionic-native/social-sharing';
 })
 export class HomePage {
   defaultTab = 'new';
-  text: string
+  text: string;
   speaking: boolean = false;
 
+  postArray: any;
+  postName: string;
+  i: number;
+
   constructor(private textToSpeech: TextToSpeech,
-              private socialSharing: SocialSharing) {
+              private socialSharing: SocialSharing,
+              private storyProvider: StoryService) {
   }
 
   onSegmentChange(event) {
@@ -64,6 +71,41 @@ export class HomePage {
       }).catch((e) => {
       //Error
     })
+  }
+
+  //This point down is still testing
+  onGetAllPost(){
+    this.storyProvider.getAllPost().subscribe(response => {
+      console.log(response);
+      //Pass results to postArray
+      this.postArray = response;
+      this.i = 0;
+      this.onNext();
+    }, (error: HttpErrorResponse) => {
+      console.log(error.error.message);
+    });
+  }
+
+  onNext(){
+    console.log(this.i);
+    this.postName =this.storyProvider.mediaUrl + this.postArray[this.i]['filename'];
+    if(this.i >= (this.postArray.length-1)){
+      this.i = 0;
+    }
+    else{
+      this.i++;
+    }
+  }
+
+  onPrevious(){
+    if(this.i < 0){
+      this.i = this.postArray.length - 1;
+      console.log(this.postArray.length);
+    }
+    else{
+      this.i--;
+    }
+    this.postName =this.storyProvider.mediaUrl + this.postArray[this.i]['filename'];
   }
 
 }
