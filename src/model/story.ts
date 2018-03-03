@@ -1,5 +1,6 @@
 export class Story {
-  constructor(public title: string,
-              public description: string,
-              public imgPath: string){}
+  title: string;
+  description: string;
+  filename: string;
+  file_id: number;
 }

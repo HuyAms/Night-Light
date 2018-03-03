@@ -4,6 +4,7 @@ import {TextToSpeech} from '@ionic-native/text-to-speech';
 import {SocialSharing} from '@ionic-native/social-sharing';
 import {StoryService} from '../../providers/story.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {Story} from '../../model/story';
 
 
 @IonicPage()
@@ -16,9 +17,9 @@ export class HomePage {
   text: string;
   speaking: boolean = false;
 
-  postArray: any;
-  postName: string;
-  i: number;
+  storyList: Story[] = Array();
+  postUrl: string;
+  curPosition: number;
 
   constructor(private textToSpeech: TextToSpeech,
               private socialSharing: SocialSharing,
@@ -77,35 +78,48 @@ export class HomePage {
   onGetAllPost(){
     this.storyProvider.getAllPost().subscribe(response => {
       console.log(response);
+      let postArray: any = response;
+      postArray.forEach((myPost) => {
+        let story = new Story();
+
+        story.title = myPost['title'];
+        story.description = myPost['description'];
+        story.file_id = myPost['file_id'];
+        story.filename = myPost['filename'];
+
+        console.log(story);
+        this.storyList.push(story);
+      });
+      console.log(this.storyList);
+      this.curPosition = 0;
       //Pass results to postArray
-      this.postArray = response;
-      this.i = 0;
-      this.onNext();
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
     });
   }
 
   onNext(){
-    console.log(this.i);
-    this.postName =this.storyProvider.mediaUrl + this.postArray[this.i]['filename'];
-    if(this.i >= (this.postArray.length-1)){
-      this.i = 0;
+    console.log(this.curPosition);
+    if(this.curPosition >= (this.storyList.length-1)){
+      this.curPosition = 0;
     }
     else{
-      this.i++;
+      this.curPosition++;
     }
+    this.postUrl =this.storyProvider.mediaUrl + this.storyList[this.curPosition]['filename'];
   }
 
   onPrevious(){
-    if(this.i < 0){
-      this.i = this.postArray.length - 1;
-      console.log(this.postArray.length);
+    if(this.curPosition < 0){
+      this.curPosition = this.storyList.length - 1;
+      console.log(this.storyList.length);
     }
     else{
-      this.i--;
+      this.curPosition--;
     }
-    this.postName =this.storyProvider.mediaUrl + this.postArray[this.i]['filename'];
+    this.postUrl =this.storyProvider.mediaUrl + this.storyList[this.curPosition]['filename'];
   }
+
+
 
 }
