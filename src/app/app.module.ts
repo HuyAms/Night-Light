@@ -19,6 +19,7 @@ import {UserService} from "../providers/user.service";
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { CommentServiceProvider } from '../providers/comment-service';
+import {CommentsPage} from "../pages/comments/comments";
 
 
 
@@ -30,7 +31,8 @@ import { CommentServiceProvider } from '../providers/comment-service';
     SigninPage,
     ProfilePage,
     PostPage,
-    Autoresize
+    Autoresize,
+    CommentsPage
   ],
   imports: [
     BrowserModule,
@@ -44,7 +46,8 @@ import { CommentServiceProvider } from '../providers/comment-service';
     TabsPage,
     SigninPage,
     ProfilePage,
-    PostPage
+    PostPage,
+    CommentsPage
   ],
   providers: [
     StatusBar,

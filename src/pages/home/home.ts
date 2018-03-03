@@ -5,6 +5,7 @@ import {SocialSharing} from '@ionic-native/social-sharing';
 import {StoryService} from '../../providers/story.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Story} from '../../model/story';
+import {CommentsPage} from "../comments/comments";
 
 
 @IonicPage()
@@ -23,7 +24,8 @@ export class HomePage {
 
   constructor(private textToSpeech: TextToSpeech,
               private socialSharing: SocialSharing,
-              private storyProvider: StoryService) {
+              private storyProvider: StoryService,
+              public navCtrl: NavController) {
   }
 
   onSegmentChange(event) {
@@ -118,6 +120,12 @@ export class HomePage {
       this.curPosition--;
     }
     this.postUrl =this.storyProvider.mediaUrl + this.storyList[this.curPosition]['filename'];
+  }
+
+  onComment(){
+    this.navCtrl.push(CommentsPage, {
+      postID: "1"
+    });
   }
 
 
