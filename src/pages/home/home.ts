@@ -13,7 +13,7 @@ import {Story} from '../../model/story';
   templateUrl: 'home.html',
 })
 export class HomePage {
-  defaultTab = 'new';
+  defaultTab = 'discover';
   text: string;
   speaking: boolean = false;
 
@@ -21,24 +21,35 @@ export class HomePage {
   postUrl: string;
   curPosition: number;
 
+  curTab: string;
+
   constructor(private textToSpeech: TextToSpeech,
               private socialSharing: SocialSharing,
-              private storyProvider: StoryService) {
+              private storyProvider: StoryService,
+              private navCtrl: NavController) {
   }
 
   onSegmentChange(event) {
     let tab = event.value;
-    if (tab == 'new') {
+    if (tab === 'new') {
+      this.curTab = 'new';
+      this.curPosition = 0;
+      this.postUrl =this.storyProvider.mediaUrl + this.storyList[this.curPosition]['filename'];
       console.log('new tab loaded');
-    } else {
+    } else if (tab === 'hot'){
+      this.curTab = 'hot';
       console.log('hot tab loaded');
+    }
+    else if(tab === 'discover'){
+      this.curTab = 'discover';
+      this.onDiscover();
+      console.log('discover tab loaded');
     }
   }
 
   onRefresh() {
     console.log('refresh')
   }
-
 
   onTextSpeech() {
     if (this.speaking) {
@@ -75,7 +86,44 @@ export class HomePage {
   }
 
   //This point down is still testing
-  onGetAllPost(){
+
+  onNext(){
+    console.log(this.curPosition);
+    if(this.curTab === 'discover') {
+      this.onDiscover();
+    }
+    else if(this.curTab === 'hot'){}
+    else{
+      if (this.curPosition >= (this.storyList.length - 1)) {
+        this.curPosition = 0;
+      }
+      else {
+        this.curPosition++;
+      }
+      this.postUrl = this.storyProvider.mediaUrl +
+        this.storyList[this.curPosition]['filename'];
+    }
+  }
+
+  onPrevious(){
+    if(this.curPosition <= 0){
+      this.curPosition = this.storyList.length - 1;
+      console.log(this.storyList.length);
+    }
+    else{
+      this.curPosition--;
+    }
+    this.postUrl =this.storyProvider.mediaUrl + this.storyList[this.curPosition]['filename'];
+  }
+
+  onDiscover(){
+    let ranObj = this.storyList[Math.floor(Math.random()*this.storyList.length)];
+    this.postUrl = this.storyProvider.mediaUrl + ranObj['filename'];
+    console.log(ranObj['filename']);
+  }
+
+  ionViewDidLoad(){
+    this.curTab = 'discover';
     this.storyProvider.getAllPost().subscribe(response => {
       console.log(response);
       let postArray: any = response;
@@ -91,35 +139,10 @@ export class HomePage {
         this.storyList.push(story);
       });
       console.log(this.storyList);
-      this.curPosition = 0;
+      this.onDiscover();
       //Pass results to postArray
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
     });
   }
-
-  onNext(){
-    console.log(this.curPosition);
-    if(this.curPosition >= (this.storyList.length-1)){
-      this.curPosition = 0;
-    }
-    else{
-      this.curPosition++;
-    }
-    this.postUrl =this.storyProvider.mediaUrl + this.storyList[this.curPosition]['filename'];
-  }
-
-  onPrevious(){
-    if(this.curPosition < 0){
-      this.curPosition = this.storyList.length - 1;
-      console.log(this.storyList.length);
-    }
-    else{
-      this.curPosition--;
-    }
-    this.postUrl =this.storyProvider.mediaUrl + this.storyList[this.curPosition]['filename'];
-  }
-
-
-
 }
