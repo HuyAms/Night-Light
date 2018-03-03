@@ -12,7 +12,7 @@
       </button>
     </ion-buttons>
     <ion-segment [(ngModel)]="defaultTab" (ionChange)="onSegmentChange($event)">
-      <ion-segment-button value="random">Discover
+      <ion-segment-button value="discover">Discover
       </ion-segment-button>
       <ion-segment-button value="new">New
       </ion-segment-button>
@@ -43,13 +43,6 @@
     type="button"
     (click)="onShare()"
   >Share via Facebook</button>
-  <button
-    ion-button
-    block
-    outline
-    type="button"
-    (click)="onGetAllPost()"
-  >Display</button>
 
   <ion-img width=70% height=100% src={{postUrl}}></ion-img>
 
