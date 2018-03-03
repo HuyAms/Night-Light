@@ -18,6 +18,8 @@ import {StoryService} from "../providers/story.service";
 import {UserService} from "../providers/user.service";
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { CommentServiceProvider } from '../providers/comment-service';
+import { PageProvider } from '../providers/page/page';
 
 
 
@@ -54,7 +56,9 @@ import { SocialSharing } from '@ionic-native/social-sharing';
     StoryService,
     UserService,
     TextToSpeech,
-    SocialSharing
+    SocialSharing,
+    CommentServiceProvider,
+    PageProvider
   ]
 })
 export class AppModule {}
