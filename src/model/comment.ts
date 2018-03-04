@@ -1,6 +1,6 @@
 export class Comment {
-  constructor(public user_ID: string,
-              public comment_id: string,
-              public time_added: string,
-              public comment: string){}
+  user_ID: string;
+  comment_id: string;
+  time_added: string;
+  comment: string;
 }

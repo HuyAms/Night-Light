@@ -80,6 +80,10 @@ export class HomePage {
     })
   }
 
+  onComment(file_id: string) {
+    this.navCtrl.push(CommentsPage, file_id);
+  }
+
   ionViewDidLoad() {
     this.storyService.getAllPost().subscribe(response => {
       this.stories = response

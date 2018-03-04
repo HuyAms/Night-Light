@@ -21,7 +21,7 @@ export class CommentsPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public commentService: CommentServiceProvider) {
-    this.file_id = navParams.get('postID');
+    this.file_id = navParams.get('file_id');
   }
 
   postComment(form: NgForm) {
