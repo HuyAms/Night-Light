@@ -7,7 +7,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons end>
-      <button ion-button icon-only  (click)="onRefresh()">
+      <button ion-button icon-only (click)="onRefresh()">
         <ion-icon name="refresh"></ion-icon>
       </button>
     </ion-buttons>
@@ -24,51 +24,80 @@
 </ion-header>
 
 
-<ion-content padding>
-  <ion-item>
-    <ion-label stacked>Text</ion-label>
-    <ion-textarea [(ngModel)]="text"></ion-textarea>
-  </ion-item>
-  <button
-    ion-button
-    block
-    outline
-    type="button"
-    (click)="onTextSpeech()"
-  >Speak</button>
-  <button
-    ion-button
-    block
-    outline
-    type="button"
-    (click)="onShare()"
-  >Share via Facebook</button>
-
-  <ion-img width=70% height=100% src={{postUrl}}></ion-img>
-
-  <button
-    ion-button
-    block
-    outline
-    type="button"
-    (click)="onNext()"
-  >Next</button>
-  <button
-    ion-button
-    block
-    outline
-    type="button"
-    (click)="onPrevious()"
-  >Previous</button>
-
+<ion-content style="background-color: #ededed" padding>
+  <!--<ion-item>-->
+  <!--<ion-label stacked>Text</ion-label>-->
+  <!--<ion-textarea [(ngModel)]="text"></ion-textarea>-->
+  <!--</ion-item>-->
+  <!--<button-->
+  <!--ion-button-->
+  <!--block-->
+  <!--outline-->
+  <!--type="button"-->
+  <!--(click)="onTextSpeech()"-->
+  <!--&gt;Speak</button>-->
+  <!--<button-->
+  <!--ion-button-->
+  <!--block-->
+  <!--outline-->
+  <!--type="button"-->
+  <!--(click)="onShare()"-->
+  <!--&gt;Share via Facebook</button>-->
 
   <!--Temporary button to go to comment page-->
-  <button
-    ion-button
-    block
-    outline
-    type="button"
-    (click)="onComment()"
-  >Go to comment</button>
+  <!--<button-->
+  <!--ion-button-->
+  <!--block-->
+  <!--outline-->
+  <!--type="button"-->
+  <!--(click)="onComment()"-->
+  <!--&gt;Go to comment</button>-->
 
+  <ion-slides loop="true" pager="true" no-padding no-margin paginationType="fraction">
+    <ion-slide *ngFor="let story of stories">
+      <ion-card>
+        <ion-item>
+          <ion-avatar item-start>
+            <img src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg">
+          </ion-avatar>
+          <h2>Harry Potter</h2>
+        </ion-item>
+
+        <hr/>
+
+        <ion-scroll scrollY="true" text-center>
+
+          <img class="storyImg"
+               src="{{mediaUrl + story.filename}}">
+
+          <ion-card-content>
+            <h1>{{story.title}}</h1>
+            <p>{{story.description}}</p>
+          </ion-card-content>
+
+        </ion-scroll>
+
+        <ion-row>
+          <ion-col col-4 center text-center>
+            <button ion-button icon-left clear small style="text-transform: none;">
+              <ion-icon name="thumbs-up"></ion-icon>
+              Like
+            </button>
+          </ion-col>
+          <ion-col col-4 center text-center>
+            <button ion-button icon-left clear small style="text-transform: none;">
+              <ion-icon name="text"></ion-icon>
+              Comments
+            </button>
+          </ion-col>
+          <ion-col col-4 center text-center>
+            <button ion-button icon-left clear small style="text-transform: none;">
+              <ion-icon name="share-alt"></ion-icon>
+              Share
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
 </ion-content>

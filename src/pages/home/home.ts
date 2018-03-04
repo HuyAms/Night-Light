@@ -6,6 +6,7 @@ import {StoryService} from '../../providers/story.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Story} from '../../model/story';
 import {CommentsPage} from "../comments/comments";
+import {User} from "../../model/user";
 
 
 @IonicPage()
@@ -13,20 +14,19 @@ import {CommentsPage} from "../comments/comments";
   selector: 'page-home',
   templateUrl: 'home.html',
 })
+
 export class HomePage {
   defaultTab = 'discover';
   text: string;
   speaking: boolean = false;
-
-  storyList: Story[] = Array();
   postUrl: string;
-  curPosition: number;
-
+  stories: Story[]
   curTab: string;
+  mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
   constructor(private textToSpeech: TextToSpeech,
               private socialSharing: SocialSharing,
-              private storyProvider: StoryService,
+              private storyService: StoryService,
               public navCtrl: NavController) {
   }
 
@@ -34,16 +34,13 @@ export class HomePage {
     let tab = event.value;
     if (tab === 'new') {
       this.curTab = 'new';
-      this.curPosition = 0;
-      this.postUrl =this.storyProvider.mediaUrl + this.storyList[this.curPosition]['filename'];
       console.log('new tab loaded');
-    } else if (tab === 'hot'){
-      this.curTab = 'hot';
+    } else if (tab === 'hot') {
+      // this.curTab = 'hot';
       console.log('hot tab loaded');
     }
-    else if(tab === 'discover'){
+    else if (tab === 'discover') {
       this.curTab = 'discover';
-      this.onDiscover();
       console.log('discover tab loaded');
     }
   }
@@ -86,70 +83,10 @@ export class HomePage {
     })
   }
 
-  //This point down is still testing
-
-  onNext(){
-    console.log(this.curPosition);
-    if(this.curTab === 'discover') {
-      this.onDiscover();
-    }
-    else if(this.curTab === 'hot'){}
-    else{
-      if (this.curPosition >= (this.storyList.length - 1)) {
-        this.curPosition = 0;
-      }
-      else {
-        this.curPosition++;
-      }
-      this.postUrl = this.storyProvider.mediaUrl +
-        this.storyList[this.curPosition]['filename'];
-    }
-  }
-
-  onPrevious(){
-    if(this.curPosition <= 0){
-      this.curPosition = this.storyList.length - 1;
-      console.log(this.storyList.length);
-    }
-    else{
-      this.curPosition--;
-    }
-    this.postUrl =this.storyProvider.mediaUrl + this.storyList[this.curPosition]['filename'];
-  }
-
-  onComment(){
-    this.navCtrl.push(CommentsPage, {
-      postID: "1"
-    });
-  }
-
-  onDiscover(){
-    let ranObj = this.storyList[Math.floor(Math.random()*this.storyList.length)];
-    this.postUrl = this.storyProvider.mediaUrl + ranObj['filename'];
-    console.log(ranObj['filename']);
-  }
-
-  ionViewDidLoad(){
-    this.curTab = 'discover';
-    this.storyProvider.getAllPost().subscribe(response => {
-      console.log(response);
-      let postArray: any = response;
-      postArray.forEach((myPost) => {
-        let story = new Story();
-
-        story.title = myPost['title'];
-        story.description = myPost['description'];
-        story.file_id = myPost['file_id'];
-        story.filename = myPost['filename'];
-
-        console.log(story);
-        this.storyList.push(story);
-      });
-      console.log(this.storyList);
-      this.onDiscover();
-      //Pass results to postArray
-    }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
-    });
+  ionViewDidLoad() {
+    this.storyService.getAllPost().subscribe(response => {
+      this.stories = response
+      console.log(this.stories)
+    })
   }
 }
