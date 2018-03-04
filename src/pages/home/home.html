@@ -53,14 +53,14 @@
 
         <hr/>
 
-        <ion-scroll scrollY="true" text-center>
+        <ion-scroll scrollY="true">
 
           <img class="storyImg"
                src="{{mediaUrl + story.filename}}">
 
           <ion-card-content>
             <h1>{{story.title}}</h1>
-            <p>{{story.description}}</p>
+            <p class="story" text-left>{{story.description}}</p>
           </ion-card-content>
         </ion-scroll>
 
