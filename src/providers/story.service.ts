@@ -48,5 +48,18 @@ export class StoryService {
     return this.http.get<Story[]>(this.apiUrl + '/media/user/' + user_id, settings);
   }
 
+  putPostInfo(file_id, postInfo){
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
+    };
+    return this.http.put(this.apiUrl + '/media/' + file_id, postInfo, settings);
+  }
+
+  delPost(file_id){
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
+    };
+    return this.http.delete(this.apiUrl + '/media/' + file_id, settings);
+  }
 
 }
