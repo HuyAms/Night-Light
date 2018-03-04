@@ -14,12 +14,8 @@ export class CommentServiceProvider {
   constructor(public http: HttpClient) {
   }
 
-  getAllComments(postID: string) {
-    return this.http.get(this.apiUrl + '/comments/file/:' + postID).subscribe(response => {
-      console.log(response);
-    }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
-    });
+  getCommentByPostId(postID) {
+    return this.http.get(this.apiUrl + '/comments/file/' + postID);
   }
 
   postComment(comment) {

@@ -20,6 +20,9 @@ import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { CommentServiceProvider } from '../providers/comment.service';
 import {CommentsPage} from "../pages/comments/comments";
+import { FavoriteServiceProvider } from '../providers/favourite.service';
+import { FavoriteServiceProvider } from '../providers/favorite.service';
+import { FavouriteServiceProvider } from '../providers/favourite.service';
 
 
 
@@ -59,7 +62,10 @@ import {CommentsPage} from "../pages/comments/comments";
     UserService,
     TextToSpeech,
     SocialSharing,
-    CommentServiceProvider
+    CommentServiceProvider,
+    FavoriteServiceProvider,
+    FavoriteServiceProvider,
+    FavouriteServiceProvider
   ]
 })
 export class AppModule {}
