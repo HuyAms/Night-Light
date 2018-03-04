@@ -21,8 +21,8 @@ export class HomePage {
   speaking: boolean = false;
   stories: Story[]
   curTab: string;
-  currentIndex: number
-  numberOfStory: number
+  currentIndex: number = 1;
+  numberOfStory: number;
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
   constructor(private textToSpeech: TextToSpeech,
