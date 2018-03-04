@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
   and Angular DI.
 */
 @Injectable()
-export class FavouriteServiceProvider {
+export class FavouriteService {
 
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
 

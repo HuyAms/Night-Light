@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
   and Angular DI.
 */
 @Injectable()
-export class CommentServiceProvider {
+export class CommentService {
 
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
 

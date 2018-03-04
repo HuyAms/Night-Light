@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import {CommentServiceProvider} from "../../providers/comment.service";
+import {CommentService} from "../../providers/comment.service";
 import {NgForm} from "@angular/forms";
 
 @IonicPage()
@@ -13,7 +13,7 @@ export class CommentsPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public commentService: CommentServiceProvider) {
+              public commentService: CommentService) {
     this.file_id = navParams.get('file_id');
   }
 

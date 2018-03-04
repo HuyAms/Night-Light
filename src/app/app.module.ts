@@ -10,20 +10,17 @@ import {TabsPage} from "../pages/tabs/tabs";
 import {SigninPage} from "../pages/signin/signin";
 import {ProfilePage} from "../pages/profile/profile";
 import {PostPage} from "../pages/post/post";
-import { AuthService } from '../providers/auth.service';
+import {AuthService} from '../providers/auth.service';
 import {HttpClientModule} from "@angular/common/http";
 import {Autoresize} from "../shared/autoresize.directive";
-import { Camera } from '@ionic-native/camera';
+import {Camera} from '@ionic-native/camera';
 import {StoryService} from "../providers/story.service";
 import {UserService} from "../providers/user.service";
-import { TextToSpeech } from '@ionic-native/text-to-speech';
-import { SocialSharing } from '@ionic-native/social-sharing';
-import { CommentServiceProvider } from '../providers/comment.service';
+import {TextToSpeech} from '@ionic-native/text-to-speech';
+import {SocialSharing} from '@ionic-native/social-sharing';
+import {CommentService} from '../providers/comment.service';
 import {CommentsPage} from "../pages/comments/comments";
-import { FavoriteServiceProvider } from '../providers/favourite.service';
-import { FavoriteServiceProvider } from '../providers/favorite.service';
-import { FavouriteServiceProvider } from '../providers/favourite.service';
-
+import {FavouriteService} from '../providers/favourite.service';
 
 
 @NgModule({
@@ -62,10 +59,8 @@ import { FavouriteServiceProvider } from '../providers/favourite.service';
     UserService,
     TextToSpeech,
     SocialSharing,
-    CommentServiceProvider,
-    FavoriteServiceProvider,
-    FavoriteServiceProvider,
-    FavouriteServiceProvider
+    CommentService,
+    FavouriteService
   ]
 })
 export class AppModule {}
