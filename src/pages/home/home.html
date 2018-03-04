@@ -29,17 +29,17 @@
   <ion-slides loop="true" no-padding no-margin (ionSlideDidChange)="slideChanged()">
     <ion-slide *ngFor="let story of stories">
       <ion-card>
-        <ion-row>
-          <ion-col col-9>
+        <ion-row center>
+          <ion-col col-9 no-padding>
             <ion-item>
               <ion-avatar item-start>
-                <img
+                <img class="avatar"
                   src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg">
               </ion-avatar>
               <h2>Harry Potter</h2>
             </ion-item>
           </ion-col>
-          <ion-col col-3>
+          <ion-col col-3 no-padding>
             <button *ngIf="!speaking" ion-button icon-only clear large
                     (click)="onTextSpeech(story.title, story.description)">
               <ion-icon name="volume-up"></ion-icon>
@@ -62,9 +62,9 @@
             <h1>{{story.title}}</h1>
             <p>{{story.description}}</p>
           </ion-card-content>
-
         </ion-scroll>
 
+        <hr/>
         <ion-row>
           <ion-col col-4 center text-center>
             <button ion-button icon-left clear small style="text-transform: none;">
@@ -75,7 +75,7 @@
           <ion-col col-4 center text-center>
             <button ion-button icon-left clear small style="text-transform: none;" (click)="onComment(story.file_id)">
               <ion-icon name="text"></ion-icon>
-              Comments
+              Comment
             </button>
           </ion-col>
           <ion-col col-4 center text-center>
