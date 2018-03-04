@@ -70,11 +70,8 @@ export class HomePage {
       });
   }
 
-  onShare() {
-    let message = "This is title"
-    let imageUrl = "https://user-images.githubusercontent.com/26871154/36926557-319fc0bc-1e81-11e8-859e-5c751b27f166.png";
-    let subject = "Mail subject"
-
+  onShare(message: string, subject: string, imageUrl: string) {
+    console.log("onshare")
     this.socialSharing.share(message, subject, '', imageUrl)
       .then(() => {
         //success

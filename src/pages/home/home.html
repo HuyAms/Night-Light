@@ -40,9 +40,6 @@
   <!--ion-button-->
   <!--block-->
   <!--outline-->
-  <!--type="button"-->
-  <!--(click)="onShare()"-->
-  <!--&gt;Share via Facebook</button>-->
 
   <!--Temporary button to go to comment page-->
   <!--<button-->
@@ -91,7 +88,8 @@
             </button>
           </ion-col>
           <ion-col col-4 center text-center>
-            <button ion-button icon-left clear small style="text-transform: none;">
+            <button ion-button icon-left clear small style="text-transform: none;"
+                    (click)="onShare(story.description, story.title, mediaUrl + story.filename)">
               <ion-icon name="share-alt"></ion-icon>
               Share
             </button>
