@@ -1,8 +1,5 @@
-import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import "rxjs/add/operator/map";
-import {Story} from "../model/story";
-import {Observable} from "rxjs/Observable";
 
 
 @Injectable()
@@ -29,8 +26,8 @@ export class StoryService {
     });
   }
 
-  getAllPost(): Observable<Story[]>{
-    return this.http.get<Story[]>(this.apiUrl + '/tags/nightlight');
+  getAllPost(){
+    return this.http.get(this.apiUrl + '/tags/nightlight');
   }
 
   postTag(postTag) {
