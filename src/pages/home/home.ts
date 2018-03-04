@@ -46,7 +46,7 @@ export class HomePage {
   }
 
   onRefresh() {
-    console.log('refresh')
+    this.fetchStories()
   }
 
   onTextSpeech(title: string, text: string) {
@@ -86,6 +86,10 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
+    this.fetchStories()
+  }
+
+  fetchStories() {
     this.storyService.getAllPost().subscribe(response => {
       this.stories = response
       console.log(this.stories)
