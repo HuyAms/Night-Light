@@ -10,7 +10,7 @@ export class UserService {
   }
 
 
-  getCurUserData() {
+  getUserData() {
     const settings = {
       headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
     };
