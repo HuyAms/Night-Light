@@ -49,14 +49,15 @@ export class HomePage {
     console.log('refresh')
   }
 
-  onTextSpeech() {
+  onTextSpeech(title: string, text: string) {
+    console.log('onTextSpeech: ' + text)
     if (this.speaking) {
       this.textToSpeech.speak({text: ''});  // <<< speak an empty string to interrupt.
       this.speaking = false;
       return;
     }
     this.speaking = true;
-    this.textToSpeech.speak({text: this.text, locale: 'en-US', rate: 1.5})
+    this.textToSpeech.speak({text:  `Title: ${title}, Story: ${text}`, locale: 'en-US', rate: 1.5})
       .then((val) => {
           this.speaking = false;
         },

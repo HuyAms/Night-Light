@@ -3,13 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {CommentServiceProvider} from "../../providers/comment.service";
 import {NgForm} from "@angular/forms";
 
-/**
- * Generated class for the CommentsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-comments',

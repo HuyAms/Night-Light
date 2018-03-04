@@ -53,12 +53,27 @@
   <ion-slides loop="true" pager="true" no-padding no-margin paginationType="fraction">
     <ion-slide *ngFor="let story of stories">
       <ion-card>
-        <ion-item>
-          <ion-avatar item-start>
-            <img src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg">
-          </ion-avatar>
-          <h2>Harry Potter</h2>
-        </ion-item>
+
+        <ion-row>
+          <ion-col col-9>
+            <ion-item>
+              <ion-avatar item-start>
+                <img src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg">
+              </ion-avatar>
+              <h2>Harry Potter</h2>
+            </ion-item>
+          </ion-col>
+          <ion-col col-3>
+            <button *ngIf="!speaking" ion-button icon-only clear large
+                    (click)="onTextSpeech(story.title, story.description)">
+              <ion-icon name="volume-up" ></ion-icon>
+            </button>
+            <button *ngIf="speaking" ion-button icon-only clear large
+                    (click)="onTextSpeech('')">
+              <ion-icon name="volume-off"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
 
         <hr/>
 
