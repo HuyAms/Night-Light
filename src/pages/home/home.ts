@@ -1,12 +1,10 @@
-import {Component} from '@angular/core';
-import {ActionSheetController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {IonicPage, NavController, Slides} from 'ionic-angular';
 import {TextToSpeech} from '@ionic-native/text-to-speech';
 import {SocialSharing} from '@ionic-native/social-sharing';
 import {StoryService} from '../../providers/story.service';
-import {HttpErrorResponse} from '@angular/common/http';
 import {Story} from '../../model/story';
 import {CommentsPage} from "../comments/comments";
-import {User} from "../../model/user";
 
 
 @IonicPage()
@@ -16,12 +14,15 @@ import {User} from "../../model/user";
 })
 
 export class HomePage {
+  @ViewChild(Slides) slides: Slides;
+
   defaultTab = 'discover';
   text: string;
   speaking: boolean = false;
-  postUrl: string;
   stories: Story[]
   curTab: string;
+  currentIndex: number
+  numberOfStory: number
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
   constructor(private textToSpeech: TextToSpeech,
@@ -92,7 +93,11 @@ export class HomePage {
   fetchStories() {
     this.storyService.getAllPost().subscribe(response => {
       this.stories = response
-      console.log(this.stories)
+      this.numberOfStory = this.stories.length;
     })
+  }
+
+  slideChanged() {
+    this.currentIndex = this.slides.realIndex + 1;
   }
 }
