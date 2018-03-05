@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
-import {ActionSheetController, IonicPage, NavParams, ViewController} from 'ionic-angular';
+import {
+  ActionSheetController, IonicPage, NavParams, ToastController,
+  ViewController,
+} from 'ionic-angular';
 import {CommentService} from "../../providers/comment.service";
 import {Comment} from "../../model/comment";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -20,9 +23,10 @@ export class CommentsPage {
 
   constructor(public viewCtrl: ViewController,
               public navParams: NavParams,
-              public commentService: CommentService,
-              public userService: UserService,
-              public actionSheetCtrl: ActionSheetController) {
+              private commentService: CommentService,
+              private userService: UserService,
+              private actionSheetCtrl: ActionSheetController,
+              private toastCtrl: ToastController) {
     this.file_id = navParams.get('file_id');
     this.myId = localStorage.getItem('user_id');
     console.log(this.myId);
@@ -41,11 +45,10 @@ export class CommentsPage {
             user => {
               comment.username = user.username;
             }
-          )
-        })
-
+          );
+        });
       }, (error: HttpErrorResponse) => {
-        //console.log(error.error.message);
+        this.presentToast(error.error.message);
       }
     );
   }
@@ -55,7 +58,7 @@ export class CommentsPage {
       response => {
         this.user = response;
       }, (error: HttpErrorResponse) => {
-        //error
+        this.presentToast(error.error.message);
       }
     )
   }
@@ -69,6 +72,8 @@ export class CommentsPage {
       response => {
         console.log(response);
         this.fetchComments();
+      }, (error: HttpErrorResponse) => {
+        this.presentToast(error.error.message);
       }
     );
     this.comment = '';
@@ -91,7 +96,7 @@ export class CommentsPage {
                 //success
                 this.fetchComments();
               }, (error: HttpErrorResponse) => {
-                //error
+                this.presentToast(error.error.message);
               }
             )
           }
@@ -105,6 +110,16 @@ export class CommentsPage {
       ]
     });
     actionSheet.present();
+  }
+
+  presentToast(mess: string) {
+    let toast = this.toastCtrl.create({
+      message: mess,
+      duration: 1500,
+      position: 'bottom'
+    });
+
+    toast.present();
   }
 
 }

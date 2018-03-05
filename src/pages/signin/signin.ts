@@ -118,4 +118,6 @@ export class SigninPage{
       localStorage.setItem('user_id', response['user_id']);
     });
   }
+
+
 }

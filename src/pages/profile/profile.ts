@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {
+  IonicPage, NavController, NavParams,
+  ToastController,
+} from 'ionic-angular';
 import {UserService} from '../../providers/user.service';
 import {User} from '../../model/user';
 import {Story} from '../../model/story';
@@ -23,7 +26,8 @@ export class ProfilePage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private userProvider: UserService,
-              private storyProvider: StoryService) {
+              private storyProvider: StoryService,
+              private toastCtrl: ToastController) {
   }
 
   curUser: User ={
@@ -44,6 +48,7 @@ export class ProfilePage {
       this.curUser.full_name = response['full_name'];
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
+      this.presentToast(error.error.message);
     });
 
     this.storyProvider.getPostByCurUser().subscribe(response => {
@@ -52,8 +57,17 @@ export class ProfilePage {
       console.log(this.myStories);
     },(error: HttpErrorResponse)=> {
       console.log(error.error.message);
+      this.presentToast(error.error.message);
     });
   }
 
+  presentToast(mess: string) {
+    let toast = this.toastCtrl.create({
+      message: mess,
+      duration: 1500,
+      position: 'bottom'
+    });
 
+    toast.present();
+  }
 }
