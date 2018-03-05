@@ -65,20 +65,20 @@
         <hr/>
         <ion-row>
           <ion-col col-4 center text-center>
-            <button ion-button icon-left clear small style="text-transform: none;"
+            <button [color]="story.likedByUser ? 'liked' : 'secondary'" ion-button icon-left clear small style="text-transform: none;"
                     (click) = "onClickLike(story.file_id, i)">
               <ion-icon name="thumbs-up"></ion-icon>
-              Like
+              {{story.likedByUser ? 'Liked' : 'Like'}}
             </button>
           </ion-col>
           <ion-col col-4 center text-center>
-            <button ion-button icon-left clear small style="text-transform: none;" (click)="onPresentCommentModal(story.file_id)">
+            <button color="secondary" ion-button icon-left clear small style="text-transform: none;" (click)="onPresentCommentModal(story.file_id)">
               <ion-icon name="text"></ion-icon>
               Comment
             </button>
           </ion-col>
           <ion-col col-4 center text-center>
-            <button ion-button icon-left clear small style="text-transform: none;"
+            <button color="secondary" ion-button icon-left clear small style="text-transform: none;"
                     (click)="onShare(story.description, story.title, mediaUrl + story.filename)">
               <ion-icon name="share-alt"></ion-icon>
               Share
