@@ -1,3 +1,23 @@
 page-profile {
+  ion-content {
+    background: #f7f7f7 !important;
 
+    .profile-top {
+      width: 100%;
+      margin: 0;
+      .profile-photo {
+        padding-top: 16px;
+
+        $photoSize: 128px;
+        .avatar {
+          object-fit: cover;
+          width: $photoSize;
+          height: $photoSize;
+          border-radius: 50%;
+          border: solid 2px color($colors, primary);
+          margin: 0 auto;
+        }
+      }
+    }
+  }
 }
