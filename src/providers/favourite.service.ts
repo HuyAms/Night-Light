@@ -19,16 +19,10 @@ export class FavouriteService {
     console.log('Hello FavouriteServiceProvider Provider');
   }
 
-  getFavById(postID: string): Observable<Favourite[]>{
-    return this.http.get<Favourite[]>(this.apiUrl + '/favourites/file/' + postID);
+  getFavById(file_id): Observable<Favourite[]>{
+    return this.http.get<Favourite[]>(this.apiUrl + '/favourites/file/' + file_id);
   }
 
-  getFavCount(file_id) {
-    this.getFavById(file_id).subscribe(response => {
-      const Likes: Favourite[] = response;
-      return Likes.length;
-    })
-  }
 
   postFav(file_id) {
     const settings = {

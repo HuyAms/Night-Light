@@ -11,6 +11,7 @@ import {CommentsPage} from "../comments/comments";
 import {FavouriteService} from '../../providers/favourite.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {UserService} from '../../providers/user.service';
+import {Favourite} from "../../model/Favourite";
 
 
 @IonicPage()
@@ -94,12 +95,18 @@ export class HomePage {
     })
   }
 
-  onLike(file_id){
-    console.log(file_id);
+  onLike(file_id, index){
+
     this.favouriteProvider.postFav(file_id).subscribe(response => {
       console.log(response);
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
+    });
+
+    //refresh like
+    this.favouriteProvider.getFavById(file_id).subscribe(response => {
+      this.stories[index].likesCount = response.length;
+      console.log("new like count: " +this.stories[index].likesCount);
     });
   }
 
@@ -120,11 +127,21 @@ export class HomePage {
       this.stories = response;
       this.numberOfStory = this.stories.length;
 
+      //add username to story
       this.stories.map(story => {
         this.userProvider.getUserDataById(story.user_id).subscribe(response => {
           story.username = response.username;
         });
       });
+
+      //add like counts to story and indicate if story has been liked by current user
+      this.stories.map(story => {
+        this.favouriteProvider.getFavById(story.file_id).subscribe(response => {
+          story.likesCount = response.length;
+        });
+      });
+
+
     }, (error: HttpErrorResponse) => {
       this.presentToast(error.error.message);
     });

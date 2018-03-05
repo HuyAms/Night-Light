@@ -6,5 +6,6 @@ export class Story {
   username: string;
   user_id: number;
   avatar: string;
-  likesCount: string;
+  likesCount: number;
+  likedByUser: boolean;
 }
