@@ -17,8 +17,13 @@
 
 .toolbar-background {
   background-color: color($colors, primary);
+  border: none;
 }
 
 .toolbar-title {
  color: color($colors, light);
+}
+
+.header-background {
+  border: none;
 }

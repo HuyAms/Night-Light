@@ -140,8 +140,6 @@ export class HomePage {
           story.likesCount = response.length;
         });
       });
-
-
     }, (error: HttpErrorResponse) => {
       this.presentToast(error.error.message);
     });
