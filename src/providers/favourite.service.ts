@@ -24,7 +24,15 @@ export class FavouriteService {
     const settings = {
       headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
     };
+    const body = {'file_id': +file_id};
+    return this.http.post(this.apiUrl + '/favourites', body, settings);
+  }
 
-    return this.http.post(this.apiUrl + '/favourites', file_id, settings);
+  deleteFav(file_id) {
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
+    };
+
+    return this.http.delete(this.apiUrl + '/favourites/file/' + file_id, settings);
   }
 }

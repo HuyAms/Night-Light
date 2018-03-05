@@ -36,6 +36,14 @@ export class CommentsPage {
       response => {
         this.comments = response;
         console.log(response);
+        this.comments.map(comment => {
+          this.userService.getUserDataById(comment.user_id).subscribe(
+            user => {
+              comment.username = user.username;
+            }
+          )
+        })
+
       }, (error: HttpErrorResponse) => {
         //console.log(error.error.message);
       }

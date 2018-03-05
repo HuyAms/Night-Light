@@ -41,7 +41,14 @@ export class StoryService {
     return this.http.post(this.apiUrl + '/tags', postTag, settings);
   }
 
-  getPostByUserId(user_id){
+  getPostByCurUser(): Observable<Story[]>{
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
+    };
+    return this.http.get<Story[]>(this.apiUrl + '/media/user/', settings);
+  }
+
+  getPostByUserId(user_id): Observable<Story[]>{
     const settings = {
       headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
     };

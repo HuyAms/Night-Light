@@ -5,6 +5,9 @@ import {SocialSharing} from '@ionic-native/social-sharing';
 import {StoryService} from '../../providers/story.service';
 import {Story} from '../../model/story';
 import {CommentsPage} from "../comments/comments";
+import {FavouriteService} from '../../providers/favourite.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {UserService} from '../../providers/user.service';
 
 
 @IonicPage()
@@ -19,7 +22,7 @@ export class HomePage {
   defaultTab = 'discover';
   text: string;
   speaking: boolean = false;
-  stories: Story[]
+  stories: Story[];
   currentIndex: number = 1;
   numberOfStory: number;
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
@@ -28,7 +31,9 @@ export class HomePage {
               private socialSharing: SocialSharing,
               private storyService: StoryService,
               public navCtrl: NavController,
-              public modalCtrl: ModalController) {
+              public modalCtrl: ModalController,
+              private favouriteProvider: FavouriteService,
+              private userProvider: UserService) {
   }
 
   onSegmentChange(event) {
@@ -85,6 +90,23 @@ export class HomePage {
     })
   }
 
+  onLike(file_id){
+    console.log(file_id);
+    this.favouriteProvider.postFav(file_id).subscribe(response => {
+      console.log(response);
+    }, (error: HttpErrorResponse) => {
+      console.log(error.error.message);
+    });
+  }
+
+  onUnlike(file_id){
+    this.favouriteProvider.deleteFav(file_id).subscribe(response => {
+      console.log(response);
+    }, (error: HttpErrorResponse) => {
+      console.log(error.error.message);
+    })
+  }
+
   // onComment(file_id: string) {
   //   this.navCtrl.push(CommentsPage, file_id);
   // }
@@ -95,8 +117,14 @@ export class HomePage {
 
   fetchStories() {
     this.storyService.getAllPost().subscribe(response => {
-      this.stories = response
+      this.stories = response;
       this.numberOfStory = this.stories.length;
+
+      this.stories.map(story => {
+        this.userProvider.getUserDataById(story.user_id).subscribe(response => {
+
+        })
+      })
     })
   }
 

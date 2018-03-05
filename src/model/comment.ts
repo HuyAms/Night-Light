@@ -3,4 +3,6 @@ export class Comment {
   comment_id: string;
   time_added: string;
   comment: string;
+  username: string;
+  avatar: string
 }
