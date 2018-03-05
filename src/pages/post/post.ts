@@ -8,6 +8,8 @@ import {StoryService} from '../../providers/story.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PostTag} from '../../model/postTag';
 import {HomePage} from '../home/home';
+import {Story} from "../../model/story";
+import {FavouriteService} from "../../providers/favourite.service";
 
 
 @IonicPage()
@@ -20,10 +22,12 @@ export class PostPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private storyProvider: StoryService,
-              private toastCtrl: ToastController){
+              private toastCtrl: ToastController,
+              private favouriteProvider: FavouriteService){
   }
 
   file: File;
+  stories: Story[];
 
   //Tag values to post tag to image
   postTag: PostTag = {

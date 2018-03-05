@@ -33,7 +33,7 @@ export class HomePage {
 
   constructor(private textToSpeech: TextToSpeech,
               private socialSharing: SocialSharing,
-              private storyService: StoryService,
+              private storyProvider: StoryService,
               public navCtrl: NavController,
               public modalCtrl: ModalController,
               private favouriteProvider: FavouriteService,
@@ -98,33 +98,36 @@ export class HomePage {
 
   onClickLike(file_id, index){
     if (!this.stories[index].likedByUser) {
-      this.like(file_id);
-    } else this.unlike(file_id);
+      this.like(file_id, index);
+    } else this.unlike(file_id, index);
 
     //change liked state
     this.stories[index].likedByUser = !this.stories[index].likedByUser;
-
-    //refresh like
-    this.favouriteProvider.getFavById(file_id).subscribe(response => {
-      this.stories[index].likesCount = response.length;
-      console.log("new like count: " +this.stories[index].likesCount);
-    });
   }
 
-  like(file_id) {
+  like(file_id, index) {
     this.favouriteProvider.postFav(file_id).subscribe(response => {
       console.log(response);
+      this.refreshLike(file_id, index);
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
     });
   }
 
-  unlike(file_id){
+  unlike(file_id, index){
     this.favouriteProvider.deleteFav(file_id).subscribe(response => {
       console.log(response);
+      this.refreshLike(file_id, index);
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
     })
+  }
+
+  refreshLike(file_id, index) {
+    this.favouriteProvider.getFavById(file_id).subscribe(response => {
+      this.stories[index].likesCount = response.length;
+      console.log("new like count: " + this.stories[index].likesCount);
+    });
   }
 
   ionViewDidLoad() {
@@ -132,7 +135,7 @@ export class HomePage {
   }
 
   fetchStories() {
-    this.storyService.getAllPost().subscribe(response => {
+    this.storyProvider.getAllPost().subscribe(response => {
       this.stories = response;
 
       //add username to story
@@ -161,13 +164,11 @@ export class HomePage {
           story.commentCount = response.length;
         });
       });
-
-
     }, (error: HttpErrorResponse) => {
       this.presentToast(error.error.message);
     });
   }
-  
+
 
   presentToast(mess: string) {
     let toast = this.toastCtrl.create({
