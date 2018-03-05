@@ -129,6 +129,8 @@ export class HomePage {
           story.username = response.username;
         });
       });
+
+
     }, (error: HttpErrorResponse) => {
       this.presentToast(error.error.message);
     });
