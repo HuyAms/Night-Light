@@ -1,6 +1,6 @@
 export class Comment {
-  user_id: string;
-  comment_id: string;
+  user_id: number;
+  comment_id: number;
   time_added: string;
   comment: string;
   username: string;

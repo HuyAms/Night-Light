@@ -107,10 +107,6 @@ export class HomePage {
     })
   }
 
-  // onComment(file_id: string) {
-  //   this.navCtrl.push(CommentsPage, file_id);
-  // }
-
   ionViewDidLoad() {
     this.fetchStories()
   }

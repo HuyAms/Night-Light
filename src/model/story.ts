@@ -4,6 +4,7 @@ export class Story {
   filename: string;
   file_id: number;
   username: string;
-  user_id: string;
+  user_id: number;
   avatar: string;
+  likesCount: string;
 }

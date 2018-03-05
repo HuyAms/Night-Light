@@ -1,5 +1,8 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {Observable} from "rxjs/Observable";
+import {Story} from "../model/story";
+import {Favourite} from "../model/Favourite";
 
 /*
   Generated class for the FavouriteServiceProvider provider.
@@ -16,8 +19,15 @@ export class FavouriteService {
     console.log('Hello FavouriteServiceProvider Provider');
   }
 
-  getFavById(postID: string) {
-    return this.http.get(this.apiUrl + '/favourites/file/' + postID);
+  getFavById(postID: string): Observable<Favourite[]>{
+    return this.http.get<Favourite[]>(this.apiUrl + '/favourites/file/' + postID);
+  }
+
+  getFavCount(file_id) {
+    this.getFavById(file_id).subscribe(response => {
+      const Likes: Favourite[] = response;
+      return Likes.length;
+    })
   }
 
   postFav(file_id) {
