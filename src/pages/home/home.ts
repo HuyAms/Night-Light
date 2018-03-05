@@ -55,9 +55,13 @@ export class HomePage {
     }
   }
 
-  onPresentCommentModal(file_id: string) {
+  onPresentCommentModal(file_id: string, index) {
     let commentModal = this.modalCtrl.create(CommentsPage, {file_id: file_id});
     commentModal.present();
+    commentModal.onDidDismiss(() => {
+      this.refreshLike(file_id, index);
+      this.refreshComment(file_id, index);
+    })
   }
 
   onRefresh() {
@@ -127,6 +131,13 @@ export class HomePage {
     this.favouriteProvider.getFavById(file_id).subscribe(response => {
       this.stories[index].likesCount = response.length;
       console.log("new like count: " + this.stories[index].likesCount);
+    });
+  }
+
+  refreshComment(file_id, index) {
+    this.commentProvider.getCommentByPostId(file_id).subscribe(response => {
+      this.stories[index].commentCount = response.length;
+      console.log("new comment count: " + this.stories[index].commentCount);
     });
   }
 
