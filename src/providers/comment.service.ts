@@ -28,5 +28,13 @@ export class CommentService {
     return this.http.post(this.apiUrl + '/comments', comment, settings);
   }
 
+  deleteComment(commentId) {
+    const settings = {
+      headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
+    };
+
+    return this.http.delete(this.apiUrl + '/comments/' + commentId, settings);
+  }
+
 
 }

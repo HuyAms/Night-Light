@@ -37,9 +37,15 @@ page-comments {
       border-style: solid;
       border-color: transparent  color($colors, comment) transparent;
     }
+
+    h3 {
+      font-weight: bold;
+    }
   }
 
-  .comment h3 {
-    font-weight: bold;
+  .no-comment {
+    p {
+      font-size: 14px;
+    }
   }
 }

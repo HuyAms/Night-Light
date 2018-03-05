@@ -94,6 +94,8 @@ export class SigninPage{
       this.presentToast('User was created sucessfully');
       this.initSignin();
 
+      this.saveUserData();
+
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
       this.presentToast(error.error.message)

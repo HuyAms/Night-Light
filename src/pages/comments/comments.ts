@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavParams, ViewController} from 'ionic-angular';
+import {ActionSheetController, IonicPage, NavParams, ViewController} from 'ionic-angular';
 import {CommentService} from "../../providers/comment.service";
 import {Comment} from "../../model/comment";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -16,13 +16,16 @@ export class CommentsPage {
   user: User;
   comments: Comment[];
   comment: string = '';
+  myId: string;
 
   constructor(public viewCtrl: ViewController,
               public navParams: NavParams,
               public commentService: CommentService,
-              public userService: UserService) {
+              public userService: UserService,
+              public actionSheetCtrl: ActionSheetController) {
     this.file_id = navParams.get('file_id');
-
+    this.myId = localStorage.getItem('user_id');
+    console.log(this.myId);
     this.fetchComments();
   }
 
@@ -46,7 +49,6 @@ export class CommentsPage {
       }, (error: HttpErrorResponse) => {
         //error
       }
-
     )
   }
 
@@ -66,6 +68,35 @@ export class CommentsPage {
 
   onDismiss() {
     this.viewCtrl.dismiss();
+  }
+
+  onDelete(commentId) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Delete your comment',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            this.commentService.deleteComment(commentId).subscribe(
+              response => {
+                //success
+                this.fetchComments();
+              }, (error: HttpErrorResponse) => {
+                //error
+              }
+            )
+          }
+        },{
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 
 }
