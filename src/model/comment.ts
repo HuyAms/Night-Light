@@ -1,5 +1,5 @@
 export class Comment {
-  user_ID: string;
+  user_id: string;
   comment_id: string;
   time_added: string;
   comment: string;

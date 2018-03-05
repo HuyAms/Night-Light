@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicPage, NavController, Slides} from 'ionic-angular';
+import {IonicPage, ModalController, NavController, Slides} from 'ionic-angular';
 import {TextToSpeech} from '@ionic-native/text-to-speech';
 import {SocialSharing} from '@ionic-native/social-sharing';
 import {StoryService} from '../../providers/story.service';
@@ -20,7 +20,6 @@ export class HomePage {
   text: string;
   speaking: boolean = false;
   stories: Story[]
-  curTab: string;
   currentIndex: number = 1;
   numberOfStory: number;
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
@@ -28,22 +27,26 @@ export class HomePage {
   constructor(private textToSpeech: TextToSpeech,
               private socialSharing: SocialSharing,
               private storyService: StoryService,
-              public navCtrl: NavController) {
+              public navCtrl: NavController,
+              public modalCtrl: ModalController) {
   }
 
   onSegmentChange(event) {
     let tab = event.value;
     if (tab === 'new') {
-      this.curTab = 'new';
       console.log('new tab loaded');
     } else if (tab === 'hot') {
       // this.curTab = 'hot';
       console.log('hot tab loaded');
     }
     else if (tab === 'discover') {
-      this.curTab = 'discover';
       console.log('discover tab loaded');
     }
+  }
+
+  onPresentCommentModal(file_id: string) {
+    let commentModal = this.modalCtrl.create(CommentsPage, {file_id: file_id});
+    commentModal.present();
   }
 
   onRefresh() {
@@ -82,9 +85,9 @@ export class HomePage {
     })
   }
 
-  onComment(file_id: string) {
-    this.navCtrl.push(CommentsPage, file_id);
-  }
+  // onComment(file_id: string) {
+  //   this.navCtrl.push(CommentsPage, file_id);
+  // }
 
   ionViewDidLoad() {
     this.fetchStories()

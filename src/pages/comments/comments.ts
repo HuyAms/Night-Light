@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {IonicPage, NavParams, ViewController} from 'ionic-angular';
 import {CommentService} from "../../providers/comment.service";
-import {NgForm} from "@angular/forms";
+import {Comment} from "../../model/comment";
+import {HttpErrorResponse} from "@angular/common/http";
+import {UserService} from "../../providers/user.service";
+import {User} from "../../model/user";
 
 @IonicPage()
 @Component({
@@ -10,23 +13,59 @@ import {NgForm} from "@angular/forms";
 })
 export class CommentsPage {
   file_id: string;
+  user: User;
+  comments: Comment[];
+  comment: string = '';
 
-  constructor(public navCtrl: NavController,
+  constructor(public viewCtrl: ViewController,
               public navParams: NavParams,
-              public commentService: CommentService) {
+              public commentService: CommentService,
+              public userService: UserService) {
     this.file_id = navParams.get('file_id');
+
+    this.fetchComments();
   }
 
-  postComment(form: NgForm) {
+
+  fetchComments() {
+    console.log(this.file_id);
+    this.commentService.getCommentByPostId(this.file_id).subscribe(
+      response => {
+        this.comments = response;
+        console.log(response);
+      }, (error: HttpErrorResponse) => {
+        //console.log(error.error.message);
+      }
+    );
+  }
+
+  fetchUserInfo(userId) {
+    this.userService.getUserDataById(userId).subscribe(
+      response => {
+        this.user = response;
+      }, (error: HttpErrorResponse) => {
+        //error
+      }
+
+    )
+  }
+
+  postComment() {
     const newComment = {
       file_id: this.file_id,
-      comment: form.value.Comment
+      comment: this.comment
     }
-    return this.commentService.postComment(newComment).subscribe();
+    this.commentService.postComment(newComment).subscribe(
+      response => {
+        console.log(response);
+        this.fetchComments();
+      }
+    );
+    this.comment = '';
   }
 
-  ionViewDidLoad() {
-
+  onDismiss() {
+    this.viewCtrl.dismiss();
   }
 
 }

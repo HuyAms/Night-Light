@@ -1,3 +1,45 @@
+@import "../../theme/variables";
+
 page-comments {
 
+  .button-send ion-icon {
+    font-size: 2.0em !important;
+  }
+
+  .avatar {
+    object-fit: cover;
+  }
+
+  .comment{
+    display: inline-block;
+    padding: 8px;
+    border-radius: 4px;
+    max-width: 180px;
+    font-size: 13px;
+    line-height: 20px;
+    white-space: normal;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+
+    &.left {
+      background-color: color($colors, comment);
+      float: left !important;
+      margin-left: 15px;
+    }
+
+    &.left:before {
+      position: absolute;
+      left: 60px;
+      content:'';
+      width: 0;
+      height: 0;
+      border-width: 7px 14px 7px 0;
+      border-style: solid;
+      border-color: transparent  color($colors, comment) transparent;
+    }
+  }
+
+  .comment h3 {
+    font-weight: bold;
+  }
 }

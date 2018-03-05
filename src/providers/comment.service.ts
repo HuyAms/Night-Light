@@ -1,5 +1,7 @@
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Comment} from "../model/comment";
+import {Observable} from "rxjs/Observable";
 
 /*
   Generated class for the CommentServiceProvider provider.
@@ -14,8 +16,8 @@ export class CommentService {
   constructor(public http: HttpClient) {
   }
 
-  getCommentByPostId(postID) {
-    return this.http.get(this.apiUrl + '/comments/file/' + postID);
+  getCommentByPostId(postID): Observable<Comment[]> {
+    return this.http.get<Comment[]>(this.apiUrl + '/comments/file/' + postID);
   }
 
   postComment(comment) {
