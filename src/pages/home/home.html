@@ -20,9 +20,7 @@
 
 <ion-content style="background-color: #ededed" padding>
 
-  <div class="indicator" text-center>{{currentIndex}}/{{numberOfStory}}</div>
-
-  <ion-slides loop="true" no-padding no-margin (ionSlideDidChange)="slideChanged()">
+  <ion-slides loop="true" no-padding no-margin>
     <ion-slide *ngFor="let story of stories; let i = index">
       <ion-card>
         <ion-row center>
