@@ -66,6 +66,7 @@ export class PostPage {
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
       console.log(this.postTag);
+      this.presentToast(error.error.message);
     })
   }
 

@@ -1,5 +1,8 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicPage, ModalController, NavController, Slides} from 'ionic-angular';
+import {
+  IonicPage, ModalController, NavController, Slides,
+  ToastController,
+} from 'ionic-angular';
 import {TextToSpeech} from '@ionic-native/text-to-speech';
 import {SocialSharing} from '@ionic-native/social-sharing';
 import {StoryService} from '../../providers/story.service';
@@ -33,7 +36,8 @@ export class HomePage {
               public navCtrl: NavController,
               public modalCtrl: ModalController,
               private favouriteProvider: FavouriteService,
-              private userProvider: UserService) {
+              private userProvider: UserService,
+              private toastCtrl: ToastController) {
   }
 
   onSegmentChange(event) {
@@ -118,13 +122,25 @@ export class HomePage {
 
       this.stories.map(story => {
         this.userProvider.getUserDataById(story.user_id).subscribe(response => {
-
-        })
-      })
-    })
+          story.username = response.username;
+        });
+      });
+    }, (error: HttpErrorResponse) => {
+      this.presentToast(error.error.message);
+    });
   }
 
   slideChanged() {
     this.currentIndex = this.slides.realIndex + 1;
+  }
+
+  presentToast(mess: string) {
+    let toast = this.toastCtrl.create({
+      message: mess,
+      duration: 1500,
+      position: 'bottom'
+    });
+
+    toast.present();
   }
 }
