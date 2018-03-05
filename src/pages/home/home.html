@@ -59,12 +59,12 @@
             <p class="story" text-left>{{story.description}}</p>
           </ion-card-content>
         </ion-scroll>
-
         <hr/>
         <ion-item>
           <ion-note item-left>{{story.likesCount}} likes</ion-note>
-          <ion-note item-right=""> comments</ion-note>
+          <ion-note item-right="">{{story.commentCount}} comments</ion-note>
         </ion-item>
+        <hr/>
         <ion-row>
           <ion-col col-4 center text-center>
             <button ion-button icon-left clear small style="text-transform: none;"

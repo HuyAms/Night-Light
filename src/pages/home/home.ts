@@ -12,6 +12,7 @@ import {FavouriteService} from '../../providers/favourite.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {UserService} from '../../providers/user.service';
 import {Favourite} from "../../model/Favourite";
+import {CommentService} from "../../providers/comment.service";
 
 
 @IonicPage()
@@ -38,7 +39,8 @@ export class HomePage {
               public modalCtrl: ModalController,
               private favouriteProvider: FavouriteService,
               private userProvider: UserService,
-              private toastCtrl: ToastController) {
+              private toastCtrl: ToastController,
+              private commentProvider: CommentService) {
   }
 
   onSegmentChange(event) {
@@ -140,6 +142,15 @@ export class HomePage {
           story.likesCount = response.length;
         });
       });
+
+      //add comment counts to story
+      this.stories.map(story => {
+        this.commentProvider.getCommentByPostId(story.file_id).subscribe(response => {
+          story.commentCount = response.length;
+        });
+      });
+
+
     }, (error: HttpErrorResponse) => {
       this.presentToast(error.error.message);
     });

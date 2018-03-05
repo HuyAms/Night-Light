@@ -23,7 +23,6 @@ export class FavouriteService {
     return this.http.get<Favourite[]>(this.apiUrl + '/favourites/file/' + file_id);
   }
 
-
   postFav(file_id) {
     const settings = {
       headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
