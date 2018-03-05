@@ -31,6 +31,7 @@ export class HomePage {
   currentIndex: number = 1;
   numberOfStory: number;
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
+  currentUser_id = localStorage.getItem('user_id')
 
   constructor(private textToSpeech: TextToSpeech,
               private socialSharing: SocialSharing,
@@ -97,13 +98,13 @@ export class HomePage {
     })
   }
 
-  onLike(file_id, index){
+  onClickLike(file_id, index){
+    if (!this.stories[index].likedByUser) {
+      this.like(file_id);
+    } else this.unlike(file_id);
 
-    this.favouriteProvider.postFav(file_id).subscribe(response => {
-      console.log(response);
-    }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
-    });
+    //change liked state
+    this.stories[index].likedByUser = !this.stories[index].likedByUser;
 
     //refresh like
     this.favouriteProvider.getFavById(file_id).subscribe(response => {
@@ -112,7 +113,15 @@ export class HomePage {
     });
   }
 
-  onUnlike(file_id){
+  like(file_id) {
+    this.favouriteProvider.postFav(file_id).subscribe(response => {
+      console.log(response);
+    }, (error: HttpErrorResponse) => {
+      console.log(error.error.message);
+    });
+  }
+
+  unlike(file_id){
     this.favouriteProvider.deleteFav(file_id).subscribe(response => {
       console.log(response);
     }, (error: HttpErrorResponse) => {
@@ -140,6 +149,12 @@ export class HomePage {
       this.stories.map(story => {
         this.favouriteProvider.getFavById(story.file_id).subscribe(response => {
           story.likesCount = response.length;
+          story.likedByUser = false;
+          if(response.length !== 0) {
+            response.forEach(like => {
+              if (like.user_id == this.currentUser_id) story.likedByUser = true;
+            });
+          }
         });
       });
 
