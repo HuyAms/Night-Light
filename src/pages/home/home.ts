@@ -28,8 +28,6 @@ export class HomePage {
   text: string;
   speaking: boolean = false;
   stories: Story[];
-  currentIndex: number = 1;
-  numberOfStory: number;
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
   currentUser_id = localStorage.getItem('user_id')
 
@@ -136,7 +134,6 @@ export class HomePage {
   fetchStories() {
     this.storyService.getAllPost().subscribe(response => {
       this.stories = response;
-      this.numberOfStory = this.stories.length;
 
       //add username to story
       this.stories.map(story => {
@@ -170,10 +167,7 @@ export class HomePage {
       this.presentToast(error.error.message);
     });
   }
-
-  slideChanged() {
-    this.currentIndex = this.slides.realIndex + 1;
-  }
+  
 
   presentToast(mess: string) {
     let toast = this.toastCtrl.create({
