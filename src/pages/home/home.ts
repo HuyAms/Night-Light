@@ -13,6 +13,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {UserService} from '../../providers/user.service';
 import {Favourite} from "../../model/Favourite";
 import {CommentService} from "../../providers/comment.service";
+import {User} from '../../model/user';
 
 
 @IonicPage()
@@ -24,12 +25,13 @@ import {CommentService} from "../../providers/comment.service";
 export class HomePage {
   @ViewChild(Slides) slides: Slides;
 
-  defaultTab = 'discover';
+  defaultTab = 'new';
   text: string;
   speaking: boolean = false;
   stories: Story[];
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
-  currentUser_id = localStorage.getItem('user_id')
+  currentUser_id = localStorage.getItem('user_id');
+  curTab: string;
 
   constructor(private textToSpeech: TextToSpeech,
               private socialSharing: SocialSharing,
@@ -43,15 +45,19 @@ export class HomePage {
   }
 
   onSegmentChange(event) {
-    let tab = event.value;
-    if (tab === 'new') {
+    this.curTab = event.value;
+    if (this.curTab === 'new') {
       console.log('new tab loaded');
-    } else if (tab === 'hot') {
+      this.fetchStories();
+      console.log(this.stories);
+    } else if (this.curTab === 'hot') {
       // this.curTab = 'hot';
       console.log('hot tab loaded');
+      this.stories.sort(this.compare);
     }
-    else if (tab === 'discover') {
+    else if (this.curTab === 'discover') {
       console.log('discover tab loaded');
+      this.stories = this.shuffle(this.stories);
     }
   }
 
@@ -91,7 +97,7 @@ export class HomePage {
   }
 
   onShare(message: string, subject: string, imageUrl: string) {
-    console.log("onshare")
+    console.log("onshare");
     this.socialSharing.share(message, subject, '', imageUrl)
       .then(() => {
         //success
@@ -175,9 +181,28 @@ export class HomePage {
           story.commentCount = response.length;
         });
       });
+
+      if(this.curTab === 'discover'){
+        this.stories = this.shuffle(this.stories);
+      }
+      else if(this.curTab === 'hot') {
+        this.stories.sort(this.compare);
+      }
+
+      console.log(this.stories);
     }, (error: HttpErrorResponse) => {
       this.presentToast(error.error.message);
     });
+
+  }
+
+  onDiscover(){
+
+  }
+
+  onHot(){
+
+    console.log(this.stories);
   }
 
 
@@ -189,5 +214,37 @@ export class HomePage {
     });
 
     toast.present();
+  }
+
+  shuffle(arr: Array<Story>){
+    let ctr = arr.length;
+    let temp;
+    let index;
+
+    while(ctr > 0){
+      index = Math.floor(Math.random()*ctr);
+      ctr--;
+
+      temp = arr[ctr];
+      arr[ctr] = arr[index];
+      arr[index] = temp;
+    }
+
+    return arr;
+  }
+
+  compare(a, b){
+    const likeA: number = a.likesCount;
+    const likeB: number = b.likesCount;
+
+    let comparison = 0;
+    if(likeA > likeB){
+      comparison = 1;
+    }
+    else if(likeA < likeB){
+      comparison = -1;
+    }
+
+    return comparison;
   }
 }
