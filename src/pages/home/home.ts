@@ -87,7 +87,7 @@ export class HomePage {
       return;
     }
     this.speaking = true;
-    this.textToSpeech.speak({text: `Title: ${title}, Story: ${text}`, locale: 'en-US', rate: 1.5})
+    this.textToSpeech.speak({text: `Title: ${title}, Story: ${text}`, locale: 'en-GB', rate: 1.5})
       .then((val) => {
           this.speaking = false;
         },
