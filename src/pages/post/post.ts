@@ -23,12 +23,12 @@ export class PostPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private storyProvider: StoryService,
-              private toastCtrl: ToastController,
-              private favouriteProvider: FavouriteService){
+              private toastCtrl: ToastController){
   }
 
   file: File;
   inputFileEmpty: boolean = true;
+  img: any;
 
   //Tag values to post tag to image
   postTag: PostTag = {
@@ -38,6 +38,14 @@ export class PostPage {
 
   setFile(evt){
     console.log(evt.target.files[0]);
+
+    let reader = new FileReader();
+
+    reader.onload = (event:any) => {
+      this.img = event.target.result;
+    }
+    reader.readAsDataURL(evt.target.files[0]);
+
     this.file = evt.target.files[0];
     this.inputFileEmpty = false;
   }

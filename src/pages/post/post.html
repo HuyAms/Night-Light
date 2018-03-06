@@ -16,7 +16,8 @@
 <ion-content padding>
   <ion-row>
     <ion-col>
-      <img class="camera" src="assets/imgs/camera_placeholder.png"/>
+      <img class="camera" src="assets/imgs/camera_placeholder.png" *ngIf="!img"/>
+      <img class="camera" src={{img}} *ngIf="img"/>
     </ion-col>
   </ion-row>
   <ion-item>
