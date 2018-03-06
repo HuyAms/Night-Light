@@ -10,6 +10,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {StoryService} from '../../providers/story.service';
 import { EmailComposer } from '@ionic-native/email-composer';
 import {HomePage} from "../home/home";
+import {SettingsPageModule} from "../settings/settings.module";
+import {SettingsPage} from "../settings/settings";
 
 
 @IonicPage()
@@ -136,5 +138,9 @@ export class ProfilePage {
 
   onDismiss() {
     this.viewCtrl.dismiss();
+  }
+
+  onSettings() {
+    this.navCtrl.push(SettingsPage);
   }
 }
