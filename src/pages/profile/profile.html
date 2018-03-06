@@ -21,17 +21,29 @@
           <img class="avatar"
                src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg">
         </div>
-        <p text-center>{{curUser.username}}</p>
-        <p text-center>{{curUser.full_name}}</p>
-        <p text-center>{{curUser.email}}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col no-padding>
+        <p class="username" text-center>{{curUser.username}}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div text-center margin-bottom>
+          <button ion-button icon-start round outline (click)="onSendEmail()">
+            <ion-icon name="mail"></ion-icon>
+            Contact Me
+          </button>
+        </div>
       </ion-col>
     </ion-row>
     <hr/>
-    <ion-row>
-      <ion-col text-center col-6><span>112</span> Likes</ion-col>
-      <ion-col text-center col-6><span>{{myStoriesNum}}</span> Posts</ion-col>
-    </ion-row>
   </ion-card>
+
+  <p class="numStories" text-center>{{myStoriesNum}} Stories</p>
+
+  <hr/>
 
   <ion-row no-padding>
     <ion-col col-6 no-padding *ngFor="let story of myStories">

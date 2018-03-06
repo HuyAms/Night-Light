@@ -1,10 +1,11 @@
 page-profile {
   ion-content {
-    background: #f7f7f7 !important;
+    background: #ededed !important;
 
     .profile-top {
       width: 100%;
       margin: 0;
+      background-color: #ededed;
       .profile-photo {
         padding-top: 16px;
 
@@ -14,7 +15,6 @@ page-profile {
           width: $photoSize;
           height: $photoSize;
           border-radius: 50%;
-          border: solid 2px color($colors, primary);
           margin: 0 auto;
         }
       }
@@ -25,7 +25,21 @@ page-profile {
       width: 100%;
       height: 150px;
       object-fit: cover;
+    }
 
+    .numStories {
+      margin: 10px;
+      font-size: 20px;
+      text-transform: uppercase;
+      color: color($colors, primary);
+      font-weight: 500;
+    }
+
+    .username {
+      font-size: 18px;
+      color: color($colors, primary);
+      font-weight: 500;
+      margin: 0;
     }
   }
 

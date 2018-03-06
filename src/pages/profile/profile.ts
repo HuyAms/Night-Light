@@ -78,4 +78,8 @@ export class ProfilePage {
 
     toast.present();
   }
+
+  onSendEmail() {
+
+  }
 }
