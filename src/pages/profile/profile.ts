@@ -37,11 +37,17 @@ export class ProfilePage {
     full_name: ''
   };
 
+  mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
+
   myStories: Story[];
   myStoriesNum: number;
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
+    this.getUserData();
+    this.getUserStories();
+  }
+
+  getUserData() {
     this.userProvider.getUserData().subscribe(response =>{
       this.curUser.username = response['username'];
       this.curUser.email = response['email'];
@@ -50,7 +56,9 @@ export class ProfilePage {
       console.log(error.error.message);
       this.presentToast(error.error.message);
     });
+  }
 
+  getUserStories() {
     this.storyProvider.getPostByCurUser().subscribe(response => {
       this.myStories = response;
       this.myStoriesNum = this.myStories.length;
