@@ -21,7 +21,7 @@
   <ion-list no-padding *ngIf="comments?.length > 0">
     <ion-item-sliding no-lines *ngFor="let comment of comments">
       <ion-item>
-        <ion-avatar float-left>
+        <ion-avatar float-left (click)="onGoToProfile(comment.user_id)">
           <img class="avatar"
                src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg"/>
         </ion-avatar>
