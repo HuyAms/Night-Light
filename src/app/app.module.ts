@@ -24,6 +24,7 @@ import {FavouriteService} from '../providers/favourite.service';
 import {ShortenPipe} from "../shared/shorten.pipe";
 import { EmailComposer } from '@ionic-native/email-composer';
 import {SettingsPage} from "../pages/settings/settings";
+import {EditProfilePage} from "../pages/edit-profile/edit-profile";
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import {SettingsPage} from "../pages/settings/settings";
     Autoresize,
     CommentsPage,
     ShortenPipe,
-    SettingsPage
+    SettingsPage,
+    EditProfilePage
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import {SettingsPage} from "../pages/settings/settings";
     ProfilePage,
     PostPage,
     CommentsPage,
-    SettingsPage
+    SettingsPage,
+    EditProfilePage
   ],
   providers: [
     StatusBar,

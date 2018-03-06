@@ -12,18 +12,19 @@ export class UserService {
   }
 
 
-  getUserData() {
+  getCurrentUserData(): Observable<User>{
     const settings = {
       headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
     };
-    return this.http.get(this.apiUrl + '/users/user', settings);
+    return this.http.get<User>(this.apiUrl + '/users/user', settings);
   }
 
-  editUserData(user) {
+  editUserData(userInfo) {
+    console.log(userInfo);
     const settings = {
       headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
     };
-    return this.http.put(this.apiUrl + '/users', user ,settings)
+    return this.http.put(this.apiUrl + '/users', userInfo ,settings)
   }
 
   getUserDataById(user_id): Observable<User>{
