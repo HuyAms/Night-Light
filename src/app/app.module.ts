@@ -21,6 +21,7 @@ import {SocialSharing} from '@ionic-native/social-sharing';
 import {CommentService} from '../providers/comment.service';
 import {CommentsPage} from "../pages/comments/comments";
 import {FavouriteService} from '../providers/favourite.service';
+import {ShortenPipe} from "../shared/shorten.pipe";
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import {FavouriteService} from '../providers/favourite.service';
     ProfilePage,
     PostPage,
     Autoresize,
-    CommentsPage
+    CommentsPage,
+    ShortenPipe
   ],
   imports: [
     BrowserModule,
