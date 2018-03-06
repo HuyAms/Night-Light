@@ -8,13 +8,7 @@ import {User} from '../../model/user';
 import {Story} from '../../model/story';
 import {HttpErrorResponse} from '@angular/common/http';
 import {StoryService} from '../../providers/story.service';
-
-/**
- * Generated class for the ProfilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { EmailComposer } from '@ionic-native/email-composer';
 
 @IonicPage()
 @Component({
@@ -27,7 +21,8 @@ export class ProfilePage {
               public navParams: NavParams,
               private userProvider: UserService,
               private storyProvider: StoryService,
-              private toastCtrl: ToastController) {
+              private toastCtrl: ToastController,
+              private emailComposer: EmailComposer) {
   }
 
   curUser: User ={
@@ -80,6 +75,17 @@ export class ProfilePage {
   }
 
   onSendEmail() {
-
+    this.emailComposer.isAvailable().then((available: boolean) =>{
+      if(available) {
+        let email = {
+          to: this.curUser.email,
+          subject: 'Greeting',
+          isHtml: true
+        };
+        this.emailComposer.open(email);
+      } else {
+        //Email app not available
+      }
+    }).catch(e => console.log(e));
   }
 }

@@ -22,6 +22,7 @@ import {CommentService} from '../providers/comment.service';
 import {CommentsPage} from "../pages/comments/comments";
 import {FavouriteService} from '../providers/favourite.service';
 import {ShortenPipe} from "../shared/shorten.pipe";
+import { EmailComposer } from '@ionic-native/email-composer';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import {ShortenPipe} from "../shared/shorten.pipe";
     TextToSpeech,
     SocialSharing,
     CommentService,
-    FavouriteService
+    FavouriteService,
+    EmailComposer
   ]
 })
 export class AppModule {}
