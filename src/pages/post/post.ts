@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {
-  IonicPage, NavController, NavParams,
+  IonicPage, ModalController, NavController, NavParams,
   ToastController,
 } from 'ionic-angular';
 import {NgForm} from "@angular/forms";
@@ -10,6 +10,7 @@ import {PostTag} from '../../model/postTag';
 import {HomePage} from '../home/home';
 import {Story} from "../../model/story";
 import {FavouriteService} from "../../providers/favourite.service";
+import {CommentsPage} from "../comments/comments";
 
 
 @IonicPage()

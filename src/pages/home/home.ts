@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {
-  IonicPage, ModalController, NavController, Slides,
-  ToastController,
+  IonicPage, ModalController, NavController, NavParams, Slides,
+  ToastController, ViewController,
 } from 'ionic-angular';
 import {TextToSpeech} from '@ionic-native/text-to-speech';
 import {SocialSharing} from '@ionic-native/social-sharing';
@@ -11,9 +11,8 @@ import {CommentsPage} from "../comments/comments";
 import {FavouriteService} from '../../providers/favourite.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {UserService} from '../../providers/user.service';
-import {Favourite} from "../../model/Favourite";
 import {CommentService} from "../../providers/comment.service";
-import {User} from '../../model/user';
+import {ProfilePage} from "../profile/profile";
 
 
 @IonicPage()
@@ -33,15 +32,27 @@ export class HomePage {
   currentUser_id = localStorage.getItem('user_id');
   curTab: string;
 
+  mode: string;
+  singleStory_id: number;
+  calledFromProfile: boolean;
+
+
   constructor(private textToSpeech: TextToSpeech,
               private socialSharing: SocialSharing,
               private storyProvider: StoryService,
               public navCtrl: NavController,
+              public viewCtrl: ViewController,
+              public navParams: NavParams,
               public modalCtrl: ModalController,
               private favouriteProvider: FavouriteService,
               private userProvider: UserService,
               private toastCtrl: ToastController,
               private commentProvider: CommentService) {
+    this.mode = navParams.get('mode');
+    this.singleStory_id = navParams.get('file_id');
+    if (this.mode) {
+      this.calledFromProfile = true;
+    }
   }
 
   onSegmentChange(event) {
@@ -71,7 +82,7 @@ export class HomePage {
   }
 
   onRefresh() {
-    this.fetchStories()
+    this.loadHomeContent()
   }
 
   onTextSpeech(title: string, text: string) {
@@ -82,7 +93,7 @@ export class HomePage {
       return;
     }
     this.speaking = true;
-    this.textToSpeech.speak({text:  `Title: ${title}, Story: ${text}`, locale: 'en-US', rate: 1.5})
+    this.textToSpeech.speak({text: `Title: ${title}, Story: ${text}`, locale: 'en-US', rate: 1.5})
       .then((val) => {
           this.speaking = false;
         },
@@ -106,7 +117,7 @@ export class HomePage {
     })
   }
 
-  onClickLike(file_id, index){
+  onClickLike(file_id, index) {
     if (!this.stories[index].likedByUser) {
       this.like(file_id, index);
     } else this.unlike(file_id, index);
@@ -124,7 +135,7 @@ export class HomePage {
     });
   }
 
-  unlike(file_id, index){
+  unlike(file_id, index) {
     this.favouriteProvider.deleteFav(file_id).subscribe(response => {
       console.log(response);
       this.refreshLike(file_id, index);
@@ -147,8 +158,38 @@ export class HomePage {
     });
   }
 
+  attachLikeCount(stories) {
+    stories.map(story => {
+      this.favouriteProvider.getFavById(story.file_id).subscribe(response => {
+        story.likesCount = response.length;
+        story.likedByUser = false;
+        if (response.length !== 0) {
+          response.forEach(like => {
+            if (like.user_id == this.currentUser_id) story.likedByUser = true;
+          });
+        }
+      });
+    });
+  }
+
+  attachCommentCount(stories) {
+    stories.map(story => {
+      this.commentProvider.getCommentByPostId(story.file_id).subscribe(response => {
+        story.commentCount = response.length;
+      });
+    });
+  }
+
   ionViewDidLoad() {
-    this.fetchStories()
+    this.loadHomeContent();
+  }
+
+  loadHomeContent() {
+    if(!this.calledFromProfile) {
+      this.fetchStories();
+    } else {
+      this.fetchSingleStory(this.singleStory_id);
+    }
   }
 
   fetchStories() {
@@ -162,25 +203,11 @@ export class HomePage {
         });
       });
 
-      //add like counts to story and indicate if story has been liked by current user
-      this.stories.map(story => {
-        this.favouriteProvider.getFavById(story.file_id).subscribe(response => {
-          story.likesCount = response.length;
-          story.likedByUser = false;
-          if(response.length !== 0) {
-            response.forEach(like => {
-              if (like.user_id == this.currentUser_id) story.likedByUser = true;
-            });
-          }
-        });
-      });
+      //add number of like to each story and indicate if it's been liked by user
+      this.attachLikeCount(this.stories);
 
       //add comment counts to story
-      this.stories.map(story => {
-        this.commentProvider.getCommentByPostId(story.file_id).subscribe(response => {
-          story.commentCount = response.length;
-        });
-      });
+      this.attachCommentCount(this.stories);
 
       if(this.curTab === 'discover'){
         this.stories = this.shuffle(this.stories);
@@ -190,6 +217,31 @@ export class HomePage {
       }
 
       console.log(this.stories);
+
+    }, (error: HttpErrorResponse) => {
+      this.presentToast(error.error.message);
+
+    });
+  }
+
+  fetchSingleStory(file_id) {
+    this.storyProvider.getSinglePost(file_id).subscribe(response => {
+
+      this.stories = [];
+      this.stories.push(response);
+
+      //add username to story
+      this.stories.map(story => {
+        this.userProvider.getUserDataById(story.user_id).subscribe(response => {
+          story.username = response.username;
+        });
+      });
+      //add number of like to each story and indicate if it's been liked by user
+      this.attachLikeCount(this.stories);
+
+      //add comment counts to story
+      this.attachCommentCount(this.stories);
+
     }, (error: HttpErrorResponse) => {
       this.presentToast(error.error.message);
     });
@@ -205,6 +257,17 @@ export class HomePage {
     console.log(this.stories);
   }
 
+  onGoToProfile(userId) {
+    this.onPresentProfileModal(userId);
+  }
+
+  onPresentProfileModal(userId) {
+    let profileModal = this.modalCtrl.create(ProfilePage, {user_id: userId});
+    profileModal.present();
+    profileModal.onDidDismiss(() => {
+      this.onRefresh();
+    })
+  }
 
   presentToast(mess: string) {
     let toast = this.toastCtrl.create({
@@ -233,18 +296,22 @@ export class HomePage {
     return arr;
   }
 
-  compare(a, b){
+  compare(a, b) {
     const likeA: number = a.likesCount;
     const likeB: number = b.likesCount;
 
     let comparison = 0;
-    if(likeA > likeB){
+    if (likeA > likeB) {
       comparison = 1;
     }
-    else if(likeA < likeB){
+    else if (likeA < likeB) {
       comparison = -1;
     }
 
     return comparison;
+  }
+
+  onDismiss() {
+    this.viewCtrl.dismiss();
   }
 }

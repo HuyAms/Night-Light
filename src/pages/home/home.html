@@ -1,6 +1,6 @@
 
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar *ngIf="!calledFromProfile">
     <ion-buttons end>
       <button ion-button icon-only (click)="onRefresh()" color="light">
         <ion-icon name="refresh"></ion-icon>
@@ -15,6 +15,16 @@
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
+
+  <ion-navbar *ngIf="calledFromProfile">
+    <ion-title>Story</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="onDismiss()" color="light">
+        <span ion-text color="primary" showWhen="ios" style="color: white">Close</span>
+        <ion-icon name="close" showWhen="android, windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
 
 
@@ -25,7 +35,7 @@
       <ion-card>
         <ion-row center>
           <ion-col col-9 no-padding>
-            <ion-item>
+            <ion-item (click)="onGoToProfile(story.user_id)">
               <ion-avatar item-start>
                 <img class="avatar"
                   src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg">
