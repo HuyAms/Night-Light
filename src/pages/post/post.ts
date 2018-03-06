@@ -27,7 +27,7 @@ export class PostPage {
   }
 
   file: File;
-  stories: Story[];
+  inputFileEmpty: boolean = true;
 
   //Tag values to post tag to image
   postTag: PostTag = {
@@ -38,30 +38,33 @@ export class PostPage {
   setFile(evt){
     console.log(evt.target.files[0]);
     this.file = evt.target.files[0];
+    this.inputFileEmpty = false;
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value);
+    if(!this.inputFileEmpty) {
+      console.log(form.value);
 
-    //store file and info in formData
-    const formData = new FormData();
-    formData.append('title', form.value.title);
-    formData.append('description', form.value.description);
-    formData.append('file', this.file);
+      //store file and info in formData
+      const formData = new FormData();
+      formData.append('title', form.value.title);
+      formData.append('description', form.value.description);
+      formData.append('file', this.file);
 
-    //POST to server
-    this.storyProvider.upload(formData).subscribe(response =>{
-      console.log(response);
-      //Get file_id from response and pass it to tagFile()
-      this.postTag.file_id = response['file_id'];
-      console.log(response['file_id']);
-      this.tagFile();
-      this.navCtrl.setRoot(HomePage);
-    },(error: HttpErrorResponse)=>{
-      console.log(error.error.message);
-      this.presentToast("Unable to post. Please check again");
-      form.reset();
-    })
+      //POST to server
+      this.storyProvider.upload(formData).subscribe(response => {
+        console.log(response);
+        //Get file_id from response and pass it to tagFile()
+        this.postTag.file_id = response['file_id'];
+        console.log(response['file_id']);
+        this.tagFile();
+        this.navCtrl.setRoot(HomePage);
+      }, (error: HttpErrorResponse) => {
+        console.log(error.error.message);
+        this.presentToast("Unable to post. Please check again");
+        form.reset();
+      })
+    } else this.presentToast("Please attach a picture!")
   }
   //post tag
   tagFile(){
