@@ -1,6 +1,6 @@
 
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar *ngIf="!calledFromProfile">
     <ion-buttons end>
       <button ion-button icon-only (click)="onRefresh()" color="light">
         <ion-icon name="refresh"></ion-icon>
@@ -15,6 +15,16 @@
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
+
+  <ion-navbar *ngIf="calledFromProfile">
+    <ion-title>Story</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="onDismiss()" color="light">
+        <span ion-text color="primary" showWhen="ios" style="color: white">Close</span>
+        <ion-icon name="close" showWhen="android, windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
 
 

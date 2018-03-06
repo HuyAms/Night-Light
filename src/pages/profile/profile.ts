@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {
-  IonicPage, NavController, NavParams,
-  ToastController,
+  IonicPage, ModalController, NavController, NavParams,
+  ToastController, ViewController,
 } from 'ionic-angular';
 import {UserService} from '../../providers/user.service';
 import {User} from '../../model/user';
@@ -9,6 +9,7 @@ import {Story} from '../../model/story';
 import {HttpErrorResponse} from '@angular/common/http';
 import {StoryService} from '../../providers/story.service';
 import { EmailComposer } from '@ionic-native/email-composer';
+import {HomePage} from "../home/home";
 
 @IonicPage()
 @Component({
@@ -22,7 +23,9 @@ export class ProfilePage {
               private userProvider: UserService,
               private storyProvider: StoryService,
               private toastCtrl: ToastController,
-              private emailComposer: EmailComposer) {
+              private emailComposer: EmailComposer,
+              private modalCtrl: ModalController,
+              private viewCtrl: ViewController) {
   }
 
   curUser: User ={
@@ -87,5 +90,14 @@ export class ProfilePage {
         //Email app not available
       }
     }).catch(e => console.log(e));
+  }
+
+  onPresentSinglePostModal(file_id) {
+    let commentModal = this.modalCtrl.create(HomePage, {file_id: file_id, mode: 'singlePost'});
+    commentModal.present();
+  }
+
+  onDismiss() {
+    this.viewCtrl.dismiss();
   }
 }

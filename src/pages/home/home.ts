@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {
-  IonicPage, ModalController, NavController, Slides,
+  IonicPage, ModalController, NavController, NavParams, Slides,
   ToastController,
 } from 'ionic-angular';
 import {TextToSpeech} from '@ionic-native/text-to-speech';
@@ -29,17 +29,26 @@ export class HomePage {
   speaking: boolean = false;
   stories: Story[];
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
-  currentUser_id = localStorage.getItem('user_id')
+  currentUser_id = localStorage.getItem('user_id');
+  mode: string;
+  singleStory_id: number;
+  calledFromProfile: boolean;
 
   constructor(private textToSpeech: TextToSpeech,
               private socialSharing: SocialSharing,
               private storyProvider: StoryService,
               public navCtrl: NavController,
+              public navParams: NavParams,
               public modalCtrl: ModalController,
               private favouriteProvider: FavouriteService,
               private userProvider: UserService,
               private toastCtrl: ToastController,
               private commentProvider: CommentService) {
+    this.mode = navParams.get('mode');
+    this.singleStory_id = navParams.get('file_id');
+    if (this.mode) {
+      this.calledFromProfile = true;
+    }
   }
 
   onSegmentChange(event) {
@@ -65,7 +74,7 @@ export class HomePage {
   }
 
   onRefresh() {
-    this.fetchStories()
+    this.loadHomeContent()
   }
 
   onTextSpeech(title: string, text: string) {
@@ -141,8 +150,38 @@ export class HomePage {
     });
   }
 
+  attachLikeCount(stories) {
+    stories.map(story => {
+      this.favouriteProvider.getFavById(story.file_id).subscribe(response => {
+        story.likesCount = response.length;
+        story.likedByUser = false;
+        if (response.length !== 0) {
+          response.forEach(like => {
+            if (like.user_id == this.currentUser_id) story.likedByUser = true;
+          });
+        }
+      });
+    });
+  }
+
+  attachCommentCount(stories) {
+    stories.map(story => {
+      this.commentProvider.getCommentByPostId(story.file_id).subscribe(response => {
+        story.commentCount = response.length;
+      });
+    });
+  }
+
   ionViewDidLoad() {
-    this.fetchStories()
+    this.loadHomeContent();
+  }
+
+  loadHomeContent() {
+    if(!this.calledFromProfile) {
+      this.fetchStories();
+    } else {
+      this.fetchSingleStory(this.singleStory_id);
+    }
   }
 
   fetchStories() {
@@ -156,25 +195,36 @@ export class HomePage {
         });
       });
 
-      //add like counts to story and indicate if story has been liked by current user
+      //add number of like to each story and indicate if it's been liked by user
+      this.attachLikeCount(this.stories);
+
+      //add comment counts to story
+      this.attachCommentCount(this.stories);
+
+    }, (error: HttpErrorResponse) => {
+      this.presentToast(error.error.message);
+    });
+  }
+
+  fetchSingleStory(file_id) {
+    this.storyProvider.getSinglePost(file_id).subscribe(response => {
+
+      this.stories = [];
+      this.stories.push(response);
+
+      //add username to story
       this.stories.map(story => {
-        this.favouriteProvider.getFavById(story.file_id).subscribe(response => {
-          story.likesCount = response.length;
-          story.likedByUser = false;
-          if(response.length !== 0) {
-            response.forEach(like => {
-              if (like.user_id == this.currentUser_id) story.likedByUser = true;
-            });
-          }
+        this.userProvider.getUserDataById(story.user_id).subscribe(response => {
+          story.username = response.username;
         });
       });
 
+      //add number of like to each story and indicate if it's been liked by user
+      this.attachLikeCount(this.stories);
+
       //add comment counts to story
-      this.stories.map(story => {
-        this.commentProvider.getCommentByPostId(story.file_id).subscribe(response => {
-          story.commentCount = response.length;
-        });
-      });
+      this.attachCommentCount(this.stories);
+
     }, (error: HttpErrorResponse) => {
       this.presentToast(error.error.message);
     });
