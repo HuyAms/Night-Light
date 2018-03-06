@@ -34,6 +34,7 @@ export class ProfilePage {
   numStories: number;
 
   constructor(public navCtrl: NavController,
+              public viewCtrl: ViewController,
               public navParams: NavParams,
               private userProvider: UserService,
               private storyProvider: StoryService,
@@ -131,5 +132,9 @@ export class ProfilePage {
 
   onEditProfile() {
     console.log('Edit Profile Clicked')
+  }
+
+  onDismiss() {
+    this.viewCtrl.dismiss();
   }
 }
