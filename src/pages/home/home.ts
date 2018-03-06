@@ -13,6 +13,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {UserService} from '../../providers/user.service';
 import {Favourite} from "../../model/Favourite";
 import {CommentService} from "../../providers/comment.service";
+import {ProfilePage} from "../profile/profile";
 
 
 @IonicPage()
@@ -76,7 +77,7 @@ export class HomePage {
       return;
     }
     this.speaking = true;
-    this.textToSpeech.speak({text:  `Title: ${title}, Story: ${text}`, locale: 'en-US', rate: 1.5})
+    this.textToSpeech.speak({text: `Title: ${title}, Story: ${text}`, locale: 'en-US', rate: 1.5})
       .then((val) => {
           this.speaking = false;
         },
@@ -100,7 +101,7 @@ export class HomePage {
     })
   }
 
-  onClickLike(file_id, index){
+  onClickLike(file_id, index) {
     if (!this.stories[index].likedByUser) {
       this.like(file_id, index);
     } else this.unlike(file_id, index);
@@ -118,7 +119,7 @@ export class HomePage {
     });
   }
 
-  unlike(file_id, index){
+  unlike(file_id, index) {
     this.favouriteProvider.deleteFav(file_id).subscribe(response => {
       console.log(response);
       this.refreshLike(file_id, index);
@@ -161,7 +162,7 @@ export class HomePage {
         this.favouriteProvider.getFavById(story.file_id).subscribe(response => {
           story.likesCount = response.length;
           story.likedByUser = false;
-          if(response.length !== 0) {
+          if (response.length !== 0) {
             response.forEach(like => {
               if (like.user_id == this.currentUser_id) story.likedByUser = true;
             });
@@ -180,6 +181,17 @@ export class HomePage {
     });
   }
 
+  onGoToProfile(userId) {
+    this.onPresentProfileModal(userId);
+  }
+
+  onPresentProfileModal(userId) {
+    let profileModal = this.modalCtrl.create(ProfilePage, {user_id: userId});
+    profileModal.present();
+    profileModal.onDidDismiss(() => {
+      this.onRefresh();
+    })
+  }
 
   presentToast(mess: string) {
     let toast = this.toastCtrl.create({

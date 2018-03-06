@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {
-  ActionSheetController, IonicPage, NavParams, ToastController,
+  ActionSheetController, IonicPage, ModalController, NavParams, ToastController,
   ViewController,
 } from 'ionic-angular';
 import {CommentService} from "../../providers/comment.service";
@@ -8,6 +8,7 @@ import {Comment} from "../../model/comment";
 import {HttpErrorResponse} from "@angular/common/http";
 import {UserService} from "../../providers/user.service";
 import {User} from "../../model/user";
+import {ProfilePage} from "../profile/profile";
 
 @IonicPage()
 @Component({
@@ -23,6 +24,7 @@ export class CommentsPage {
 
   constructor(public viewCtrl: ViewController,
               public navParams: NavParams,
+              public modalCtrl: ModalController,
               private commentService: CommentService,
               private userService: UserService,
               private actionSheetCtrl: ActionSheetController,
@@ -51,16 +53,6 @@ export class CommentsPage {
         this.presentToast(error.error.message);
       }
     );
-  }
-
-  fetchUserInfo(userId) {
-    this.userService.getUserDataById(userId).subscribe(
-      response => {
-        this.user = response;
-      }, (error: HttpErrorResponse) => {
-        this.presentToast(error.error.message);
-      }
-    )
   }
 
   postComment() {
@@ -122,4 +114,15 @@ export class CommentsPage {
     toast.present();
   }
 
+  onGoToProfile(userId) {
+    this.onPresentProfileModal(userId);
+  }
+
+  onPresentProfileModal(userId) {
+    let profileModal = this.modalCtrl.create(ProfilePage, {user_id: userId});
+    profileModal.present();
+    profileModal.onDidDismiss(() => {
+      this.fetchComments();
+    })
+  }
 }

@@ -1,14 +1,14 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {
   IonicPage, NavController, NavParams,
-  ToastController,
+  ToastController, ViewController,
 } from 'ionic-angular';
 import {UserService} from '../../providers/user.service';
 import {User} from '../../model/user';
 import {Story} from '../../model/story';
 import {HttpErrorResponse} from '@angular/common/http';
 import {StoryService} from '../../providers/story.service';
-import { EmailComposer } from '@ionic-native/email-composer';
+import {EmailComposer} from '@ionic-native/email-composer';
 
 @IonicPage()
 @Component({
@@ -17,15 +17,10 @@ import { EmailComposer } from '@ionic-native/email-composer';
 })
 export class ProfilePage {
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private userProvider: UserService,
-              private storyProvider: StoryService,
-              private toastCtrl: ToastController,
-              private emailComposer: EmailComposer) {
-  }
+  user_id: string;
+  isMe: boolean;
 
-  curUser: User ={
+  curUser: User = {
     username: '',
     password: '',
     email: '',
@@ -34,16 +29,33 @@ export class ProfilePage {
 
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
-  myStories: Story[];
-  myStoriesNum: number;
+  stories: Story[];
+  numStories: number;
 
-  ionViewDidLoad() {
-    this.getUserData();
-    this.getUserStories();
+  constructor(public navCtrl: NavController,
+              public viewCtrl: ViewController,
+              public navParams: NavParams,
+              private userProvider: UserService,
+              private storyProvider: StoryService,
+              private toastCtrl: ToastController,
+              private emailComposer: EmailComposer) {
+    this.user_id = navParams.get('user_id');
   }
 
-  getUserData() {
-    this.userProvider.getUserData().subscribe(response =>{
+  ionViewDidLoad() {
+    if (this.user_id) {
+      this.getUserInfo(this.user_id);
+      this.getUserStories(this.user_id);
+      this.isMe = false;
+    } else {
+      this.getMe();
+      this.getMyStories();
+      this.isMe = true;
+    }
+  }
+
+  getUserInfo(user_id) {
+    this.userProvider.getUserDataById(user_id).subscribe(response => {
       this.curUser.username = response['username'];
       this.curUser.email = response['email'];
       this.curUser.full_name = response['full_name'];
@@ -53,12 +65,34 @@ export class ProfilePage {
     });
   }
 
-  getUserStories() {
+  getUserStories(user_id) {
+    this.storyProvider.getPostByUserId(user_id).subscribe(response => {
+      this.stories = response;
+      this.numStories = this.stories.length;
+      console.log(this.stories);
+    }, (error: HttpErrorResponse) => {
+      console.log(error.error.message);
+      this.presentToast(error.error.message);
+    });
+  }
+
+  getMe() {
+    this.userProvider.getUserData().subscribe(response => {
+      this.curUser.username = response['username'];
+      this.curUser.email = response['email'];
+      this.curUser.full_name = response['full_name'];
+    }, (error: HttpErrorResponse) => {
+      console.log(error.error.message);
+      this.presentToast(error.error.message);
+    });
+  }
+
+  getMyStories() {
     this.storyProvider.getPostByCurUser().subscribe(response => {
-      this.myStories = response;
-      this.myStoriesNum = this.myStories.length;
-      console.log(this.myStories);
-    },(error: HttpErrorResponse)=> {
+      this.stories = response;
+      this.numStories = this.stories.length;
+      console.log(this.stories);
+    }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
       this.presentToast(error.error.message);
     });
@@ -75,8 +109,8 @@ export class ProfilePage {
   }
 
   onSendEmail() {
-    this.emailComposer.isAvailable().then((available: boolean) =>{
-      if(available) {
+    this.emailComposer.isAvailable().then((available: boolean) => {
+      if (available) {
         let email = {
           to: this.curUser.email,
           subject: 'Greeting',
@@ -87,5 +121,13 @@ export class ProfilePage {
         //Email app not available
       }
     }).catch(e => console.log(e));
+  }
+
+  onEditProfile() {
+    console.log('Edit Profile Clicked')
+  }
+
+  onDismiss() {
+    this.viewCtrl.dismiss();
   }
 }
