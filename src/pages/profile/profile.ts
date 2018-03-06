@@ -34,7 +34,6 @@ export class ProfilePage {
   numStories: number;
 
   constructor(public navCtrl: NavController,
-              public viewCtrl: ViewController,
               public navParams: NavParams,
               private userProvider: UserService,
               private storyProvider: StoryService,
@@ -129,11 +128,8 @@ export class ProfilePage {
     let commentModal = this.modalCtrl.create(HomePage, {file_id: file_id, mode: 'singlePost'});
     commentModal.present();
   }
+
   onEditProfile() {
     console.log('Edit Profile Clicked')
-  }
-
-  onDismiss() {
-    this.viewCtrl.dismiss();
   }
 }

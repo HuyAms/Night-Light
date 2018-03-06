@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {
   IonicPage, ModalController, NavController, NavParams, Slides,
-  ToastController,
+  ToastController, ViewController,
 } from 'ionic-angular';
 import {TextToSpeech} from '@ionic-native/text-to-speech';
 import {SocialSharing} from '@ionic-native/social-sharing';
@@ -39,6 +39,7 @@ export class HomePage {
               private socialSharing: SocialSharing,
               private storyProvider: StoryService,
               public navCtrl: NavController,
+              public viewCtrl: ViewController,
               public navParams: NavParams,
               public modalCtrl: ModalController,
               private favouriteProvider: FavouriteService,
@@ -251,5 +252,9 @@ export class HomePage {
     });
 
     toast.present();
+  }
+
+  onDismiss() {
+    this.viewCtrl.dismiss();
   }
 }
