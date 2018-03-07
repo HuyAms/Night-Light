@@ -13,6 +13,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {UserService} from '../../providers/user.service';
 import {CommentService} from "../../providers/comment.service";
 import {ProfilePage} from "../profile/profile";
+import {SettingsService} from "../../providers/settings.service";
 
 
 @IonicPage()
@@ -39,20 +40,25 @@ export class HomePage {
 
   constructor(private textToSpeech: TextToSpeech,
               private socialSharing: SocialSharing,
-              private storyProvider: StoryService,
+              private storyService: StoryService,
               public navCtrl: NavController,
               public viewCtrl: ViewController,
               public navParams: NavParams,
               public modalCtrl: ModalController,
-              private favouriteProvider: FavouriteService,
-              private userProvider: UserService,
+              private favoriteService: FavouriteService,
+              private userService: UserService,
               private toastCtrl: ToastController,
-              private commentProvider: CommentService) {
+              private commentService: CommentService,
+              private settingsService: SettingsService) {
     this.mode = navParams.get('mode');
     this.singleStory_id = navParams.get('file_id');
     if (this.mode) {
       this.calledFromProfile = true;
     }
+  }
+
+  enableSound() {
+    return this.settingsService.hasSound();
   }
 
   onSegmentChange(event) {
@@ -127,7 +133,7 @@ export class HomePage {
   }
 
   like(file_id, index) {
-    this.favouriteProvider.postFav(file_id).subscribe(response => {
+    this.favoriteService.postFav(file_id).subscribe(response => {
       console.log(response);
       this.refreshLike(file_id, index);
     }, (error: HttpErrorResponse) => {
@@ -136,7 +142,7 @@ export class HomePage {
   }
 
   unlike(file_id, index) {
-    this.favouriteProvider.deleteFav(file_id).subscribe(response => {
+    this.favoriteService.deleteFav(file_id).subscribe(response => {
       console.log(response);
       this.refreshLike(file_id, index);
     }, (error: HttpErrorResponse) => {
@@ -145,14 +151,14 @@ export class HomePage {
   }
 
   refreshLike(file_id, index) {
-    this.favouriteProvider.getFavById(file_id).subscribe(response => {
+    this.favoriteService.getFavById(file_id).subscribe(response => {
       this.stories[index].likesCount = response.length;
       console.log("new like count: " + this.stories[index].likesCount);
     });
   }
 
   refreshComment(file_id, index) {
-    this.commentProvider.getCommentByPostId(file_id).subscribe(response => {
+    this.commentService.getCommentByPostId(file_id).subscribe(response => {
       this.stories[index].commentCount = response.length;
       console.log("new comment count: " + this.stories[index].commentCount);
     });
@@ -160,7 +166,7 @@ export class HomePage {
 
   attachLikeCount(stories) {
     stories.map(story => {
-      this.favouriteProvider.getFavById(story.file_id).subscribe(response => {
+      this.favoriteService.getFavById(story.file_id).subscribe(response => {
         story.likesCount = response.length;
         story.likedByUser = false;
         if (response.length !== 0) {
@@ -174,7 +180,7 @@ export class HomePage {
 
   attachCommentCount(stories) {
     stories.map(story => {
-      this.commentProvider.getCommentByPostId(story.file_id).subscribe(response => {
+      this.commentService.getCommentByPostId(story.file_id).subscribe(response => {
         story.commentCount = response.length;
       });
     });
@@ -193,12 +199,12 @@ export class HomePage {
   }
 
   fetchStories() {
-    this.storyProvider.getAllPost().subscribe(response => {
+    this.storyService.getAllPost().subscribe(response => {
       this.stories = response;
 
       //add username to story
       this.stories.map(story => {
-        this.userProvider.getUserDataById(story.user_id).subscribe(response => {
+        this.userService.getUserDataById(story.user_id).subscribe(response => {
           story.username = response.username;
         });
       });
@@ -225,14 +231,14 @@ export class HomePage {
   }
 
   fetchSingleStory(file_id) {
-    this.storyProvider.getSinglePost(file_id).subscribe(response => {
+    this.storyService.getSinglePost(file_id).subscribe(response => {
 
       this.stories = [];
       this.stories.push(response);
 
       //add username to story
       this.stories.map(story => {
-        this.userProvider.getUserDataById(story.user_id).subscribe(response => {
+        this.userService.getUserDataById(story.user_id).subscribe(response => {
           story.username = response.username;
         });
       });

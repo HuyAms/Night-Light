@@ -33,7 +33,7 @@
   <ion-slides loop="true" no-padding no-margin>
     <ion-slide *ngFor="let story of stories; let i = index">
       <ion-card>
-        <ion-row center align-items-center >
+        <ion-row center align-items-center>
           <ion-col col-9 no-padding>
             <ion-item (click)="onGoToProfile(story.user_id)">
               <ion-avatar item-start>
@@ -43,7 +43,7 @@
               <h2>{{story.username}}</h2>
             </ion-item>
           </ion-col>
-          <ion-col col-3 no-padding>
+          <ion-col col-3 no-padding *ngIf="enableSound()">
             <button *ngIf="!speaking" ion-button icon-only clear large
                     (click)="onTextSpeech(story.title, story.description)">
               <ion-icon name="volume-up"></ion-icon>
