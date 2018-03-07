@@ -24,6 +24,7 @@ import {FavouriteService} from '../providers/favourite.service';
 import {ShortenPipe} from "../shared/shorten.pipe";
 import { EmailComposer } from '@ionic-native/email-composer';
 import {SettingsPage} from "../pages/settings/settings";
+import {SettingsService} from "../providers/settings.service";
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import {SettingsPage} from "../pages/settings/settings";
     SocialSharing,
     CommentService,
     FavouriteService,
-    EmailComposer
+    EmailComposer,
+    SettingsService
   ]
 })
 export class AppModule {}

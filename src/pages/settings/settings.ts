@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, Toggle} from 'ionic-angular';
 import {SigninPage} from "../signin/signin";
+import {SettingsService} from "../../providers/settings.service";
 
 @IonicPage()
 @Component({
@@ -9,7 +10,9 @@ import {SigninPage} from "../signin/signin";
 })
 export class SettingsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private settingsService: SettingsService) {
   }
 
   ionViewDidLoad() {
@@ -21,5 +24,21 @@ export class SettingsPage {
     this.navCtrl.setRoot(SigninPage);
     this.navCtrl.popToRoot();
   }
+
+  // onContactMeToggle(toggle: Toggle) {
+  //   this.settingsService.setContactMe(toggle.checked);
+  // }
+  //
+  // onSoundToggle(toggle: Toggle) {
+  //   this.settingsService.setSound(toggle.checked);
+  // }
+  //
+  // checkContactMe() {
+  //   return this.settingsService.allowContactMe();
+  // }
+  //
+  // checkSound() {
+  //   return this.settingsService.hasSound();
+  // }
 
 }
