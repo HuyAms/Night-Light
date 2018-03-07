@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {IonicPage, ModalController, NavController, NavParams, Toggle, ViewController} from 'ionic-angular';
+import {Component} from '@angular/core';
+import {App, IonicPage, ModalController, NavController, NavParams, Toggle, ViewController} from 'ionic-angular';
 import {SigninPage} from "../signin/signin";
 import {SettingsService} from "../../providers/settings.service";
 import {EditProfilePage} from "../edit-profile/edit-profile";
@@ -15,7 +15,8 @@ export class SettingsPage {
               public navParams: NavParams,
               public viewCtrl: ViewController,
               private settingsService: SettingsService,
-              private modalCtrl: ModalController) {
+              private modalCtrl: ModalController,
+              private app: App) {
   }
 
   ionViewDidLoad() {
@@ -24,8 +25,7 @@ export class SettingsPage {
 
   onLogOut() {
     localStorage.clear();
-    this.navCtrl.setRoot(SigninPage);
-    this.navCtrl.popToRoot();
+    this.app.getRootNav().setRoot(SigninPage);
   }
 
   onAltThemeToggle(toggle: Toggle) {
