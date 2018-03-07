@@ -24,8 +24,11 @@ import {FavouriteService} from '../providers/favourite.service';
 import {ShortenPipe} from "../shared/shorten.pipe";
 import { EmailComposer } from '@ionic-native/email-composer';
 import {SettingsPage} from "../pages/settings/settings";
+<<<<<<< HEAD
 import {SettingsService} from "../providers/settings.service";
+=======
 import {EditProfilePage} from "../pages/edit-profile/edit-profile";
+>>>>>>> 47ebbda2e41a502f6613da00b7b85155a11dad5f
 
 
 @NgModule({

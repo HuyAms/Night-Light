@@ -60,7 +60,8 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-tts": {},
       "cordova-plugin-x-socialsharing": {},
-      "cordova-plugin-email-composer": {}
+      "cordova-plugin-email-composer": {},
+      "cordova-plugin-camera": {}
     },
     "platforms": [
       "android"

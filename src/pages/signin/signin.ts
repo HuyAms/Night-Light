@@ -111,7 +111,7 @@ export class SigninPage{
   }
 
   saveUserData(){
-    this.userProvider.getUserData().subscribe(response =>{
+    this.userProvider.getCurrentUserData().subscribe(response =>{
       console.log(response);
 
       //save user id

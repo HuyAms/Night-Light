@@ -12,6 +12,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
 import {HomePage} from "../home/home";
 import {SettingsPageModule} from "../settings/settings.module";
 import {SettingsPage} from "../settings/settings";
+import {EditProfilePage} from "../edit-profile/edit-profile";
 
 
 @IonicPage()
@@ -81,7 +82,7 @@ export class ProfilePage {
   }
 
   getMe() {
-    this.userProvider.getUserData().subscribe(response => {
+    this.userProvider.getCurrentUserData().subscribe(response => {
       this.curUser.username = response['username'];
       this.curUser.email = response['email'];
       this.curUser.full_name = response['full_name'];
@@ -133,7 +134,7 @@ export class ProfilePage {
   }
 
   onEditProfile() {
-    console.log('Edit Profile Clicked')
+    this.navCtrl.push(EditProfilePage);
   }
 
   onDismiss() {

@@ -1,0 +1,101 @@
+<!--
+  Generated template for the EditProfilePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Edit profile</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-row align-items-center>
+    <ion-col>
+      <img class="camera" src="assets/imgs/camera_placeholder.png" *ngIf="!img"/>
+      <img class="camera" src={{img}} *ngIf="img"/>
+    </ion-col>
+  </ion-row>
+  <ion-item>
+    <input type="file" name="file" (change)="setFile($event)">
+  </ion-item>
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <ion-list>
+      <ion-item>
+        <ion-label color="primary" floating>Full name</ion-label>
+        <ion-input
+          type="text"
+          name="fullname"
+          [ngModel]="user.full_name"
+          required
+          disabled
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Username</ion-label>
+        <ion-input
+          type="text"
+          name="username"
+          [ngModel]="user.username"
+          required
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>New Password</ion-label>
+        <ion-input
+          type="password"
+          name="password"
+          [ngModel]="user.password"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Re-confirm new password</ion-label>
+        <ion-input
+          type="password"
+          name="rePassword"
+          ngModel
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" floating>Email</ion-label>
+        <ion-input
+          type="email"
+          name="email"
+          [ngModel]="user.email"
+          required
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>
+          About me
+        </ion-label>
+        <ion-textarea
+          name="aboutme"
+          ngModel
+          autoresize
+        ></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <button
+              ion-button
+              block
+              outline
+              type="submit"
+              [disabled]="!f.valid"
+            >
+              Save changes
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+  </form>
+</ion-content>
