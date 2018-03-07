@@ -134,7 +134,12 @@ export class ProfilePage {
   }
 
   onEditProfile() {
-    this.navCtrl.push(EditProfilePage);
+    let editProfileModal = this.modalCtrl.create(EditProfilePage)
+    editProfileModal.present();
+    editProfileModal.onDidDismiss(() => {
+      this.getMe();
+      this.getMyStories();
+    })
   }
 
   onDismiss() {

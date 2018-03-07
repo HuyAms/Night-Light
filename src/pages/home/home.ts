@@ -272,7 +272,7 @@ export class HomePage {
     profileModal.present();
     profileModal.onDidDismiss(() => {
       this.onRefresh();
-    })
+    });
   }
 
   presentToast(mess: string) {

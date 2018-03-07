@@ -1,20 +1,12 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {User} from "../../model/user";
 import {UserService} from "../../providers/user.service";
 import {NgForm} from "@angular/forms";
-import {HomePage} from "../home/home";
 import {HttpErrorResponse} from "@angular/common/http";
 import {PostTag} from "../../model/postTag";
 import {StoryService} from "../../providers/story.service";
 import {ProfilePage} from "../profile/profile";
-
-/**
- * Generated class for the EditProfilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
