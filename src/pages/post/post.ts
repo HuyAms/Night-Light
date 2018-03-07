@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {
-  IonicPage, ModalController, NavController, NavParams,
+  ActionSheetController,
+  IonicPage, LoadingController, ModalController, NavController, NavParams, Platform,
   ToastController,
 } from 'ionic-angular';
 import {NgForm} from "@angular/forms";
@@ -11,6 +12,7 @@ import {HomePage} from '../home/home';
 import {Story} from "../../model/story";
 import {FavouriteService} from "../../providers/favourite.service";
 import {CommentsPage} from "../comments/comments";
+import {CameraService} from "../../providers/camera.service";
 
 
 @IonicPage()
@@ -20,15 +22,8 @@ import {CommentsPage} from "../comments/comments";
 })
 export class PostPage {
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              private storyProvider: StoryService,
-              private toastCtrl: ToastController){
-  }
-
-  file: File;
-  inputFileEmpty: boolean = true;
   img: any;
+  imgPlaceHolder: string = 'assets/imgs/camera_placeholder.png';
 
   //Tag values to post tag to image
   postTag: PostTag = {
@@ -36,47 +31,42 @@ export class PostPage {
     tag: 'nightlight'
   }
 
-  setFile(evt){
-    console.log(evt.target.files[0]);
+  constructor(public navCtrl: NavController,
+              public actionsheetCtrl: ActionSheetController,
+              private storyProvider: StoryService,
+              private toastCtrl: ToastController,
+              public platform: Platform,
+              public loadingCtrl: LoadingController,
+              public cameraService: CameraService) {
+  }
 
-    let reader = new FileReader();
-
-    reader.onload = (event:any) => {
-      this.img = event.target.result;
-    }
-    reader.readAsDataURL(evt.target.files[0]);
-
-    this.file = evt.target.files[0];
-    this.inputFileEmpty = false;
+  ionViewWillLoad() {
   }
 
   onSubmit(form: NgForm) {
-    if(!this.inputFileEmpty) {
-      console.log(form.value);
-
-      //store file and info in formData
-      const formData = new FormData();
-      formData.append('title', form.value.title);
-      formData.append('description', form.value.description);
-      formData.append('file', this.file);
-
-      //POST to server
-      this.storyProvider.upload(formData).subscribe(response => {
-        console.log(response);
-        //Get file_id from response and pass it to tagFile()
-        this.postTag.file_id = response['file_id'];
-        console.log(response['file_id']);
-        this.tagFile();
-        this.navCtrl.setRoot(HomePage);
-      }, (error: HttpErrorResponse) => {
-        console.log(error.error.message);
-        this.presentToast("Unable to post. Please check again");
-        form.reset();
-      })
-    } else this.presentToast("Please attach a picture!")
+    // //store file and info in formData
+    // const formData = new FormData();
+    // formData.append('title', form.value.title);
+    // formData.append('description', form.value.description);
+    // formData.append('file', this.file);
+    //
+    // //POST to server
+    // this.storyProvider.upload(formData).subscribe(response => {
+    //   console.log(response);
+    //   //Get file_id from response and pass it to tagFile()
+    //   this.postTag.file_id = response['file_id'];
+    //   console.log(response['file_id']);
+    //   this.tagFile();
+    //   this.navCtrl.setRoot(HomePage);
+    // }, (error: HttpErrorResponse) => {
+    //   console.log(error.error.message);
+    //   this.presentToast("Unable to post. Please check again");
+    //   form.reset();
+    // })
   }
+
   //post tag
-  tagFile(){
+  tagFile() {
     this.storyProvider.postTag(this.postTag).subscribe(response => {
       console.log(response);
     }, (error: HttpErrorResponse) => {
@@ -96,4 +86,74 @@ export class PostPage {
     toast.present();
   }
 
+  onOpenCamera() {
+    const actionsheet = this.actionsheetCtrl.create({
+      title: 'Choose image',
+      buttons: [
+        {
+          text: 'camera',
+          icon: !this.platform.is('ios') ? 'camera' : null,
+          handler: () => {
+            this.takePicture();
+          }
+        },
+        {
+          text: !this.platform.is('ios') ? 'gallery' : 'camera roll',
+          icon: !this.platform.is('ios') ? 'image' : null,
+          handler: () => {
+            this.getPicture();
+          }
+        },
+        {
+          text: 'cancel',
+          icon: !this.platform.is('ios') ? 'close' : null,
+          role: 'destructive',
+          handler: () => {
+            console.log('the user has cancelled the interaction.');
+          }
+        }
+      ]
+    });
+    return actionsheet.present();
+  }
+
+  takePicture() {
+    const loading = this.loadingCtrl.create();
+
+    loading.present();
+    return this.cameraService.getPictureFromCamera().then(picture => {
+      if (picture) {
+        this.img = picture;
+      }
+      loading.dismiss();
+    }, error => {
+      alert(error);
+    });
+  }
+
+  getPicture() {
+    const loading = this.loadingCtrl.create();
+
+    loading.present();
+    return this.cameraService.getPictureFromPhotoLibrary().then(picture => {
+      if (picture) {
+        this.img = picture;
+      }
+      loading.dismiss();
+    }, error => {
+      alert(error);
+    });
+  }
+
+  getPreviewImage() {
+    console.log(this.img);
+    if (this.img) {
+      console.log('imgae');
+      return this.img;
+    } else {
+      console.log('imgPlaceHolder');
+
+      return this.imgPlaceHolder;
+    }
+  }
 }
