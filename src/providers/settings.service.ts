@@ -1,6 +1,6 @@
 export class SettingsService {
-  private sound: boolean = false;
-  private altBackground : boolean = false;
+  private sound: boolean = true; //default
+  private altBackground : boolean = false; //default
 
   setSound(hasSound: boolean) {
     this.sound = hasSound;
@@ -15,6 +15,6 @@ export class SettingsService {
   }
 
   isAltTheme() {
-    return this.isAltTheme;
+    return this.altBackground;
   }
 }
