@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, Toggle} from 'ionic-angular';
+import {IonicPage, ModalController, NavController, NavParams, Toggle, ViewController} from 'ionic-angular';
 import {SigninPage} from "../signin/signin";
 import {SettingsService} from "../../providers/settings.service";
+import {EditProfilePage} from "../edit-profile/edit-profile";
 
 @IonicPage()
 @Component({
@@ -12,7 +13,9 @@ export class SettingsPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private settingsService: SettingsService) {
+              public viewCtrl: ViewController,
+              private settingsService: SettingsService,
+              private modalCtrl: ModalController) {
   }
 
   ionViewDidLoad() {
@@ -39,6 +42,11 @@ export class SettingsPage {
 
   checkSound() {
     return this.settingsService.hasSound();
+  }
+
+  onPresentEditProfileModal() {
+    let editProfileModal = this.modalCtrl.create(EditProfilePage)
+    editProfileModal.present();
   }
 
 }

@@ -39,8 +39,8 @@ export class ProfilePage {
   constructor(public navCtrl: NavController,
               public viewCtrl: ViewController,
               public navParams: NavParams,
-              private userProvider: UserService,
-              private storyProvider: StoryService,
+              private userService: UserService,
+              private storyService: StoryService,
               private toastCtrl: ToastController,
               private emailComposer: EmailComposer,
               private modalCtrl: ModalController) {
@@ -60,7 +60,7 @@ export class ProfilePage {
   }
 
   getUserInfo(user_id) {
-    this.userProvider.getUserDataById(user_id).subscribe(response => {
+    this.userService.getUserDataById(user_id).subscribe(response => {
       this.curUser.username = response['username'];
       this.curUser.email = response['email'];
       this.curUser.full_name = response['full_name'];
@@ -71,7 +71,7 @@ export class ProfilePage {
   }
 
   getUserStories(user_id) {
-    this.storyProvider.getPostByUserId(user_id).subscribe(response => {
+    this.storyService.getPostByUserId(user_id).subscribe(response => {
       this.stories = response;
       this.numStories = this.stories.length;
       console.log(this.stories);
@@ -82,7 +82,7 @@ export class ProfilePage {
   }
 
   getMe() {
-    this.userProvider.getCurrentUserData().subscribe(response => {
+    this.userService.getCurrentUserData().subscribe(response => {
       this.curUser.username = response['username'];
       this.curUser.email = response['email'];
       this.curUser.full_name = response['full_name'];
@@ -93,7 +93,7 @@ export class ProfilePage {
   }
 
   getMyStories() {
-    this.storyProvider.getPostByCurUser().subscribe(response => {
+    this.storyService.getPostByCurUser().subscribe(response => {
       this.stories = response;
       this.numStories = this.stories.length;
       console.log(this.stories);
@@ -133,7 +133,7 @@ export class ProfilePage {
     commentModal.present();
   }
 
-  onEditProfile() {
+  onPresentEditProfileModal() {
     let editProfileModal = this.modalCtrl.create(EditProfilePage)
     editProfileModal.present();
     editProfileModal.onDidDismiss(() => {

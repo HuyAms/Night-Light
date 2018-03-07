@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ToastController, ViewController} from 'ionic-angular';
 import {User} from "../../model/user";
 import {UserService} from "../../providers/user.service";
 import {NgForm} from "@angular/forms";
@@ -34,6 +34,7 @@ export class EditProfilePage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              private viewCtrl: ViewController,
               public toastCtrl: ToastController,
               private userProvider: UserService,
               private storyProvider: StoryService) {
@@ -169,6 +170,10 @@ export class EditProfilePage {
     });
 
     toast.present();
+  }
+
+  onDismiss() {
+    this.viewCtrl.dismiss();
   }
 
 }
