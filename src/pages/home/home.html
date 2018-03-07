@@ -44,11 +44,11 @@
             </ion-item>
           </ion-col>
           <ion-col col-3 no-padding *ngIf="enableSound()">
-            <button *ngIf="!speaking" ion-button icon-only clear large
+            <button *ngIf="!speaking" ion-button icon-only clear
                     (click)="onTextSpeech(story.title, story.description)">
               <ion-icon name="volume-up"></ion-icon>
             </button>
-            <button *ngIf="speaking" ion-button icon-only clear large
+            <button *ngIf="speaking" ion-button icon-only clear
                     (click)="onTextSpeech('')">
               <ion-icon name="volume-off"></ion-icon>
             </button>
