@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, ToastController} from 'ionic-angular';
+import {IonicPage, LoadingController, NavController, ToastController} from 'ionic-angular';
 import {NgForm} from "@angular/forms";
 import {TabsPage} from "../tabs/tabs";
 import {AuthService} from '../../providers/auth.service';
@@ -24,7 +24,8 @@ export class SigninPage{
   constructor(private navCtrl: NavController,
               private authProvider: AuthService,
               private toastCtrl: ToastController,
-              private userProvider: UserService) {
+              private userProvider: UserService,
+              private loadingCtrl: LoadingController) {
   }
 
   onSubmit(form: NgForm) {
@@ -66,18 +67,25 @@ export class SigninPage{
   }
 
   initSignin(){
-    this.authProvider.login(this.user).subscribe(response => {
-      console.log(response['token']);
+    const loading = this.loadingCtrl.create({
+      content: 'Sign you in ...'
+    });
+    loading.present();
 
+    this.authProvider.login(this.user).subscribe(response => {
       //Save token
       localStorage.setItem('token', response['token']);
 
       this.saveUserData();
 
+      loading.dismiss();
+
       //Set Root
       this.navCtrl.setRoot(TabsPage);
 
     }, (error: HttpErrorResponse) => {
+      loading.dismiss();
+
       console.log(error.error.message);
 
       this.presentToast(error.error.message)
@@ -85,8 +93,12 @@ export class SigninPage{
   }
 
   initSignup(){
+    const loading = this.loadingCtrl.create({
+      content: 'Sign you up ...'
+    });
+    loading.present();
+
     this.authProvider.register(this.user).subscribe(response => {
-      console.log(response);
 
       //Navigate to sign in
       this.isSignup = false;
@@ -96,8 +108,10 @@ export class SigninPage{
 
       this.saveUserData();
 
+      loading.dismiss();
+
     }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
+      loading.dismiss();
       this.presentToast(error.error.message)
     });
   }
