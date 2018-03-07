@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, LoadingController, NavController, ToastController} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, ToastController} from 'ionic-angular';
 import {NgForm} from "@angular/forms";
 import {TabsPage} from "../tabs/tabs";
 import {AuthService} from '../../providers/auth.service';
@@ -23,8 +23,9 @@ export class SigninPage{
 
   constructor(private navCtrl: NavController,
               private authProvider: AuthService,
-              private toastCtrl: ToastController,
+              private alertCtrl: AlertController,
               private userProvider: UserService,
+              private toastCtrl: ToastController,
               private loadingCtrl: LoadingController) {
   }
 
@@ -56,14 +57,22 @@ export class SigninPage{
     }
   }
 
-  presentToast(mess: string) {
-    let toast = this.toastCtrl.create({
+  presentSignInAlert(mess: string) {
+    const alert = this.alertCtrl.create({
+      title: 'Signin failed',
       message: mess,
-      duration: 1500,
-      position: 'bottom'
+      buttons: ['Ok']
     });
+    alert.present();
+  }
 
-    toast.present();
+  presentSignUpAlert(mess: string) {
+    const alert = this.alertCtrl.create({
+      title: 'Signup failed',
+      message: mess,
+      buttons: ['Ok']
+    });
+    alert.present();
   }
 
   initSignin(){
@@ -88,7 +97,7 @@ export class SigninPage{
 
       console.log(error.error.message);
 
-      this.presentToast(error.error.message)
+      this.presentSignInAlert(error.error.message)
     });
   }
 
@@ -112,8 +121,18 @@ export class SigninPage{
 
     }, (error: HttpErrorResponse) => {
       loading.dismiss();
-      this.presentToast(error.error.message)
+      this.presentSignUpAlert(error.error.message)
     });
+  }
+
+  presentToast(mess) {
+    let toast = this.toastCtrl.create({
+      message: mess,
+      duration: 3000,
+      position: 'top'
+    });
+
+    toast.present();
   }
 
   goToSignup() {
