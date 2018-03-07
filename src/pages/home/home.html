@@ -30,7 +30,7 @@
 
 <ion-content style="background-color: #ededed" padding>
 
-  <ion-slides loop="true" no-padding no-margin>
+  <ion-slides [loop]="!calledFromProfile" no-padding no-margin>
     <ion-slide *ngFor="let story of stories; let i = index">
       <ion-card>
         <ion-row center align-items-center>
