@@ -26,6 +26,7 @@ import { EmailComposer } from '@ionic-native/email-composer';
 import {SettingsPage} from "../pages/settings/settings";
 import {SettingsService} from "../providers/settings.service";
 import {EditProfilePage} from "../pages/edit-profile/edit-profile";
+import {AboutusPage} from "../pages/aboutus/aboutus";
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {EditProfilePage} from "../pages/edit-profile/edit-profile";
     CommentsPage,
     ShortenPipe,
     SettingsPage,
-    EditProfilePage
+    EditProfilePage,
+    AboutusPage
   ],
   imports: [
     BrowserModule,
@@ -57,7 +59,8 @@ import {EditProfilePage} from "../pages/edit-profile/edit-profile";
     PostPage,
     CommentsPage,
     SettingsPage,
-    EditProfilePage
+    EditProfilePage,
+    AboutusPage
   ],
   providers: [
     StatusBar,

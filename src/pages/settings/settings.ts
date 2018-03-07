@@ -3,6 +3,7 @@ import {App, IonicPage, ModalController, NavController, NavParams, Toggle, ViewC
 import {SigninPage} from "../signin/signin";
 import {SettingsService} from "../../providers/settings.service";
 import {EditProfilePage} from "../edit-profile/edit-profile";
+import {AboutusPage} from "../aboutus/aboutus";
 
 @IonicPage()
 @Component({
@@ -45,8 +46,13 @@ export class SettingsPage {
   }
 
   onPresentEditProfileModal() {
-    let editProfileModal = this.modalCtrl.create(EditProfilePage)
+    let editProfileModal = this.modalCtrl.create(EditProfilePage);
     editProfileModal.present();
+  }
+
+  onPresentAboutUsModal() {
+    let aboutUsModal = this.modalCtrl.create(AboutusPage);
+    aboutUsModal.present();
   }
 
 }
