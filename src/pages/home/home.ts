@@ -64,12 +64,10 @@ export class HomePage {
   handleTabsChange() {
     this.likeDoneSubject.subscribe(
       (data) => {
+        this.slides.slideTo(0, 0);
         if (this.curTab === 'hot') {
-          this.stories.sort(this.compareStoriesByLike)
+          this.stories.sort(this.compareStoriesByLike);
           this.slides.update();
-          this.stories.forEach(
-            (story) => console.log(story.likesCount)
-          )
         }
         else if (this.curTab === 'discover') {
           this.stories = this.shuffle(this.stories);
@@ -91,7 +89,6 @@ export class HomePage {
       this.refreshComment(file_id, index);
     })
   }
-
 
   onTextSpeech(title: string, text: string) {
     if (this.speaking) {
@@ -269,10 +266,9 @@ export class HomePage {
 
     }, (error: HttpErrorResponse) => {
       this.presentToast(error.error.message);
-    }, () => {
-      this.slides.slideTo(0, 0);
-    });
+    })
   }
+
 
   onSegmentChange(event) {
     this.curTab = event.value;
@@ -302,7 +298,7 @@ export class HomePage {
     let likeB = b.likesCount;
 
     let comparison = 0;
-    if (likeB > likeB) {
+    if (likeB > likeA) {
       comparison = 1;
     }
     else if (likeB < likeA) {
@@ -311,6 +307,4 @@ export class HomePage {
 
     return comparison;
   }
-
-
 }
