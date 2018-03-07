@@ -31,12 +31,12 @@
     <ion-item>
       <ion-icon name="color-palette" item-start color="secondary"></ion-icon>
       <ion-label>Theme</ion-label>
-      <ion-toggle color="secondary"></ion-toggle>
+      <ion-toggle color="secondary" (ionChange)="onAltThemeToggle($event)" [checked]="checkAltTheme()"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-icon name="volume-up" item-start color="secondary"></ion-icon>
       <ion-label>Text to Speech</ion-label>
-      <ion-toggle color="secondary"></ion-toggle>
+      <ion-toggle color="secondary" (ionChange)="onSoundToggle($event)" [checked]="checkSound()"></ion-toggle>
     </ion-item>
   </ion-list>
 

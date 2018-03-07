@@ -25,20 +25,20 @@ export class SettingsPage {
     this.navCtrl.popToRoot();
   }
 
-  // onContactMeToggle(toggle: Toggle) {
-  //   this.settingsService.setContactMe(toggle.checked);
-  // }
-  //
-  // onSoundToggle(toggle: Toggle) {
-  //   this.settingsService.setSound(toggle.checked);
-  // }
-  //
-  // checkContactMe() {
-  //   return this.settingsService.allowContactMe();
-  // }
-  //
-  // checkSound() {
-  //   return this.settingsService.hasSound();
-  // }
+  onAltThemeToggle(toggle: Toggle) {
+    this.settingsService.setIsAltTheme(toggle.checked);
+  }
+
+  onSoundToggle(toggle: Toggle) {
+    this.settingsService.setSound(toggle.checked);
+  }
+
+  checkAltTheme() {
+    return this.settingsService.isAltTheme();
+  }
+
+  checkSound() {
+    return this.settingsService.hasSound();
+  }
 
 }

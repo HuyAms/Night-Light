@@ -1,6 +1,6 @@
 export class SettingsService {
   private sound: boolean = false;
-  private contactMe: boolean = false;
+  private altBackground : boolean = false;
 
   setSound(hasSound: boolean) {
     this.sound = hasSound;
@@ -10,11 +10,11 @@ export class SettingsService {
     return this.sound;
   }
 
-  setContactMe(allowContactMe: boolean) {
-    this.contactMe = allowContactMe;
+  setIsAltTheme(isAltTheme: boolean) {
+    this.altBackground  = isAltTheme;
   }
 
-  allowContactMe() {
-    return this.contactMe;
+  isAltTheme() {
+    return this.isAltTheme;
   }
 }
