@@ -65,17 +65,15 @@ export class HomePage {
     this.curTab = event.value;
     if (this.curTab === 'new') {
       console.log('new tab loaded');
-      this.fetchStories();
-      console.log(this.stories);
     } else if (this.curTab === 'hot') {
       // this.curTab = 'hot';
       console.log('hot tab loaded');
-      this.stories.sort(this.compare);
     }
     else if (this.curTab === 'discover') {
       console.log('discover tab loaded');
-      this.stories = this.shuffle(this.stories);
     }
+    this.slides.slideTo(0);
+    //this.loadHomeContent();
   }
 
   onPresentCommentModal(file_id: string, index) {
@@ -88,7 +86,8 @@ export class HomePage {
   }
 
   onRefresh() {
-    this.loadHomeContent()
+    this.loadHomeContent();
+    this.slides.slideTo(0);
   }
 
   onTextSpeech(title: string, text: string) {
@@ -176,6 +175,7 @@ export class HomePage {
         }
       });
     });
+    console.log("Add likes, done!");
   }
 
   attachCommentCount(stories) {
@@ -214,15 +214,6 @@ export class HomePage {
 
       //add comment counts to story
       this.attachCommentCount(this.stories);
-
-      if(this.curTab === 'discover'){
-        this.stories = this.shuffle(this.stories);
-      }
-      else if(this.curTab === 'hot') {
-        this.stories.sort(this.compare);
-      }
-
-      console.log(this.stories);
 
     }, (error: HttpErrorResponse) => {
       this.presentToast(error.error.message);
@@ -302,9 +293,9 @@ export class HomePage {
     return arr;
   }
 
-  compare(a, b) {
-    const likeA: number = a.likesCount;
-    const likeB: number = b.likesCount;
+  compare(a: Story, b: Story) {
+    let likeA = a.likesCount;
+    let likeB = b.likesCount;
 
     let comparison = 0;
     if (likeA > likeB) {
