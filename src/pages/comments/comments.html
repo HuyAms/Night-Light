@@ -44,14 +44,16 @@
   <ion-toolbar no-padding color="light">
     <ion-row>
       <ion-col col-10 no-padding>
-        <ion-textarea type="text"
+        <ion-textarea
+                      padding-left
+                      type="text"
                       [(ngModel)]="comment"
                       rows="1"
                       [maxlength]="500"
                       [placeholder]="'Write a comment...'"
                       class="message-input" autoresize autocapitalize="off" block></ion-textarea>
       </ion-col>
-      <ion-col no-padding text-right>
+      <ion-col col-2 no-padding text-right>
         <button ion-button (click)="postComment()" [disabled]="!comment || (comment && comment.length > textMaxLength)"
                 class="button-send" small clear icon-only>
           <ion-icon name="md-send"></ion-icon>
