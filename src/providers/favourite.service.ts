@@ -4,19 +4,12 @@ import {Observable} from "rxjs/Observable";
 import {Story} from "../model/story";
 import {Favourite} from "../model/Favourite";
 
-/*
-  Generated class for the FavouriteServiceProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class FavouriteService {
 
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
 
   constructor(public http: HttpClient) {
-    console.log('Hello FavouriteServiceProvider Provider');
   }
 
   getFavById(file_id): Observable<Favourite[]>{
