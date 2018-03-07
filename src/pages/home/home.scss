@@ -14,6 +14,12 @@ page-home {
     object-fit: cover;
   }
 
+  .card {
+    width: 95%;
+    height: 90%;
+    margin: auto;
+  }
+
   ion-scroll {
     height: 55vh;
     padding: 0px !important;
