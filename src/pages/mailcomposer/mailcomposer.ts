@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavParams, ViewController} from 'ionic-angular';
+import {AlertController, IonicPage, NavParams, ViewController} from 'ionic-angular';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {EmailComposer} from "@ionic-native/email-composer";
 
@@ -15,6 +15,7 @@ export class MailcomposerPage {
 
   constructor(public viewCtrl: ViewController,
               public navParams: NavParams,
+              private alertCtrl: AlertController,
               private emailComposer: EmailComposer) {
     this.toEmail = navParams.get('toEmail');
     this.initializeForm();
@@ -61,12 +62,23 @@ export class MailcomposerPage {
           })
           .catch((error: any) => {
             console.log('No access permission granted');
+            this.presentSignInAlert('No access permission granted');
           })
           .catch((error: any) => {
             console.log('User does not appear to have device e-mail account');
+            this.presentSignInAlert('User does not appear to have device e-mail account');
             console.dir(error);
           });
       })
+  }
+
+  presentSignInAlert(mess: string) {
+    const alert = this.alertCtrl.create({
+      title: 'Signin failed',
+      message: mess,
+      buttons: ['Ok']
+    });
+    alert.present();
   }
 
   onDismiss() {
