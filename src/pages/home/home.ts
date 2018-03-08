@@ -64,7 +64,7 @@ export class HomePage {
   handleTabsChange() {
     this.likeDoneSubject.subscribe(
       (data) => {
-        this.slides.slideTo(0, 0);
+        //this.slides.slideTo(0, 0);
         if (this.curTab === 'hot') {
           this.stories.sort(this.compareStoriesByLike);
           this.slides.update();
@@ -151,7 +151,7 @@ export class HomePage {
 
   onRefresh() {
     this.loadHomeContent();
-    // this.slides.slideTo(0);
+    this.slides.slideTo(0);
   }
 
   refreshLike(file_id, index) {
@@ -273,6 +273,7 @@ export class HomePage {
   onSegmentChange(event) {
     this.curTab = event.value;
     this.loadHomeContent();
+    this.slides.slideTo(0, 0);
   }
 
   shuffle(stories: Story[]) {
