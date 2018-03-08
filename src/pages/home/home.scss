@@ -1,4 +1,9 @@
 page-home {
+  ion-content {
+    background: linear-gradient(to top, #333773, #003673);
+
+  }
+
   .storyImg {
     display: block;
     height: 40vh;
@@ -19,6 +24,7 @@ page-home {
     width: 95%;
     height: 90%;
     margin: auto;
+    background-color: rgba(255, 255, 255, 0.2);
   }
 
   ion-scroll {
@@ -30,22 +36,35 @@ page-home {
     padding: 0px !important;
   }
 
-  .like .comment {
-    font-size: 15px;
+  .story-card {
+    padding: 15px 0;
+    p {
+      font-size: 18px;
+      text-indent: 10%;
+      color: color($colors, light);
+    }
+    h1 {
+      color: color($colors, light);
+    }
   }
 
-  .story {
-    font-size: 16px;
+  .counts, .cardHeader {
+    background-color: rgba(255, 255, 255, 0);
+  }
+
+  .cardHeader {
+    h2 {
+      font-weight: bold;
+      color: color($colors, light);
+      margin: 0;
+    }
   }
 
   hr {
     border: 0;
     height: 1px;
     margin: 0;
-    background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-    background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-    background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-    background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-color: rgba(255, 255, 255, 0.1) !important;
   }
 
 }
