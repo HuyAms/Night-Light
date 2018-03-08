@@ -27,6 +27,7 @@ import {SettingsService} from "../providers/settings.service";
 import {EditProfilePage} from "../pages/edit-profile/edit-profile";
 import {AboutusPage} from "../pages/aboutus/aboutus";
 import {Vibration} from "@ionic-native/vibration";
+import {MailcomposerPage} from "../pages/mailcomposer/mailcomposer";
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {Vibration} from "@ionic-native/vibration";
     ShortenPipe,
     SettingsPage,
     EditProfilePage,
-    AboutusPage
+    AboutusPage,
+    MailcomposerPage
   ],
   imports: [
     BrowserModule,
@@ -60,7 +62,8 @@ import {Vibration} from "@ionic-native/vibration";
     CommentsPage,
     SettingsPage,
     EditProfilePage,
-    AboutusPage
+    AboutusPage,
+    MailcomposerPage
   ],
   providers: [
     StatusBar,

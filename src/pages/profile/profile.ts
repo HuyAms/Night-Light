@@ -13,6 +13,7 @@ import {HomePage} from "../home/home";
 import {SettingsPageModule} from "../settings/settings.module";
 import {SettingsPage} from "../settings/settings";
 import {EditProfilePage} from "../edit-profile/edit-profile";
+import {MailcomposerPage} from "../mailcomposer/mailcomposer";
 
 
 @IonicPage()
@@ -42,7 +43,6 @@ export class ProfilePage {
               private userService: UserService,
               private storyService: StoryService,
               private toastCtrl: ToastController,
-              private emailComposer: EmailComposer,
               private modalCtrl: ModalController) {
     this.user_id = navParams.get('user_id');
   }
@@ -114,30 +114,17 @@ export class ProfilePage {
   }
 
   onSendEmail() {
-   console.log('send emiail');
-
-    let email = {
-      to: 'sample@gmail.com',
-      attachments: [
-        'file://img/logo.png',
-        'res://icon.png',
-        'base64:icon.png//iVBORw0KGgoAAAANSUhEUg...',
-        'file://README.pdf'
-      ],
-      subject: 'Sample',
-      body: 'How are you? Nice greetings from User',
-      isHtml: true
-    };
-
-
-// Send a text message using default options
-    this.emailComposer.open(email);
-
+    this.onPresentEmailComposer(this.curUser.email);
   }
 
   onPresentSinglePostModal(file_id) {
     let commentModal = this.modalCtrl.create(HomePage, {file_id: file_id, mode: 'singlePost'});
     commentModal.present();
+  }
+
+  onPresentEmailComposer(toEmail) {
+    let emailComposer = this.modalCtrl.create(MailcomposerPage, {toEmail: toEmail});
+    emailComposer.present();
   }
 
   onPresentEditProfileModal() {
