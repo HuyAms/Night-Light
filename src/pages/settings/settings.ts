@@ -29,16 +29,8 @@ export class SettingsPage {
     this.app.getRootNav().setRoot(SigninPage);
   }
 
-  onAltThemeToggle(toggle: Toggle) {
-    this.settingsService.setIsAltTheme(toggle.checked);
-  }
-
   onSoundToggle(toggle: Toggle) {
     this.settingsService.setSound(toggle.checked);
-  }
-
-  checkAltTheme() {
-    return this.settingsService.isAltTheme();
   }
 
   checkSound() {
