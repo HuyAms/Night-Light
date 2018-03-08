@@ -114,18 +114,25 @@ export class ProfilePage {
   }
 
   onSendEmail() {
-    this.emailComposer.isAvailable().then((available: boolean) => {
-      if (available) {
-        let email = {
-          to: this.curUser.email,
-          subject: 'Greeting',
-          isHtml: true
-        };
-        this.emailComposer.open(email);
-      } else {
-        //Email app not available
-      }
-    }).catch(e => console.log(e));
+   console.log('send emiail');
+
+    let email = {
+      to: 'sample@gmail.com',
+      attachments: [
+        'file://img/logo.png',
+        'res://icon.png',
+        'base64:icon.png//iVBORw0KGgoAAAANSUhEUg...',
+        'file://README.pdf'
+      ],
+      subject: 'Sample',
+      body: 'How are you? Nice greetings from User',
+      isHtml: true
+    };
+
+
+// Send a text message using default options
+    this.emailComposer.open(email);
+
   }
 
   onPresentSinglePostModal(file_id) {
