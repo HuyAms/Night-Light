@@ -28,31 +28,15 @@ export class MailcomposerPage {
     });
   }
 
-  retrieveAttachment() {
-    console.log('ionViewDidLoad MailcomposerPage');
-  }
+  // retrieveAttachment() {
+  //   console.log('ionViewDidLoad MailcomposerPage');
+  // }
 
   sendMessage() {
     const value = this.emailForm.value;
     let to: string = value.subject.to;
     let subject: string = value.subject;
     let message: string = value.message;
-
-    // let email = {
-    //   to: this.toEmail,
-    //   attachments: [
-    //     'file://img/logo.png',
-    //     'res://icon.png',
-    //     'base64:icon.png//iVBORw0KGgoAAAANSUhEUg...',
-    //     'file://README.pdf'
-    //   ],
-    //   subject:subject,
-    //   body: message,
-    //   isHtml: true
-    // };
-
-// Send a text message using default options
-    //this.emailComposer.open(email);
 
 
     this.emailComposer.isAvailable()
@@ -73,7 +57,6 @@ export class MailcomposerPage {
               isHtml: true
             };
 
-
             this.emailComposer.open(email);
           })
           .catch((error: any) => {
@@ -85,7 +68,6 @@ export class MailcomposerPage {
           });
       })
   }
-
 
   onDismiss() {
     this.viewCtrl.dismiss();
