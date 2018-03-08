@@ -26,6 +26,7 @@ import {SettingsPage} from "../pages/settings/settings";
 import {SettingsService} from "../providers/settings.service";
 import {EditProfilePage} from "../pages/edit-profile/edit-profile";
 import {AboutusPage} from "../pages/aboutus/aboutus";
+import {Vibration} from "@ionic-native/vibration";
 
 
 @NgModule({
@@ -73,7 +74,8 @@ import {AboutusPage} from "../pages/aboutus/aboutus";
     CommentService,
     FavouriteService,
     EmailComposer,
-    SettingsService
+    SettingsService,
+    Vibration
   ]
 })
 export class AppModule {}

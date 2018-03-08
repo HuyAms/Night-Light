@@ -15,6 +15,7 @@ import {CommentService} from "../../providers/comment.service";
 import {ProfilePage} from "../profile/profile";
 import {SettingsService} from "../../providers/settings.service";
 import {Subject} from "rxjs/Subject";
+import {Vibration} from "@ionic-native/vibration";
 
 
 @IonicPage()
@@ -48,7 +49,8 @@ export class HomePage {
               private userService: UserService,
               private toastCtrl: ToastController,
               private commentService: CommentService,
-              private settingsService: SettingsService) {
+              private settingsService: SettingsService,
+              private vibration: Vibration) {
     this.mode = navParams.get('mode');
     this.singleStory_id = navParams.get('file_id');
     if (this.mode) {
@@ -64,7 +66,6 @@ export class HomePage {
   handleTabsChange() {
     this.likeDoneSubject.subscribe(
       (data) => {
-        //this.slides.slideTo(0, 0);
         if (this.curTab === 'hot') {
           this.stories.sort(this.compareStoriesByLike);
           this.slides.update();
@@ -72,6 +73,7 @@ export class HomePage {
         else if (this.curTab === 'discover') {
           this.stories = this.shuffle(this.stories);
           this.slides.update();
+          //this.vibration.vibrate(2000);
         }
       }
     )
