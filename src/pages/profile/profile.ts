@@ -13,6 +13,7 @@ import {HomePage} from "../home/home";
 import {SettingsPageModule} from "../settings/settings.module";
 import {SettingsPage} from "../settings/settings";
 import {EditProfilePage} from "../edit-profile/edit-profile";
+import {MailcomposerPage} from "../mailcomposer/mailcomposer";
 
 
 @IonicPage()
@@ -42,7 +43,6 @@ export class ProfilePage {
               private userService: UserService,
               private storyService: StoryService,
               private toastCtrl: ToastController,
-              private emailComposer: EmailComposer,
               private modalCtrl: ModalController) {
     this.user_id = navParams.get('user_id');
   }
@@ -114,23 +114,17 @@ export class ProfilePage {
   }
 
   onSendEmail() {
-    this.emailComposer.isAvailable().then((available: boolean) => {
-      if (available) {
-        let email = {
-          to: this.curUser.email,
-          subject: 'Greeting',
-          isHtml: true
-        };
-        this.emailComposer.open(email);
-      } else {
-        //Email app not available
-      }
-    }).catch(e => console.log(e));
+    this.onPresentEmailComposer(this.curUser.email);
   }
 
   onPresentSinglePostModal(file_id) {
     let commentModal = this.modalCtrl.create(HomePage, {file_id: file_id, mode: 'singlePost'});
     commentModal.present();
+  }
+
+  onPresentEmailComposer(toEmail) {
+    let emailComposer = this.modalCtrl.create(MailcomposerPage, {toEmail: toEmail});
+    emailComposer.present();
   }
 
   onPresentEditProfileModal() {
