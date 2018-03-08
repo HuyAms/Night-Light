@@ -37,6 +37,14 @@ export class SettingsPage {
     return this.settingsService.hasSound();
   }
 
+  onGridToggle(toggle: Toggle) {
+    this.settingsService.setGrid(toggle.checked);
+  }
+
+  checkGrid() {
+    return this.settingsService.isGrid();
+  }
+
   onPresentEditProfileModal() {
     let editProfileModal = this.modalCtrl.create(EditProfilePage);
     editProfileModal.present();
