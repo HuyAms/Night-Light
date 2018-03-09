@@ -16,12 +16,12 @@
 // automatically applied to the <body> element in the app.
 
 .toolbar-background {
-  background-color: color($colors, primary);
   border: none;
 }
 
 .toolbar-title {
- color: color($colors, light);
+  color: color($colors, primary);
+  font-family: 'Lato', Arial, sans-serif;
 }
 
 .header-background {

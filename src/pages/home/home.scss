@@ -1,7 +1,6 @@
 page-home {
-  ion-content {
-    background: linear-gradient(to top, #333773, #003673);
-
+  .segment-button {
+    font-family: $font-app-component;
   }
 
   .storyImg {
@@ -9,7 +8,6 @@ page-home {
     height: 40vh;
     width: 100%;
     object-fit: cover;
-
   }
 
   .indicator {
@@ -24,7 +22,9 @@ page-home {
     width: 95%;
     height: 90%;
     margin: auto;
-    background-color: rgba(255, 255, 255, 0.2);
+    .scroll-content {
+      padding: 0px !important;
+    }
   }
 
   ion-scroll {
@@ -32,39 +32,51 @@ page-home {
     padding: 0px !important;
   }
 
-  scroll-content {
-    padding: 0px !important;
-  }
 
   .story-card {
-    padding: 15px 0;
+    padding: 15px;
     p {
+      font-family: $font-content;
       font-size: 18px;
       text-indent: 10%;
-      color: color($colors, light);
+      color: color($colors, textOnLight);
     }
     h1 {
-      color: color($colors, light);
+      font-family: $font-header;
+      font-weight: bold;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: color($colors, primary);
     }
-  }
-
-  .counts, .cardHeader {
-    background-color: rgba(255, 255, 255, 0);
   }
 
   .cardHeader {
     h2 {
+      font-family: $font-header;
       font-weight: bold;
-      color: color($colors, light);
+      color: color($colors, textOnLight);
       margin: 0;
     }
+  }
+
+  .interactive-button, .counts {
+    font-family: $font-app-component;
+  }
+
+  .interactive-button {
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
   hr {
     border: 0;
     height: 1px;
     margin: 0;
-    background-color: rgba(255, 255, 255, 0.1) !important;
+    background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
   }
 
 }

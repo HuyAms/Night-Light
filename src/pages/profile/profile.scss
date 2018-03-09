@@ -1,6 +1,5 @@
 page-profile {
   ion-content {
-    background: #ededed !important;
 
     .profile-top {
       width: 100%;
@@ -32,13 +31,16 @@ page-profile {
       position: relative;
       text-align: center;
       .card-title {
+        font-family: $font-header;
         position: absolute;
         top: 50%;
         font-size: 1.5em;
         text-transform: uppercase;
         width: 100%;
         font-weight: bold;
-        color: #fff;
+        letter-spacing: 2px;
+        font-size: 35px;
+        color: color($colors, light);
         -webkit-transform: translateY(-50%);
         -moz-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
@@ -53,19 +55,23 @@ page-profile {
       text-transform: uppercase;
       color: color($colors, primary);
       font-weight: 500;
+      font-family: $font-app-component;
     }
 
-    .username, .bio {
+    .username {
       font-size: 30px;
       color: color($colors, primary);
-      font-weight: 500;
       margin: 0;
+      font-family: $font-header;
+      font-weight: bold;
+      letter-spacing: 1px;
     }
 
     .bio {
       font-size: 16px;
       color: color($colors, secondary);
       margin: 0;
+      font-family: $font-content;
     }
 
     button {

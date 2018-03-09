@@ -1,12 +1,12 @@
 
-<ion-header>
+<ion-header no-border>
   <ion-toolbar *ngIf="!calledFromProfile">
     <ion-buttons end>
       <button ion-button icon-only (click)="onRefresh()" color="light">
         <ion-icon name="refresh"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-segment [(ngModel)]="curTab" (ionChange)="onSegmentChange($event)" color="light">
+    <ion-segment [(ngModel)]="curTab" (ionChange)="onSegmentChange($event)">
       <ion-segment-button value="discover">Discover
       </ion-segment-button>
       <ion-segment-button value="new">New
@@ -75,20 +75,20 @@
         <hr/>
         <ion-row>
           <ion-col col-4 center text-center>
-            <button [color]="story.likedByUser ? 'liked' : 'light'" ion-button icon-left clear small style="text-transform: none;"
+            <button class="interactive-button" [color]="story.likedByUser ? 'liked' : 'secondary'" ion-button icon-left clear small style="text-transform: none;"
                     (click) = "onClickLike(story.file_id, i)">
               <ion-icon name="thumbs-up"></ion-icon>
               {{story.likedByUser ? 'Liked' : 'Like'}}
             </button>
           </ion-col>
           <ion-col col-4 center text-center>
-            <button color="light" ion-button icon-left clear small style="text-transform: none;" (click)="onPresentCommentModal(story.file_id, i)">
+            <button class="interactive-button" color="secondary" ion-button icon-left clear small style="text-transform: none;" (click)="onPresentCommentModal(story.file_id, i)">
               <ion-icon name="text"></ion-icon>
               Comment
             </button>
           </ion-col>
           <ion-col col-4 center text-center>
-            <button color="light" ion-button icon-left clear small style="text-transform: none;"
+            <button class="interactive-button" color="secondary" ion-button icon-left clear small style="text-transform: none;"
                     (click)="onShare(story.description, story.title, mediaUrl + story.filename)">
               <ion-icon name="share-alt"></ion-icon>
               Share
