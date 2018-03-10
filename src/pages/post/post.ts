@@ -12,6 +12,8 @@ import {StoryService} from '../../providers/story.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PostTag} from '../../model/postTag';
 import {CameraService} from "../../providers/camera.service";
+import {MediaService} from "../../providers/media.service";
+import {HomePage} from "../home/home";
 
 @IonicPage()
 @Component({
@@ -20,7 +22,7 @@ import {CameraService} from "../../providers/camera.service";
 })
 export class PostPage {
 
-  img: any;
+  imageURI:any;
   imgPlaceHolder: string = 'assets/imgs/camera_placeholder.png';
 
   //Tag values to post tag to image
@@ -30,37 +32,41 @@ export class PostPage {
   }
 
   constructor(public navCtrl: NavController,
-              public actionsheetCtrl: ActionSheetController,
+              private actionsheetCtrl: ActionSheetController,
               private storyProvider: StoryService,
               private toastCtrl: ToastController,
-              public platform: Platform,
-              public loadingCtrl: LoadingController,
-              public cameraService: CameraService) {
+              private platform: Platform,
+              private loadingCtrl: LoadingController,
+              private cameraService: CameraService,
+              private mediaService: MediaService) {
   }
 
   ionViewWillLoad() {
   }
 
   onSubmit(form: NgForm) {
-    // //store file and info in formData
-    // const formData = new FormData();
-    // formData.append('title', form.value.title);
-    // formData.append('description', form.value.description);
-    // formData.append('file', this.file);
-    //
-    // //POST to server
-    // this.storyProvider.upload(formData).subscribe(response => {
-    //   console.log(response);
-    //   //Get file_id from response and pass it to tagFile()
-    //   this.postTag.file_id = response['file_id'];
-    //   console.log(response['file_id']);
-    //   this.tagFile();
-    //   this.navCtrl.setRoot(HomePage);
-    // }, (error: HttpErrorResponse) => {
-    //   console.log(error.error.message);
-    //   this.presentToast("Unable to post. Please check again");
-    //   form.reset();
-    // })
+    console.log('submittt')
+    const title = form.value.title;
+    const description = form.value.description;
+    if (this.imageURI) {
+      this.mediaService.uploadFile(title, description, this.imageURI)
+        .then(response => {
+          console.log('upload successfully')
+          this.postTag.file_id = response['file_id'];
+          this.presentToast( response['file_id'] + '');
+          this.presentToast("upload successfully");
+          console.log(this.postTag.file_id);
+          this.tagFile();
+          this.navCtrl.setRoot(HomePage);
+          form.reset();
+        })
+        .catch(error => {
+          console.log(error);
+          this.presentToast("Unable to post. Please check again");
+        })
+    } else {
+      this.presentToast("Please select a picture");
+    }
   }
 
   //post tag
@@ -118,10 +124,10 @@ export class PostPage {
   }
 
   takePicture() {
-    this.img = this.cameraService.getPictureFromCamera()
+    this.cameraService.getPictureFromCamera()
       .then(data => {
-        this.img = data;
-        console.log(this.img);
+        this.imageURI = data;
+        console.log(this.imageURI);
       })
       .catch(error => {
         console.log(error);
@@ -129,25 +135,13 @@ export class PostPage {
   }
 
   getPicture() {
-    this.img = this.cameraService.getPictureFromPhotoLibrary()
+    this.cameraService.getPictureFromPhotoLibrary()
       .then(data => {
-        this.img = data;
-        console.log(this.img);
+        this.imageURI = data;
+        console.log(this.imageURI);
       })
       .catch(error => {
         console.log(error);
       });
-  }
-
-  getPreviewImage() {
-    console.log(this.img);
-    if (this.img) {
-      console.log('imgae');
-      return this.img;
-    } else {
-      console.log('imgPlaceHolder');
-
-      return this.imgPlaceHolder;
-    }
   }
 }

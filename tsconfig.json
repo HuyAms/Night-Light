@@ -15,7 +15,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "plugins/cordova-plugin-camera/types/index.d.ts"
+    "plugins/cordova-plugin-camera/types/index.d.ts",
+    "plugins/cordova-plugin-file-transfer/types/index.d.ts"
   ],
   "exclude": [
     "node_modules",

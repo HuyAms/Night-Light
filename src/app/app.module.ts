@@ -30,7 +30,9 @@ import {CameraService} from "../providers/camera.service";
 import {Vibration} from "@ionic-native/vibration";
 import {MailcomposerPage} from "../pages/mailcomposer/mailcomposer";
 import {Camera} from "@ionic-native/camera";
-
+import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
+import {MediaService} from "../providers/media.service";
+import { File } from '@ionic-native/file';
 
 
 @NgModule({
@@ -72,6 +74,9 @@ import {Camera} from "@ionic-native/camera";
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    FileTransfer,
+    FileTransferObject,
+    File,
     AuthService,
     StoryService,
     UserService,
@@ -82,6 +87,7 @@ import {Camera} from "@ionic-native/camera";
     EmailComposer,
     SettingsService,
     CameraService,
+    MediaService,
     Vibration,
     Camera
   ]
