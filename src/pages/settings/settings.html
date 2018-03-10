@@ -29,6 +29,11 @@
       General
     </ion-list-header>
     <ion-item>
+      <ion-icon name="photos" item-start color="secondary"></ion-icon>
+      <ion-label>Grid Mode</ion-label>
+      <ion-toggle color="secondary" (ionChange)="onGridToggle($event)" [checked]="checkGrid()"></ion-toggle>
+    </ion-item>
+    <ion-item>
       <ion-icon name="volume-up" item-start color="secondary"></ion-icon>
       <ion-label>Text to Speech</ion-label>
       <ion-toggle color="secondary" (ionChange)="onSoundToggle($event)" [checked]="checkSound()"></ion-toggle>
