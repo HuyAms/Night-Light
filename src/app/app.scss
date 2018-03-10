@@ -16,14 +16,19 @@
 // automatically applied to the <body> element in the app.
 
 .toolbar-background {
-  background-color: color($colors, primary);
   border: none;
 }
 
 .toolbar-title {
- color: color($colors, light);
+  color: color($colors, primary);
 }
 
 .header-background {
   border: none;
+}
+
+.footer {
+  ::before {
+    top: 0;
+  }
 }

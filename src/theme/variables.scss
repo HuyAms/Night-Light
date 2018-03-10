@@ -4,6 +4,10 @@
 // Font path is used to include ionicons,
 // roboto, and noto sans fonts
 $font-path: "../assets/fonts";
+@import url(https://fonts.googleapis.com/css?family=Lato);
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css);
+@import url(https://fonts.googleapis.com/css?family=Work+Sans);
+@import url(https://fonts.googleapis.com/css?family=Economica:400,700);
 
 // The app direction is used to include
 // rtl styles in your app. For more info, please see:
@@ -11,6 +15,7 @@ $font-path: "../assets/fonts";
 $app-direction: ltr;
 
 @import "ionic.globals";
+
 
 // Shared Variables
 // --------------------------------------------------
@@ -28,14 +33,24 @@ $app-direction: ltr;
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary: #2c465f,
+  primary: #034F84,
   secondary: #58718c,
   danger: #f53d3d,
-  light: #ffffff,
+  light: #949494,
   dark: #001f35,
   comment: #ededed,
-  liked: #5899d8
+  liked: #5899d8,
+  textOnDark: #f5f2ea,
+  textOnLight: #5c6773
 );
+$tabs-background: white;
+$toolbar-background: white;
+
+$font-family-base: 'Lato', Arial, sans-serif;
+$font-family-md-base: 'Lato', Arial, sans-serif;
+$font-header: 'Economica', Arial, sans-serif;
+$font-content: 'Work Sans', Arial, sans-serif;
+
 
 // App iOS Variables
 // --------------------------------------------------
@@ -46,6 +61,8 @@ $card-ios-box-shadow: none;
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 $card-md-box-shadow: none;
+$tabs-md-tab-min-height: 4.5rem;
+$segment-button-md-height: 4rem;
 
 // App Windows Variables
 // --------------------------------------------------

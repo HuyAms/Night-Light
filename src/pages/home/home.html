@@ -1,12 +1,12 @@
 
-<ion-header>
+<ion-header no-border>
   <ion-toolbar *ngIf="!calledFromProfile">
     <ion-buttons end>
       <button ion-button icon-only (click)="onRefresh()" color="light">
         <ion-icon name="refresh"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-segment [(ngModel)]="curTab" (ionChange)="onSegmentChange($event)" color="light">
+    <ion-segment [(ngModel)]="curTab" (ionChange)="onSegmentChange($event)">
       <ion-segment-button value="discover">Discover
       </ion-segment-button>
       <ion-segment-button value="new">New
@@ -30,7 +30,7 @@
 
 <ion-content style="background-color: #ededed" padding>
 
-  <ion-slides no-padding no-margin>
+  <ion-slides no-margin>
     <ion-slide *ngFor="let story of stories; let i = index">
       <ion-card class="card">
         <ion-row center align-items-center>
@@ -62,33 +62,33 @@
           <img class="storyImg"
                src="{{mediaUrl + story.filename}}">
 
-          <ion-card-content>
+          <ion-card-content class="story-card">
             <h1>{{story.title}}</h1>
-            <p class="story" text-left>{{story.description}}</p>
+            <p text-justify>{{story.description}}</p>
           </ion-card-content>
         </ion-scroll>
         <hr/>
-        <ion-item>
+        <ion-item class="counts">
           <ion-note item-left>{{story.likesCount}} likes</ion-note>
           <ion-note item-right="">{{story.commentCount}} comments</ion-note>
         </ion-item>
         <hr/>
         <ion-row>
           <ion-col col-4 center text-center>
-            <button [color]="story.likedByUser ? 'liked' : 'secondary'" ion-button icon-left clear small style="text-transform: none;"
+            <button class="interactive-button" [color]="story.likedByUser ? 'liked' : 'secondary'" ion-button icon-left clear small style="text-transform: none;"
                     (click) = "onClickLike(story.file_id, i)">
               <ion-icon name="thumbs-up"></ion-icon>
               {{story.likedByUser ? 'Liked' : 'Like'}}
             </button>
           </ion-col>
           <ion-col col-4 center text-center>
-            <button color="secondary" ion-button icon-left clear small style="text-transform: none;" (click)="onPresentCommentModal(story.file_id, i)">
+            <button class="interactive-button" color="secondary" ion-button icon-left clear small style="text-transform: none;" (click)="onPresentCommentModal(story.file_id, i)">
               <ion-icon name="text"></ion-icon>
               Comment
             </button>
           </ion-col>
           <ion-col col-4 center text-center>
-            <button color="secondary" ion-button icon-left clear small style="text-transform: none;"
+            <button class="interactive-button" color="secondary" ion-button icon-left clear small style="text-transform: none;"
                     (click)="onShare(story.description, story.title, mediaUrl + story.filename)">
               <ion-icon name="share-alt"></ion-icon>
               Share
