@@ -45,6 +45,7 @@ export class ProfilePage {
   }
 
   ionViewDidLoad() {
+    console.log('ionViewDidLoad')
     if (this.user_id) {
       this.getUserInfo(this.user_id);
       this.getUserStories(this.user_id);
@@ -54,6 +55,12 @@ export class ProfilePage {
       this.getMyStories();
       this.isMe = true;
     }
+  }
+
+  ionViewWillEnter() {
+   if (!this.user_id) {
+     this.getMyStories();
+   }
   }
 
   checkGridMode() {
