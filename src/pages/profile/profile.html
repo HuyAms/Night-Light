@@ -24,16 +24,14 @@
 </ion-header>
 
 
-<ion-content padding style="background-color: #ededed">
+<ion-content no-padding style="background-color: #ededed">
   <ion-card class="profile-top">
     <ion-row>
-      <ion-col>
-        <div class="profile-photo">
+      <ion-col align-self-center no-padding>
+        <div class="profile-photo" padding-bottom>
           <img class="avatar"
                src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg">
         </div>
-      </ion-col>
-      <ion-col align-self-center>
         <div text-center>
           <button *ngIf="!isMe" ion-button icon-start round outline (click)="onSendEmail()">
             <ion-icon name="mail"></ion-icon>
@@ -53,11 +51,10 @@
       </ion-col>
     </ion-row>
   </ion-card>
-  <hr/>
   <p class="numStories" text-center>{{numStories}} Stories</p>
   <hr/>
 
-  <ion-row no-padding>
+  <ion-row padding>
     <ion-col col-12 no-padding *ngFor="let story of stories">
       <ion-card class="storyCard" (click)="onPresentSinglePostModal(story.file_id)">
         <img class="storyImg" src="{{mediaUrl + story.filename}}"/>

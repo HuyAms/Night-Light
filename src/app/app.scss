@@ -26,3 +26,9 @@
 .header-background {
   border: none;
 }
+
+.footer {
+  ::before {
+    top: 0;
+  }
+}
