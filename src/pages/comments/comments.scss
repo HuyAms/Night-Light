@@ -14,15 +14,15 @@ page-comments {
     display: inline-block;
     padding: 8px;
     border-radius: 4px;
-    max-width: 180px;
-    font-size: 13px;
+    max-width: 60vw;
+    font-size: 18px;
     line-height: 20px;
     white-space: normal;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 
     &.left {
-      background-color: color($colors, comment);
+      background-color: white;
       float: left !important;
       margin-left: 15px;
     }
@@ -35,17 +35,25 @@ page-comments {
       height: 0;
       border-width: 7px 14px 7px 0;
       border-style: solid;
-      border-color: transparent  color($colors, comment) transparent;
+      border-color: transparent  white transparent;
     }
 
-    h3 {
+    h2 {
       font-weight: bold;
+      font-family: $font-header;
+      color: color($colors, primary);
+    }
+    span {
+      font-family: $font-content;
+      color: color($colors, textOnLight);
     }
   }
 
   .no-comment {
+    color: color($colors, textOnLight);
+    font-family: $font-content;
     p {
-      font-size: 14px;
+      font-size: 16px;
     }
   }
 }

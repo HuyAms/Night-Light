@@ -13,7 +13,6 @@ import {PostPage} from "../pages/post/post";
 import {AuthService} from '../providers/auth.service';
 import {HttpClientModule} from "@angular/common/http";
 import {Autoresize} from "../shared/autoresize.directive";
-import {Camera} from '@ionic-native/camera';
 import {StoryService} from "../providers/story.service";
 import {UserService} from "../providers/user.service";
 import {TextToSpeech} from '@ionic-native/text-to-speech';
@@ -22,12 +21,17 @@ import {CommentService} from '../providers/comment.service';
 import {CommentsPage} from "../pages/comments/comments";
 import {FavouriteService} from '../providers/favourite.service';
 import {ShortenPipe} from "../shared/shorten.pipe";
-import { EmailComposer } from '@ionic-native/email-composer';
+import {EmailComposer} from '@ionic-native/email-composer';
 import {SettingsPage} from "../pages/settings/settings";
 import {SettingsService} from "../providers/settings.service";
 import {EditProfilePage} from "../pages/edit-profile/edit-profile";
 import {AboutusPage} from "../pages/aboutus/aboutus";
+<<<<<<< HEAD
 import {CameraService} from "../providers/camera.service";
+=======
+import {Vibration} from "@ionic-native/vibration";
+import {MailcomposerPage} from "../pages/mailcomposer/mailcomposer";
+>>>>>>> master
 
 
 @NgModule({
@@ -43,7 +47,8 @@ import {CameraService} from "../providers/camera.service";
     ShortenPipe,
     SettingsPage,
     EditProfilePage,
-    AboutusPage
+    AboutusPage,
+    MailcomposerPage
   ],
   imports: [
     BrowserModule,
@@ -61,14 +66,14 @@ import {CameraService} from "../providers/camera.service";
     CommentsPage,
     SettingsPage,
     EditProfilePage,
-    AboutusPage
+    AboutusPage,
+    MailcomposerPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
-    Camera,
     StoryService,
     UserService,
     TextToSpeech,
@@ -77,7 +82,11 @@ import {CameraService} from "../providers/camera.service";
     FavouriteService,
     EmailComposer,
     SettingsService,
+<<<<<<< HEAD
     CameraService
+=======
+    Vibration
+>>>>>>> master
   ]
 })
 export class AppModule {}

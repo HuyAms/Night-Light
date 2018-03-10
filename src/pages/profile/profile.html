@@ -4,9 +4,9 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
+<ion-header no-border>
 
-  <ion-navbar>
+  <ion-navbar no-border>
     <ion-title>Profile</ion-title>
     <ion-buttons start *ngIf="!isMe">
       <button ion-button (click)="onDismiss()" color="light">
@@ -24,24 +24,15 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content no-padding style="background-color: #ededed">
   <ion-card class="profile-top">
     <ion-row>
-      <ion-col>
-        <div class="profile-photo">
+      <ion-col align-self-center no-padding>
+        <div class="profile-photo" padding-bottom>
           <img class="avatar"
                src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg">
         </div>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col no-padding>
-        <p class="username" text-center>{{curUser.username}}</p>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <div text-center margin-bottom>
+        <div text-center>
           <button *ngIf="!isMe" ion-button icon-start round outline (click)="onSendEmail()">
             <ion-icon name="mail"></ion-icon>
             Contact Me
@@ -53,22 +44,21 @@
         </div>
       </ion-col>
     </ion-row>
-    <hr/>
+    <ion-row>
+      <ion-col no-padding>
+        <p class="username" text-center>{{curUser.username}}</p>
+        <p class="bio" text-center>User's biography (description of avatar)</p>
+      </ion-col>
+    </ion-row>
   </ion-card>
-
   <p class="numStories" text-center>{{numStories}} Stories</p>
-
   <hr/>
 
-  <ion-row no-padding>
-    <ion-col col-6 no-padding *ngFor="let story of stories">
-      <ion-card (click)="onPresentSinglePostModal(story.file_id)">
-        <img class="storyImg"
-             src="{{mediaUrl + story.filename}}">
-        <ion-card-content text-center>
-          <hr/>
-          <small>{{story.title|shorten}}</small>
-        </ion-card-content>
+  <ion-row padding>
+    <ion-col col-12 no-padding *ngFor="let story of stories">
+      <ion-card class="storyCard" (click)="onPresentSinglePostModal(story.file_id)">
+        <img class="storyImg" src="{{mediaUrl + story.filename}}"/>
+        <div class="card-title">{{story.title|shorten}}</div>
       </ion-card>
     </ion-col>
   </ion-row>

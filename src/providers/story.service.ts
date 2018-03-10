@@ -23,11 +23,6 @@ export class StoryService {
 
   getSinglePost(id: number): Observable<Story>{
     return this.http.get<Story>(this.apiUrl + '/media/' + id);
-    //   .subscribe(response => {
-    //   console.log(response);
-    // }, (error: HttpErrorResponse) => {
-    //   console.log(error.error.message);
-    // });
   }
 
   getAllPost(): Observable<Story[]>{

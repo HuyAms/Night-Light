@@ -2,4 +2,8 @@ page-settings {
   ion-header ion-icon.back-button-icon.icon {
     color: map-get($colors, light);
   }
+
+  .item-inner {
+    border-bottom: none !important;
+  }
 }

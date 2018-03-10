@@ -29,20 +29,20 @@ export class SettingsPage {
     this.app.getRootNav().setRoot(SigninPage);
   }
 
-  onAltThemeToggle(toggle: Toggle) {
-    this.settingsService.setIsAltTheme(toggle.checked);
-  }
-
   onSoundToggle(toggle: Toggle) {
     this.settingsService.setSound(toggle.checked);
   }
 
-  checkAltTheme() {
-    return this.settingsService.isAltTheme();
-  }
-
   checkSound() {
     return this.settingsService.hasSound();
+  }
+
+  onGridToggle(toggle: Toggle) {
+    this.settingsService.setGrid(toggle.checked);
+  }
+
+  checkGrid() {
+    return this.settingsService.isGrid();
   }
 
   onPresentEditProfileModal() {

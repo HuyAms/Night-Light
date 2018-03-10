@@ -14,6 +14,8 @@ import {UserService} from '../../providers/user.service';
 import {CommentService} from "../../providers/comment.service";
 import {ProfilePage} from "../profile/profile";
 import {SettingsService} from "../../providers/settings.service";
+import {Subject} from "rxjs/Subject";
+import {Vibration} from "@ionic-native/vibration";
 
 
 @IonicPage()
@@ -24,18 +26,16 @@ import {SettingsService} from "../../providers/settings.service";
 
 export class HomePage {
   @ViewChild(Slides) slides: Slides;
-
-  defaultTab = 'new';
   text: string;
   speaking: boolean = false;
   stories: Story[];
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
   currentUser_id = localStorage.getItem('user_id');
-  curTab: string;
-
+  curTab: string = 'new';
   mode: string;
   singleStory_id: number;
   calledFromProfile: boolean;
+  likeDoneSubject = new Subject<Boolean>();
 
 
   constructor(private textToSpeech: TextToSpeech,
@@ -49,7 +49,8 @@ export class HomePage {
               private userService: UserService,
               private toastCtrl: ToastController,
               private commentService: CommentService,
-              private settingsService: SettingsService) {
+              private settingsService: SettingsService,
+              private vibration: Vibration) {
     this.mode = navParams.get('mode');
     this.singleStory_id = navParams.get('file_id');
     if (this.mode) {
@@ -57,25 +58,29 @@ export class HomePage {
     }
   }
 
-  enableSound() {
-    return this.settingsService.hasSound();
+  ionViewDidLoad() {
+    this.loadHomeContent();
+    this.handleTabsChange();
   }
 
-  onSegmentChange(event) {
-    this.curTab = event.value;
-    if (this.curTab === 'new') {
-      console.log('new tab loaded');
-      this.fetchStories();
-      console.log(this.stories);
-    } else if (this.curTab === 'hot') {
-      // this.curTab = 'hot';
-      console.log('hot tab loaded');
-      this.stories.sort(this.compare);
-    }
-    else if (this.curTab === 'discover') {
-      console.log('discover tab loaded');
-      this.stories = this.shuffle(this.stories);
-    }
+  handleTabsChange() {
+    this.likeDoneSubject.subscribe(
+      (data) => {
+        if (this.curTab === 'hot') {
+          this.stories.sort(this.compareStoriesByLike);
+          this.slides.update();
+        }
+        else if (this.curTab === 'discover') {
+          this.stories = this.shuffle(this.stories);
+          this.slides.update();
+          //this.vibration.vibrate(2000);
+        }
+      }
+    )
+  }
+
+  enableSound() {
+    return this.settingsService.hasSound();
   }
 
   onPresentCommentModal(file_id: string, index) {
@@ -87,12 +92,7 @@ export class HomePage {
     })
   }
 
-  onRefresh() {
-    this.loadHomeContent()
-  }
-
   onTextSpeech(title: string, text: string) {
-    console.log('onTextSpeech: ' + text)
     if (this.speaking) {
       this.textToSpeech.speak({text: ''});  // <<< speak an empty string to interrupt.
       this.speaking = false;
@@ -113,8 +113,11 @@ export class HomePage {
       });
   }
 
+  onDismiss() {
+    this.viewCtrl.dismiss();
+  }
+
   onShare(message: string, subject: string, imageUrl: string) {
-    console.log("onshare");
     this.socialSharing.share(message, subject, '', imageUrl)
       .then(() => {
         //success
@@ -134,7 +137,6 @@ export class HomePage {
 
   like(file_id, index) {
     this.favoriteService.postFav(file_id).subscribe(response => {
-      console.log(response);
       this.refreshLike(file_id, index);
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
@@ -143,124 +145,35 @@ export class HomePage {
 
   unlike(file_id, index) {
     this.favoriteService.deleteFav(file_id).subscribe(response => {
-      console.log(response);
       this.refreshLike(file_id, index);
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
     })
   }
 
+  onRefresh() {
+    this.loadHomeContent();
+    this.slides.slideTo(0);
+  }
+
   refreshLike(file_id, index) {
     this.favoriteService.getFavById(file_id).subscribe(response => {
       this.stories[index].likesCount = response.length;
-      console.log("new like count: " + this.stories[index].likesCount);
     });
   }
 
   refreshComment(file_id, index) {
     this.commentService.getCommentByPostId(file_id).subscribe(response => {
       this.stories[index].commentCount = response.length;
-      console.log("new comment count: " + this.stories[index].commentCount);
     });
-  }
-
-  attachLikeCount(stories) {
-    stories.map(story => {
-      this.favoriteService.getFavById(story.file_id).subscribe(response => {
-        story.likesCount = response.length;
-        story.likedByUser = false;
-        if (response.length !== 0) {
-          response.forEach(like => {
-            if (like.user_id == this.currentUser_id) story.likedByUser = true;
-          });
-        }
-      });
-    });
-  }
-
-  attachCommentCount(stories) {
-    stories.map(story => {
-      this.commentService.getCommentByPostId(story.file_id).subscribe(response => {
-        story.commentCount = response.length;
-      });
-    });
-  }
-
-  ionViewDidLoad() {
-    this.loadHomeContent();
   }
 
   loadHomeContent() {
-    if(!this.calledFromProfile) {
+    if (!this.calledFromProfile) {
       this.fetchStories();
     } else {
       this.fetchSingleStory(this.singleStory_id);
     }
-  }
-
-  fetchStories() {
-    this.storyService.getAllPost().subscribe(response => {
-      this.stories = response;
-
-      //add username to story
-      this.stories.map(story => {
-        this.userService.getUserDataById(story.user_id).subscribe(response => {
-          story.username = response.username;
-        });
-      });
-
-      //add number of like to each story and indicate if it's been liked by user
-      this.attachLikeCount(this.stories);
-
-      //add comment counts to story
-      this.attachCommentCount(this.stories);
-
-      if(this.curTab === 'discover'){
-        this.stories = this.shuffle(this.stories);
-      }
-      else if(this.curTab === 'hot') {
-        this.stories.sort(this.compare);
-      }
-
-      console.log(this.stories);
-
-    }, (error: HttpErrorResponse) => {
-      this.presentToast(error.error.message);
-
-    });
-  }
-
-  fetchSingleStory(file_id) {
-    this.storyService.getSinglePost(file_id).subscribe(response => {
-
-      this.stories = [];
-      this.stories.push(response);
-
-      //add username to story
-      this.stories.map(story => {
-        this.userService.getUserDataById(story.user_id).subscribe(response => {
-          story.username = response.username;
-        });
-      });
-      //add number of like to each story and indicate if it's been liked by user
-      this.attachLikeCount(this.stories);
-
-      //add comment counts to story
-      this.attachCommentCount(this.stories);
-
-    }, (error: HttpErrorResponse) => {
-      this.presentToast(error.error.message);
-    });
-
-  }
-
-  onDiscover(){
-
-  }
-
-  onHot(){
-
-    console.log(this.stories);
   }
 
   onGoToProfile(userId) {
@@ -285,39 +198,116 @@ export class HomePage {
     toast.present();
   }
 
-  shuffle(arr: Array<Story>){
-    let ctr = arr.length;
+  fetchSingleStory(file_id) {
+    this.storyService.getSinglePost(file_id).subscribe(response => {
+
+      this.stories = [];
+      this.stories.push(response);
+
+      //add username to story
+      this.stories.map(story => {
+        this.userService.getUserDataById(story.user_id).subscribe(response => {
+          story.username = response.username;
+        });
+      });
+      //add number of like to each story and indicate if it's been liked by user
+      this.attachLikeCount(this.stories);
+
+      //add comment counts to story
+      this.attachCommentCount(this.stories);
+
+    }, (error: HttpErrorResponse) => {
+      this.presentToast(error.error.message);
+    });
+  }
+
+  attachLikeCount(stories) {
+    let like = 0;
+    stories.map(story => {
+      this.favoriteService.getFavById(story.file_id).subscribe(response => {
+        story.likesCount = response.length;
+        story.likedByUser = false;
+        if (response.length !== 0) {
+          response.forEach(like => {
+            if (like.user_id == this.currentUser_id) story.likedByUser = true;
+          });
+        }
+
+        like++;
+        if (like == this.stories.length) {
+          this.likeDoneSubject.next(true);
+        }
+      });
+    });
+  }
+
+  attachCommentCount(stories) {
+    stories.map(story => {
+      this.commentService.getCommentByPostId(story.file_id).subscribe(response => {
+        story.commentCount = response.length;
+      });
+    });
+  }
+
+  fetchStories() {
+    this.storyService.getAllPost().subscribe(response => {
+      this.stories = response;
+
+      //add username to story
+      this.stories.map(story => {
+        this.userService.getUserDataById(story.user_id).subscribe(response => {
+          story.username = response.username;
+        });
+      });
+
+      //add number of like to each story and indicate if it's been liked by user
+      this.attachLikeCount(this.stories);
+
+      //add comment counts to story
+      this.attachCommentCount(this.stories);
+
+    }, (error: HttpErrorResponse) => {
+      this.presentToast(error.error.message);
+    })
+  }
+
+
+  onSegmentChange(event) {
+    this.curTab = event.value;
+    this.loadHomeContent();
+    this.slides.slideTo(0, 0);
+  }
+
+  shuffle(stories: Story[]) {
+    let shuffleStories = [...stories];
+    let ctr = shuffleStories.length;
     let temp;
     let index;
 
-    while(ctr > 0){
-      index = Math.floor(Math.random()*ctr);
+    while (ctr > 0) {
+      index = Math.floor(Math.random() * ctr);
       ctr--;
 
-      temp = arr[ctr];
-      arr[ctr] = arr[index];
-      arr[index] = temp;
+      temp = shuffleStories[ctr];
+      shuffleStories[ctr] = shuffleStories[index];
+      shuffleStories[index] = temp;
     }
 
-    return arr;
+    return shuffleStories;
   }
 
-  compare(a, b) {
-    const likeA: number = a.likesCount;
-    const likeB: number = b.likesCount;
+  compareStoriesByLike(a: Story, b: Story) {
+    let likeA = a.likesCount;
+    let likeB = b.likesCount;
 
     let comparison = 0;
-    if (likeA > likeB) {
+    if (likeB > likeA) {
       comparison = 1;
     }
-    else if (likeA < likeB) {
+    else if (likeB < likeA) {
       comparison = -1;
     }
 
     return comparison;
-  }
-
-  onDismiss() {
-    this.viewCtrl.dismiss();
   }
 }
