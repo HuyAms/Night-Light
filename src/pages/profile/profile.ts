@@ -29,13 +29,15 @@ export class ProfilePage {
     username: '',
     password: '',
     email: '',
-    full_name: ''
+    full_name: '',
   };
+  userAva: Story;
+  avaTag: string;
 
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
   stories: Story[];
-  numStories: number;
+  numStories: number = 0;
 
   constructor(public navCtrl: NavController,
               public viewCtrl: ViewController,
@@ -49,14 +51,28 @@ export class ProfilePage {
 
   ionViewDidLoad() {
     if (this.user_id) {
+      this.avaTag = 'nightlight/ava/' + this.user_id;
       this.getUserInfo(this.user_id);
       this.getUserStories(this.user_id);
       this.isMe = false;
     } else {
+      this.user_id = localStorage.getItem('user_id');
+      this.avaTag = 'nightlight/ava/' + this.user_id;
       this.getMe();
       this.getMyStories();
       this.isMe = true;
     }
+  }
+
+  filterAvatar(stories) {
+    stories.map(story => {
+      this.storyService.getTag(story.file_id).subscribe( tag => {
+        story.tag = tag['tag'];
+        if(story.tag === this.avaTag) this.userAva = story;
+      })
+    });
+    stories.filter(story => story.tag === this.avaTag);
+    this.numStories = stories.length;
   }
 
   getUserInfo(user_id) {
@@ -73,8 +89,7 @@ export class ProfilePage {
   getUserStories(user_id) {
     this.storyService.getPostByUserId(user_id).subscribe(response => {
       this.stories = response;
-      this.numStories = this.stories.length;
-      console.log(this.stories);
+      this.filterAvatar(this.stories);
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
       this.presentToast(error.error.message);
@@ -95,8 +110,7 @@ export class ProfilePage {
   getMyStories() {
     this.storyService.getPostByCurUser().subscribe(response => {
       this.stories = response;
-      this.numStories = this.stories.length;
-      console.log(this.stories);
+      this.filterAvatar(this.stories);
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);
       this.presentToast(error.error.message);
@@ -120,6 +134,9 @@ export class ProfilePage {
   onPresentSinglePostModal(file_id) {
     let commentModal = this.modalCtrl.create(HomePage, {file_id: file_id, mode: 'singlePost'});
     commentModal.present();
+    commentModal.onDidDismiss( () => {
+      this.getMyStories();
+    })
   }
 
   onPresentEmailComposer(toEmail) {
@@ -128,7 +145,11 @@ export class ProfilePage {
   }
 
   onPresentEditProfileModal() {
-    let editProfileModal = this.modalCtrl.create(EditProfilePage)
+    let editProfileModal = this.modalCtrl.create(EditProfilePage, {haveAva: false});
+    if(this.userAva) {
+      editProfileModal = this.modalCtrl.create(EditProfilePage, {haveAva: true, userAva: this.userAva});
+    }
+
     editProfileModal.present();
     editProfileModal.onDidDismiss(() => {
       this.getMe();

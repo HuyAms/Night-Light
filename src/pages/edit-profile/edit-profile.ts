@@ -7,6 +7,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {PostTag} from "../../model/postTag";
 import {StoryService} from "../../providers/story.service";
 import {ProfilePage} from "../profile/profile";
+import {Story} from "../../model/story";
 
 @IonicPage()
 @Component({
@@ -25,11 +26,14 @@ export class EditProfilePage {
   }
   user_id = localStorage.getItem('user_id');
   passwordChange: boolean;
+  currentAva: Story;
+  haveAva: boolean;
+  mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
   //Tag values to post tag to image
   avaTag: PostTag = {
     file_id: 0,
-    tag: 'nightlight/ava'
+    tag: 'nightlight/ava/' + this.user_id
   }
 
   constructor(public navCtrl: NavController,
@@ -38,6 +42,13 @@ export class EditProfilePage {
               public toastCtrl: ToastController,
               private userProvider: UserService,
               private storyProvider: StoryService) {
+    this.haveAva = navParams.get('haveAva');
+    this.currentAva = navParams.get('userAva');
+    if(this.haveAva) {
+      this.img = this.mediaUrl + this.currentAva.filename
+    } else {
+      this.img = '../../assets/imgs/Generic-Profile.png';
+    }
   }
 
   ionViewDidLoad() {
@@ -49,6 +60,7 @@ export class EditProfilePage {
       this.user = response;
       this.user.password = '';
       console.log(this.user);
+      console.log(this.img);
     })
   }
 
@@ -87,7 +99,6 @@ export class EditProfilePage {
       console.log(response);
       //Get file_id from response and pass it to tagFile()
       this.avaTag.file_id = response['file_id'];
-      console.log(response['file_id']);
       this.tagFile();
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);

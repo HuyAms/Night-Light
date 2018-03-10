@@ -71,6 +71,14 @@ page-home {
     padding-right: 5px;
   }
 
+  ion-action-sheet {
+    .action-sheet-destructive {
+      .action-sheet-button {
+        color: color($colors, danger);
+      }
+    }
+  }
+
   hr {
     border: 0;
     height: 1px;

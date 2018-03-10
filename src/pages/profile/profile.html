@@ -30,7 +30,11 @@
       <ion-col align-self-center no-padding>
         <div class="profile-photo" padding-bottom>
           <img class="avatar"
-               src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg">
+               *ngIf="userAva"
+               src="{{mediaUrl + userAva.filename}}">
+          <img class="avatar"
+               *ngIf="!userAva"
+               src="../../assets/imgs/Generic-Profile.png">
         </div>
         <div text-center>
           <button *ngIf="!isMe" ion-button icon-start round outline (click)="onSendEmail()">

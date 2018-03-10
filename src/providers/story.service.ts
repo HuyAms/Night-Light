@@ -37,6 +37,10 @@ export class StoryService {
     return this.http.post(this.apiUrl + '/tags', postTag, settings);
   }
 
+  getTag(file_id) {
+    return this.http.get(this.apiUrl + '/tags/file/' + file_id);
+  }
+
   getPostByCurUser(): Observable<Story[]>{
     const settings = {
       headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
@@ -58,7 +62,7 @@ export class StoryService {
     return this.http.put(this.apiUrl + '/media/' + file_id, postInfo, settings);
   }
 
-  delPost(file_id){
+  deletePost(file_id){
     const settings = {
       headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
     };

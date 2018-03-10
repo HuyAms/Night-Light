@@ -5,9 +5,9 @@ export class Story {
   file_id: number;
   username: string;
   user_id: number;
-  avatar: string;
   likesCount: number;
   commentCount: number;
   likedByUser: boolean;
   time_added: string;
+  tag: string;
 }

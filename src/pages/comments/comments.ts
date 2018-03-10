@@ -77,7 +77,7 @@ export class CommentsPage {
 
   onDelete(commentId) {
     let actionSheet = this.actionSheetCtrl.create({
-      title: 'Delete your comment',
+      title: 'Delete your comment?',
       buttons: [
         {
           text: 'Delete',

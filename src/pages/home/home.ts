@@ -1,5 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {
+  ActionSheetController,
   IonicPage, ModalController, NavController, NavParams, Slides,
   ToastController, ViewController,
 } from 'ionic-angular';
@@ -50,7 +51,7 @@ export class HomePage {
               private toastCtrl: ToastController,
               private commentService: CommentService,
               private settingsService: SettingsService,
-              private vibration: Vibration) {
+              private actionSheetCtrl: ActionSheetController) {
     this.mode = navParams.get('mode');
     this.singleStory_id = navParams.get('file_id');
     if (this.mode) {
@@ -124,6 +125,35 @@ export class HomePage {
       }).catch((e) => {
       //Error
     })
+  }
+
+  onDelete(file_id) {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: 'Delete this post?',
+      buttons: [
+        {
+          text: 'Delete',
+          role: 'destructive',
+          icon: 'trash',
+          handler: () => {
+            this.storyService.deletePost(file_id).subscribe(response => {
+              if (this.calledFromProfile) this.onDismiss();
+            }, error => {
+              this.presentToast(error);
+            })
+          }
+        },{
+          text: 'Cancel',
+          role: 'cancel',
+          icon: 'close',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
+
   }
 
   onClickLike(file_id, index) {

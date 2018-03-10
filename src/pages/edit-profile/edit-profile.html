@@ -13,9 +13,9 @@
 
 <ion-content padding>
   <ion-row align-items-center>
-    <ion-col>
-      <img class="camera" src="assets/imgs/camera_placeholder.png" *ngIf="!img"/>
-      <img class="camera" src={{img}} *ngIf="img"/>
+    <ion-col text-center>
+      <img class="avatar" src={{img}} *ngIf="!haveAva"/>
+      <img class="avatar" src={{img}} *ngIf="haveAva"/>
     </ion-col>
   </ion-row>
   <ion-item>

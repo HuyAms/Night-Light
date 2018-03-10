@@ -3,5 +3,12 @@ page-edit-profile {
     ion-item {
       padding-left: 0 !important;
     }
+    .avatar {
+      object-fit: cover;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      margin: 0 auto;
+    }
   }
 }

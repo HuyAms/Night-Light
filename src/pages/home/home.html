@@ -61,6 +61,7 @@
             </ion-col>
             <ion-col col-1 no-padding>
               <button *ngIf="story.user_id == currentUser_id" ion-button icon-only small clear
+                      (click)="onDelete(story.file_id)"
               >
                 <ion-icon name="close"></ion-icon>
               </button>
