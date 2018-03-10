@@ -1,5 +1,5 @@
 
-<ion-header>
+<ion-header no-border>
   <ion-navbar>
     <ion-title>Comments</ion-title>
     <ion-buttons start>
@@ -14,11 +14,11 @@
 
 
 <ion-content class="content" padding style="background-color: #ededed">
-  <div *ngIf="comments?.length === 0">
-    <h4>There are no comments yet</h4>
+  <div class="no-comment" *ngIf="comments?.length === 0">
+    <h5>There are no comments yet</h5>
     <p>Be the first to comment</p>
   </div>
-  <ion-list no-padding *ngIf="comments?.length > 0">
+  <ion-list no-margin no-padding *ngIf="comments?.length > 0">
     <ion-item-sliding no-lines *ngFor="let comment of comments">
       <ion-item>
         <ion-avatar float-left (click)="onGoToProfile(comment.user_id)">
@@ -26,7 +26,7 @@
                src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg"/>
         </ion-avatar>
         <div class="comment left" float-left>
-          <h3>{{comment.username}}</h3>
+          <h2>{{comment.username}}</h2>
           <span>{{comment.comment}}</span>
         </div>
       </ion-item>
@@ -41,7 +41,7 @@
 </ion-content>
 
 <ion-footer>
-  <ion-toolbar no-padding color="light">
+  <ion-toolbar no-padding color="white">
     <ion-row>
       <ion-col col-10 no-padding>
         <ion-textarea

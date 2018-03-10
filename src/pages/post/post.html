@@ -14,54 +14,57 @@
 
 
 <ion-content style="background-color: #ededed" padding>
-  <ion-row>
-    <ion-col>
-      <img class="camera" src="assets/imgs/camera_placeholder.png" *ngIf="!img"/>
-      <img class="camera" src={{img}} *ngIf="img"/>
-    </ion-col>
-  </ion-row>
-  <ion-item>
-    <input type="file" name="file" (change)="setFile($event)">
-  </ion-item>
-  <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-    <ion-list>
-      <ion-item>
-        <ion-label color="primary">Title</ion-label>
-        <ion-input
-          type="text"
-          name="title"
-          ngModel
-          required
-        ></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label floating>
-          Story
-        </ion-label>
-        <ion-textarea
-          name="description"
-          ngModel
-          required
-          autoresize
-        ></ion-textarea>
-      </ion-item>
-    </ion-list>
-    <ion-list>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <button
-              ion-button
-              block
-              outline
-              type="submit"
-              [disabled]="!f.valid"
-            >
-              Share
-            </button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-list>
-  </form>
+  <div class="post-content">
+    <ion-row>
+      <ion-col no-padding>
+        <img class="camera" src="assets/imgs/camera_placeholder.png" *ngIf="!img"/>
+        <img class="camera" src={{img}} *ngIf="img"/>
+      </ion-col>
+    </ion-row>
+    <ion-item>
+      <input type="file" name="file" (change)="setFile($event)">
+    </ion-item>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+      <ion-list>
+        <ion-item no-padding>
+          <ion-input
+            class="title"
+            type="text"
+            name="title"
+            placeholder="STORY TITLE"
+            ngModel
+            required
+            text-center
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-textarea
+            class="content"
+            name="description"
+            placeholder="Your story begins here..."
+            ngModel
+            required
+            autoresize
+          ></ion-textarea>
+        </ion-item>
+      </ion-list>
+      <ion-list>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <button
+                ion-button
+                block
+                outline
+                type="submit"
+                [disabled]="!f.valid"
+              >
+                Share
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
+    </form>
+  </div>
 </ion-content>

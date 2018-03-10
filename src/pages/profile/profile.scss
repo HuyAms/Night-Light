@@ -31,6 +31,7 @@ page-profile {
       position: relative;
       text-align: center;
       .card-title {
+        padding: 10px;
         font-family: $font-header;
         position: absolute;
         top: 50%;
@@ -40,7 +41,7 @@ page-profile {
         font-weight: bold;
         letter-spacing: 2px;
         font-size: 35px;
-        color: color($colors, light);
+        color: color($colors, textOnDark);
         -webkit-transform: translateY(-50%);
         -moz-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
@@ -55,7 +56,6 @@ page-profile {
       text-transform: uppercase;
       color: color($colors, primary);
       font-weight: 500;
-      font-family: $font-app-component;
     }
 
     .username {
@@ -68,7 +68,7 @@ page-profile {
     }
 
     .bio {
-      font-size: 16px;
+      font-size: 18px;
       color: color($colors, secondary);
       margin: 0;
       font-family: $font-content;

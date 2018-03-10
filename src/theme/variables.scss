@@ -36,19 +36,21 @@ $colors: (
   primary: #034F84,
   secondary: #58718c,
   danger: #f53d3d,
-  light: #ededed,
+  light: #949494,
   dark: #001f35,
   comment: #ededed,
   liked: #5899d8,
   textOnDark: #F0EDE5,
-  textOnLight: #A1AABA
+  textOnLight: #5c6773
 );
 $tabs-background: white;
 $toolbar-background: white;
 
-$font-app-component: 'Lato', Arial, sans-serif;
-$font-header: 'Economica', Arial, sans-serif;;
-$font-content: 'Work Sans', Arial, sans-serif;;
+$font-family-base: 'Lato', Arial, sans-serif;
+$font-family-md-base: 'Lato', Arial, sans-serif;
+$font-header: 'Economica', Arial, sans-serif;
+$font-content: 'Work Sans', Arial, sans-serif;
+
 
 // App iOS Variables
 // --------------------------------------------------
