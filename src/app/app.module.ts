@@ -26,12 +26,11 @@ import {SettingsPage} from "../pages/settings/settings";
 import {SettingsService} from "../providers/settings.service";
 import {EditProfilePage} from "../pages/edit-profile/edit-profile";
 import {AboutusPage} from "../pages/aboutus/aboutus";
-<<<<<<< HEAD
 import {CameraService} from "../providers/camera.service";
-=======
 import {Vibration} from "@ionic-native/vibration";
 import {MailcomposerPage} from "../pages/mailcomposer/mailcomposer";
->>>>>>> master
+import {Camera} from "@ionic-native/camera";
+
 
 
 @NgModule({
@@ -82,11 +81,9 @@ import {MailcomposerPage} from "../pages/mailcomposer/mailcomposer";
     FavouriteService,
     EmailComposer,
     SettingsService,
-<<<<<<< HEAD
-    CameraService
-=======
-    Vibration
->>>>>>> master
+    CameraService,
+    Vibration,
+    Camera
   ]
 })
 export class AppModule {}

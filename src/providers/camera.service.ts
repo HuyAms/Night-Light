@@ -1,40 +1,61 @@
 import { Injectable } from '@angular/core';
 import { Camera } from '@ionic-native/camera';
+import {normalizeURL, Platform} from 'ionic-angular';
 
 @Injectable()
 export class CameraService {
 
-  constructor(private camera: Camera) {
+  constructor(private camera: Camera, private platform: Platform) {
   }
 
   getPictureFromCamera() {
-    return this.getImage(this.camera.PictureSourceType.CAMERA, true);
+    return new Promise((resolve, reject) => {
+      const options: CameraOptions = {
+        quality: 100,
+        destinationType: this.platform.is('ios') ? this.camera.DestinationType.FILE_URI : this.camera.DestinationType.DATA_URL,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE
+      }
+
+      this.camera.getPicture(options).then((imageData) => {
+
+        let base64Image = null;
+
+        //get photo from the camera based on platform type
+        if (this.platform.is('ios'))
+          base64Image = normalizeURL(imageData);
+        else
+          base64Image = "data:image/jpeg;base64," + imageData;
+
+        resolve(base64Image);
+
+      }, (error) => {
+        console.debug("Unable to obtain picture: " + error, "app");
+        reject(error);
+      });
+    })
+
   }
 
   getPictureFromPhotoLibrary() {
-    return this.getImage(this.camera.PictureSourceType.PHOTOLIBRARY);
-  }
+    return new Promise((resolve, reject) => {
+      let cameraOptions = {
+        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+        destinationType: this.camera.DestinationType.FILE_URI,
+        quality: 100,
+        targetWidth: 1000,
+        targetHeight: 1000,
+        encodingType: this.camera.EncodingType.JPEG,
+        correctOrientation: true
+      }
 
-  getImage(pictureSourceType, crop = false, quality = 100, allowEdit = true, saveToAlbum = true) {
-    const options = {
-      quality,
-      allowEdit,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      sourceType: pictureSourceType,
-      encodingType: this.camera.EncodingType.PNG,
-      saveToPhotoAlbum: saveToAlbum
-    };
+      this.camera.getPicture(cameraOptions).then((file_uri) => {
 
-    if (crop) {
-      options['targetWidth'] = 600;
-      options['targetHeight'] = 600;
-    }
-
-    return this.camera.getPicture(options).then(imageData => {
-      const base64Image = 'data:image/png;base64,' + imageData;
-      return base64Image;
-    }, error => {
-      console.log('CAMERA ERROR -> ' + JSON.stringify(error));
-    });
+        resolve(normalizeURL(file_uri));
+      }, (error) => {
+        console.debug("Unable to obtain picture: " + error, "app");
+        reject(error);
+      });
+    })
   }
 }

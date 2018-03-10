@@ -1,19 +1,17 @@
 import {Component} from '@angular/core';
 import {
   ActionSheetController,
-  IonicPage, LoadingController, ModalController, NavController, NavParams, Platform,
+  IonicPage,
+  LoadingController,
+  NavController,
+  Platform,
   ToastController,
 } from 'ionic-angular';
 import {NgForm} from "@angular/forms";
 import {StoryService} from '../../providers/story.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PostTag} from '../../model/postTag';
-import {HomePage} from '../home/home';
-import {Story} from "../../model/story";
-import {FavouriteService} from "../../providers/favourite.service";
-import {CommentsPage} from "../comments/comments";
 import {CameraService} from "../../providers/camera.service";
-
 
 @IonicPage()
 @Component({
@@ -95,6 +93,7 @@ export class PostPage {
           icon: !this.platform.is('ios') ? 'camera' : null,
           handler: () => {
             this.takePicture();
+            console.log('take picture');
           }
         },
         {
@@ -102,6 +101,7 @@ export class PostPage {
           icon: !this.platform.is('ios') ? 'image' : null,
           handler: () => {
             this.getPicture();
+            console.log('get picture');
           }
         },
         {
@@ -118,31 +118,25 @@ export class PostPage {
   }
 
   takePicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
-    return this.cameraService.getPictureFromCamera().then(picture => {
-      if (picture) {
-        this.img = picture;
-      }
-      loading.dismiss();
-    }, error => {
-      alert(error);
-    });
+    this.img = this.cameraService.getPictureFromCamera()
+      .then(data => {
+        this.img = data;
+        console.log(this.img);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   getPicture() {
-    const loading = this.loadingCtrl.create();
-
-    loading.present();
-    return this.cameraService.getPictureFromPhotoLibrary().then(picture => {
-      if (picture) {
-        this.img = picture;
-      }
-      loading.dismiss();
-    }, error => {
-      alert(error);
-    });
+    this.img = this.cameraService.getPictureFromPhotoLibrary()
+      .then(data => {
+        this.img = data;
+        console.log(this.img);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   getPreviewImage() {
