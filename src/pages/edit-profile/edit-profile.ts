@@ -47,6 +47,7 @@ export class EditProfilePage {
   requestUserInfo() {
     this.userProvider.getUserDataById(this.user_id).subscribe(response => {
       this.user = response;
+      this.user.password = '';
       console.log(this.user);
     })
   }
@@ -70,6 +71,7 @@ export class EditProfilePage {
   }
 
   checkPasswordChange(password, rePassword) {
+    console.log(password + ":" + rePassword);
     if (password === '' && rePassword === '') this.passwordChange = false;
     else this.passwordChange = true;
   }

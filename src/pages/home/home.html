@@ -33,25 +33,38 @@
   <ion-slides no-margin>
     <ion-slide *ngFor="let story of stories; let i = index">
       <ion-card class="card">
-        <ion-row center align-items-center>
-          <ion-col col-9 no-padding>
-            <ion-item class="cardHeader" (click)="onGoToProfile(story.user_id)">
+        <ion-row center align-items-center padding-left="10px">
+          <ion-col col-8 no-padding>
+            <ion-item class="cardHeader" no-padding (click)="onGoToProfile(story.user_id)">
               <ion-avatar item-start>
                 <img class="avatar"
                   src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg">
               </ion-avatar>
-              <h2>{{story.username}}</h2>
+              <ion-row>
+                <h2>{{story.username}}</h2>
+              </ion-row>
+              <ion-row>
+                <ion-note>{{story.time_added | date:'dd/MM/yy hh:mm a'}}</ion-note>
+              </ion-row>
             </ion-item>
           </ion-col>
-          <ion-col col-3 no-padding *ngIf="enableSound()">
-            <button *ngIf="!speaking" ion-button icon-only clear
-                    (click)="onTextSpeech(story.title, story.description)">
-              <ion-icon name="volume-up"></ion-icon>
-            </button>
-            <button *ngIf="speaking" ion-button icon-only clear
-                    (click)="onTextSpeech('')">
-              <ion-icon name="volume-off"></ion-icon>
-            </button>
+          <ion-col col-4 text-right>
+            <ion-col col-1 no-padding *ngIf="enableSound()">
+              <button *ngIf="!speaking" ion-button icon-only small clear
+                      (click)="onTextSpeech(story.title, story.description)">
+                <ion-icon name="volume-up"></ion-icon>
+              </button>
+              <button *ngIf="speaking" ion-button icon-only small clear
+                      (click)="onTextSpeech('')">
+                <ion-icon name="volume-off"></ion-icon>
+              </button>
+            </ion-col>
+            <ion-col col-1 no-padding>
+              <button *ngIf="story.user_id == currentUser_id" ion-button icon-only small clear
+              >
+                <ion-icon name="close"></ion-icon>
+              </button>
+            </ion-col>
           </ion-col>
         </ion-row>
 

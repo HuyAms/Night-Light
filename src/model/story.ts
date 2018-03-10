@@ -9,4 +9,5 @@ export class Story {
   likesCount: number;
   commentCount: number;
   likedByUser: boolean;
+  time_added: string;
 }

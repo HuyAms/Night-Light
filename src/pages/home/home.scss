@@ -24,6 +24,10 @@ page-home {
     }
   }
 
+  .counts {
+    min-height: 35px !important;
+  }
+
   ion-scroll {
     height: 55vh;
     padding: 0px !important;
@@ -54,6 +58,10 @@ page-home {
       font-weight: bold;
       color: color($colors, primary);
       margin: 0;
+    }
+    ion-note {
+      font-family: $font-content;
+      font-size: 14px !important;
     }
   }
 
