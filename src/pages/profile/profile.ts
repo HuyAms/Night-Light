@@ -1,19 +1,15 @@
 import {Component} from '@angular/core';
-import {
-  IonicPage, ModalController, NavController, NavParams,
-  ToastController, ViewController,
-} from 'ionic-angular';
+import {IonicPage, ModalController, NavController, NavParams, ToastController, ViewController,} from 'ionic-angular';
 import {UserService} from '../../providers/user.service';
 import {User} from '../../model/user';
 import {Story} from '../../model/story';
 import {HttpErrorResponse} from '@angular/common/http';
 import {StoryService} from '../../providers/story.service';
-import { EmailComposer } from '@ionic-native/email-composer';
 import {HomePage} from "../home/home";
-import {SettingsPageModule} from "../settings/settings.module";
 import {SettingsPage} from "../settings/settings";
 import {EditProfilePage} from "../edit-profile/edit-profile";
 import {MailcomposerPage} from "../mailcomposer/mailcomposer";
+import {SettingsService} from "../../providers/settings.service";
 
 
 @IonicPage()
@@ -43,7 +39,8 @@ export class ProfilePage {
               private userService: UserService,
               private storyService: StoryService,
               private toastCtrl: ToastController,
-              private modalCtrl: ModalController) {
+              private modalCtrl: ModalController,
+              private settingsService: SettingsService) {
     this.user_id = navParams.get('user_id');
   }
 
@@ -57,6 +54,10 @@ export class ProfilePage {
       this.getMyStories();
       this.isMe = true;
     }
+  }
+
+  checkGridMode() {
+    return this.settingsService.isGrid();
   }
 
   getUserInfo(user_id) {
