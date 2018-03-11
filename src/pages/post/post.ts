@@ -11,6 +11,7 @@ import {HomePage} from '../home/home';
 import {Story} from "../../model/story";
 import {FavouriteService} from "../../providers/favourite.service";
 import {CommentsPage} from "../comments/comments";
+import {TagService} from "../../providers/tag.service.";
 
 
 @IonicPage()
@@ -22,7 +23,8 @@ export class PostPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private storyProvider: StoryService,
+              private storyService: StoryService,
+              private tagService: TagService,
               private toastCtrl: ToastController){
   }
 
@@ -61,7 +63,7 @@ export class PostPage {
       formData.append('file', this.file);
 
       //POST to server
-      this.storyProvider.upload(formData).subscribe(response => {
+      this.storyService.upload(formData).subscribe(response => {
         console.log(response);
         //Get file_id from response and pass it to tagFile()
         this.postTag.file_id = response['file_id'];
@@ -77,7 +79,7 @@ export class PostPage {
   }
   //post tag
   tagFile(){
-    this.storyProvider.postTag(this.postTag).subscribe(response => {
+    this.tagService.postTag(this.postTag).subscribe(response => {
       console.log(response);
     }, (error: HttpErrorResponse) => {
       console.log(error.error.message);

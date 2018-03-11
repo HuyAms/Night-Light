@@ -8,6 +8,7 @@ import {PostTag} from "../../model/postTag";
 import {StoryService} from "../../providers/story.service";
 import {ProfilePage} from "../profile/profile";
 import {Story} from "../../model/story";
+import {TagService} from "../../providers/tag.service.";
 
 @IonicPage()
 @Component({
@@ -26,6 +27,7 @@ export class EditProfilePage {
   }
   user_id = localStorage.getItem('user_id');
   passwordChange: boolean;
+  avaChange: boolean;
   currentAva: Story;
   haveAva: boolean;
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
@@ -33,7 +35,7 @@ export class EditProfilePage {
   //Tag values to post tag to image
   avaTag: PostTag = {
     file_id: 0,
-    tag: 'nightlight/ava/' + this.user_id
+    tag: 'nightlight_ava_' + this.user_id
   }
 
   constructor(public navCtrl: NavController,
@@ -41,11 +43,12 @@ export class EditProfilePage {
               private viewCtrl: ViewController,
               public toastCtrl: ToastController,
               private userProvider: UserService,
-              private storyProvider: StoryService) {
+              private storyService: StoryService,
+              private tagService: TagService) {
     this.haveAva = navParams.get('haveAva');
     this.currentAva = navParams.get('userAva');
     if(this.haveAva) {
-      this.img = this.mediaUrl + this.currentAva.filename
+      this.img = this.mediaUrl + this.currentAva.filename;
     } else {
       this.img = '../../assets/imgs/Generic-Profile.png';
     }
@@ -59,12 +62,11 @@ export class EditProfilePage {
     this.userProvider.getUserDataById(this.user_id).subscribe(response => {
       this.user = response;
       this.user.password = '';
-      console.log(this.user);
-      console.log(this.img);
     })
   }
 
   setFile(evt){
+    this.avaChange = true;
     console.log(evt.target.files[0]);
 
     let reader = new FileReader();
@@ -83,7 +85,6 @@ export class EditProfilePage {
   }
 
   checkPasswordChange(password, rePassword) {
-    console.log(password + ":" + rePassword);
     if (password === '' && rePassword === '') this.passwordChange = false;
     else this.passwordChange = true;
   }
@@ -95,13 +96,12 @@ export class EditProfilePage {
     formData.append('description', form.value.aboutme);
 
     //POST ava to server
-    this.storyProvider.upload(formData).subscribe(response => {
+    this.storyService.upload(formData).subscribe(response => {
       console.log(response);
       //Get file_id from response and pass it to tagFile()
       this.avaTag.file_id = response['file_id'];
       this.tagFile();
     }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
       this.presentToast("Unable to post. Please check again");
     })
   }
@@ -114,7 +114,9 @@ export class EditProfilePage {
         email: form.value.email
       }
 
-      //this.changeAva(form);
+      if (this.avaChange) {
+        this.changeAva(form);
+      }
 
       //PUT to server
       this.userProvider.editUserData(newUserInfo).subscribe(response => {
@@ -123,12 +125,11 @@ export class EditProfilePage {
         this.presentToast("All changes saved.");
         this.navCtrl.setRoot(ProfilePage);
       }, (error: HttpErrorResponse) => {
-        console.log(error.error.message);
         this.presentToast("Unable to save changes. Please check again");
         form.reset();
       })
     } else {
-      this.presentToast("Passwords do not match, please try again!")
+      this.presentToast("Passwords do not match. Please try again!")
     }
   }
 
@@ -138,7 +139,9 @@ export class EditProfilePage {
       email: form.value.email
     }
 
-    //this.changeAva(form);
+    if (this.avaChange) {
+      this.changeAva(form);
+    }
 
     //PUT to server
     this.userProvider.editUserData(newUserInfo).subscribe(response => {
@@ -147,7 +150,6 @@ export class EditProfilePage {
       this.presentToast("All changes saved.");
       this.navCtrl.setRoot(ProfilePage);
     }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
       this.presentToast("Unable to save changes. Please check again");
       form.reset();
     })
@@ -166,11 +168,9 @@ export class EditProfilePage {
 
   //ava tag
   tagFile(){
-    this.storyProvider.postTag(this.avaTag).subscribe(response => {
+    this.tagService.postTag(this.avaTag).subscribe(response => {
       console.log(response);
     }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
-      console.log(this.avaTag);
       this.presentToast(error.error.message);
     })
   }

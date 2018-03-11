@@ -8,12 +8,13 @@ import {User} from '../../model/user';
 import {Story} from '../../model/story';
 import {HttpErrorResponse} from '@angular/common/http';
 import {StoryService} from '../../providers/story.service';
-import { EmailComposer } from '@ionic-native/email-composer';
+import {EmailComposer} from '@ionic-native/email-composer';
 import {HomePage} from "../home/home";
 import {SettingsPageModule} from "../settings/settings.module";
 import {SettingsPage} from "../settings/settings";
 import {EditProfilePage} from "../edit-profile/edit-profile";
 import {MailcomposerPage} from "../mailcomposer/mailcomposer";
+import {TagService} from "../../providers/tag.service.";
 
 
 @IonicPage()
@@ -45,19 +46,20 @@ export class ProfilePage {
               private userService: UserService,
               private storyService: StoryService,
               private toastCtrl: ToastController,
-              private modalCtrl: ModalController) {
+              private modalCtrl: ModalController,
+              private tagService: TagService) {
     this.user_id = navParams.get('user_id');
   }
 
   ionViewDidLoad() {
     if (this.user_id) {
-      this.avaTag = 'nightlight/ava/' + this.user_id;
+      this.avaTag = 'nightlight_ava_' + this.user_id;
       this.getUserInfo(this.user_id);
       this.getUserStories(this.user_id);
       this.isMe = false;
     } else {
       this.user_id = localStorage.getItem('user_id');
-      this.avaTag = 'nightlight/ava/' + this.user_id;
+      this.avaTag = 'nightlight_ava_' + this.user_id;
       this.getMe();
       this.getMyStories();
       this.isMe = true;
@@ -65,14 +67,25 @@ export class ProfilePage {
   }
 
   filterAvatar(stories) {
+    let num = 1;
     stories.map(story => {
-      this.storyService.getTag(story.file_id).subscribe( tag => {
-        story.tag = tag['tag'];
-        if(story.tag === this.avaTag) this.userAva = story;
+      this.tagService.getTag(story.file_id).subscribe(tag => {
+        if(tag[0]) {
+          story.tag = tag[0]["tag"];
+          if (story.tag === this.avaTag) {
+            this.userAva = story;
+          }
+        }
+        if (num == stories.length) {
+          this.stories = stories.filter(story => {
+            return (story.tag !== this.avaTag);
+          });
+        }
+        this.numStories = this.stories.length;
+        num++;
       })
     });
-    stories.filter(story => story.tag === this.avaTag);
-    this.numStories = stories.length;
+
   }
 
   getUserInfo(user_id) {
@@ -81,7 +94,6 @@ export class ProfilePage {
       this.curUser.email = response['email'];
       this.curUser.full_name = response['full_name'];
     }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
       this.presentToast(error.error.message);
     });
   }
@@ -91,7 +103,6 @@ export class ProfilePage {
       this.stories = response;
       this.filterAvatar(this.stories);
     }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
       this.presentToast(error.error.message);
     });
   }
@@ -102,7 +113,6 @@ export class ProfilePage {
       this.curUser.email = response['email'];
       this.curUser.full_name = response['full_name'];
     }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
       this.presentToast(error.error.message);
     });
   }
@@ -112,7 +122,6 @@ export class ProfilePage {
       this.stories = response;
       this.filterAvatar(this.stories);
     }, (error: HttpErrorResponse) => {
-      console.log(error.error.message);
       this.presentToast(error.error.message);
     });
   }
@@ -134,7 +143,7 @@ export class ProfilePage {
   onPresentSinglePostModal(file_id) {
     let commentModal = this.modalCtrl.create(HomePage, {file_id: file_id, mode: 'singlePost'});
     commentModal.present();
-    commentModal.onDidDismiss( () => {
+    commentModal.onDidDismiss(() => {
       this.getMyStories();
     })
   }
@@ -146,10 +155,9 @@ export class ProfilePage {
 
   onPresentEditProfileModal() {
     let editProfileModal = this.modalCtrl.create(EditProfilePage, {haveAva: false});
-    if(this.userAva) {
+    if (this.userAva) {
       editProfileModal = this.modalCtrl.create(EditProfilePage, {haveAva: true, userAva: this.userAva});
     }
-
     editProfileModal.present();
     editProfileModal.onDidDismiss(() => {
       this.getMe();

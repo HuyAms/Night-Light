@@ -25,22 +25,6 @@ export class StoryService {
     return this.http.get<Story>(this.apiUrl + '/media/' + id);
   }
 
-  getAllPost(): Observable<Story[]>{
-    return this.http.get<Story[]>(this.apiUrl + '/tags/nightlight');
-  }
-
-  postTag(postTag) {
-    const settings = {
-      headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))
-    };
-
-    return this.http.post(this.apiUrl + '/tags', postTag, settings);
-  }
-
-  getTag(file_id) {
-    return this.http.get(this.apiUrl + '/tags/file/' + file_id);
-  }
-
   getPostByCurUser(): Observable<Story[]>{
     const settings = {
       headers: new HttpHeaders().set('x-access-token', localStorage.getItem('token'))

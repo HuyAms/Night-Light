@@ -51,7 +51,7 @@
     <ion-row>
       <ion-col no-padding>
         <p class="username" text-center>{{curUser.username}}</p>
-        <p class="bio" text-center>User's biography (description of avatar)</p>
+        <p class="bio" text-center *ngIf="userAva">{{userAva.description}}</p>
       </ion-col>
     </ion-row>
   </ion-card>

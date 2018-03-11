@@ -28,6 +28,7 @@ import {EditProfilePage} from "../pages/edit-profile/edit-profile";
 import {AboutusPage} from "../pages/aboutus/aboutus";
 import {Vibration} from "@ionic-native/vibration";
 import {MailcomposerPage} from "../pages/mailcomposer/mailcomposer";
+import {TagService} from '../providers/tag.service.';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import {MailcomposerPage} from "../pages/mailcomposer/mailcomposer";
     FavouriteService,
     EmailComposer,
     SettingsService,
-    Vibration
+    Vibration,
+    TagService
   ]
 })
 export class AppModule {}

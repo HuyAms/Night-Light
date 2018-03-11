@@ -17,6 +17,7 @@ import {ProfilePage} from "../profile/profile";
 import {SettingsService} from "../../providers/settings.service";
 import {Subject} from "rxjs/Subject";
 import {Vibration} from "@ionic-native/vibration";
+import {TagService} from "../../providers/tag.service.";
 
 
 @IonicPage()
@@ -51,7 +52,8 @@ export class HomePage {
               private toastCtrl: ToastController,
               private commentService: CommentService,
               private settingsService: SettingsService,
-              private actionSheetCtrl: ActionSheetController) {
+              private actionSheetCtrl: ActionSheetController,
+              private tagService: TagService) {
     this.mode = navParams.get('mode');
     this.singleStory_id = navParams.get('file_id');
     if (this.mode) {
@@ -280,7 +282,7 @@ export class HomePage {
   }
 
   fetchStories() {
-    this.storyService.getAllPost().subscribe(response => {
+    this.tagService.getAllPost().subscribe(response => {
       this.stories = response;
 
       //add username to story
