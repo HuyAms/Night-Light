@@ -179,8 +179,4 @@ export class ProfilePage {
   onSettings() {
     this.navCtrl.push(SettingsPage);
   }
-
-  onDeleteStory() {
-    console.log('delete story');
-  }
 }

@@ -56,11 +56,10 @@
     </ion-row>
   </ion-card>
   <p class="numStories" text-center>{{numStories}} Stories</p>
-  <hr/>
 
-  <ion-row *ngIf="!checkGridMode()" padding>
+  <ion-row *ngIf="!checkGridMode()" padding style="background-color: white">
     <ion-col col-12 no-padding *ngFor="let story of stories">
-      <ion-card class="storyCard" (click)="onPresentSinglePostModal(story.file_id)" on-hold="onDeleteStory()">
+      <ion-card class="storyCard" (click)="onPresentSinglePostModal(story.file_id)">
         <img class="storyImg" src="{{mediaUrl + story.filename}}"/>
         <div class="card-title">{{story.title|shorten}}</div>
       </ion-card>
@@ -69,8 +68,8 @@
 
   <ion-row *ngIf="checkGridMode()" no-padding>
     <ion-col col-6 no-padding *ngFor="let story of stories">
-      <ion-card (click)="onPresentSinglePostModal(story.file_id)" on-hold="onDeleteStory()">
-        <img class="storyImg"
+      <ion-card (click)="onPresentSinglePostModal(story.file_id)"">
+        <img class="storyImg2"
              src="{{mediaUrl + story.filename}}">
         <ion-card-content text-center>
           <hr/>
