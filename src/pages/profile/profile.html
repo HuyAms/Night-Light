@@ -68,7 +68,7 @@
 
   <ion-row *ngIf="checkGridMode()" no-padding>
     <ion-col col-6 no-padding *ngFor="let story of stories">
-      <ion-card (click)="onPresentSinglePostModal(story.file_id)"">
+      <ion-card (click)="onPresentSinglePostModal(story.file_id)">
         <img class="storyImg2"
              src="{{mediaUrl + story.filename}}">
         <ion-card-content text-center>

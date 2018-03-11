@@ -51,7 +51,7 @@ export class EditProfilePage {
     if(this.haveAva) {
       this.img = this.mediaUrl + this.currentAva.filename;
     } else {
-      this.img = '../../assets/imgs/Generic-Profile.png';
+      this.img = 'assets/imgs/Generic-Profile.png';
     }
   }
 

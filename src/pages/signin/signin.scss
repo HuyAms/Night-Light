@@ -1,8 +1,10 @@
 page-signin {
 
   .background {
-    background-image: url("../../assets/imgs/Clear Sky.jpg");
-    background-size: 100% 100%;
+    background: #00457d;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #28297b, #00457d);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #28297b, #00457d); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 
   }
 

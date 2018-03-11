@@ -284,6 +284,7 @@ export class HomePage {
   fetchStories() {
     this.tagService.getAllPost().subscribe(response => {
       this.stories = response;
+      this.stories.reverse();
 
       //add username to story
       this.stories.map(story => {
