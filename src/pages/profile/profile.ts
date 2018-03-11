@@ -151,7 +151,9 @@ export class ProfilePage {
     let commentModal = this.modalCtrl.create(HomePage, {file_id: file_id, mode: 'singlePost'});
     commentModal.present();
     commentModal.onDidDismiss(() => {
-      this.getMyStories();
+      if(this.user_id) {
+        this.getUserStories(this.user_id);
+      }else this.getMyStories();
     })
   }
 
