@@ -28,7 +28,7 @@ export class EditProfilePage {
   user_id = localStorage.getItem('user_id');
   passwordChange: boolean;
   avaChange: boolean;
-  AboutChange: boolean;
+  aboutChange: boolean;
   currentAva: Story;
   haveAva: boolean;
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
@@ -90,6 +90,11 @@ export class EditProfilePage {
     else this.passwordChange = true;
   }
 
+  checkAboutChange(aboutme: string, description: string) {
+    console.log(aboutme + " : " + description);
+    this.aboutChange = aboutme !== description;
+  }
+
   changeAva(form: NgForm) {
     //store ava and info in formData
     const formData = new FormData();
@@ -113,8 +118,22 @@ export class EditProfilePage {
         })
       }
     }, (error: HttpErrorResponse) => {
-      this.presentToast("Unable to post. Please check again");
-    })
+      this.presentToast("Unable to change. Please check again");
+    });
+  }
+
+  changeAboutMeOnly(aboutMe: string) {
+    //store ava and info in formData
+    let description = {
+      description: aboutMe
+    }
+    //PUT old ava with new 'about me' to server
+    this.storyService.putPostInfo(this.currentAva.file_id, description).subscribe(response => {
+      console.log(response);
+    }, (error: HttpErrorResponse) => {
+      console.log(error);
+      this.presentToast("Unable to change. Please check again");
+    });
   }
 
   changeWithPassword(form: NgForm) {
@@ -127,6 +146,8 @@ export class EditProfilePage {
 
       if (this.avaChange) {
         this.changeAva(form);
+      } else if (this.aboutChange) {
+        this.changeAboutMeOnly(form.value.aboutme);
       }
 
       //PUT to server
@@ -152,6 +173,9 @@ export class EditProfilePage {
 
     if (this.avaChange) {
       this.changeAva(form);
+    } else if (this.aboutChange) {
+      console.log("Desc only");
+      this.changeAboutMeOnly(form.value.aboutme);
     }
 
     //PUT to server
@@ -168,6 +192,7 @@ export class EditProfilePage {
 
   onSubmit(form: NgForm) {
     this.checkPasswordChange(form.value.password, form.value.rePassword);
+    if(this.haveAva) this.checkAboutChange(form.value.aboutme, this.currentAva.description);
     if (this.passwordChange) {
       console.log("change with password");
       this.changeWithPassword(form);
@@ -199,5 +224,4 @@ export class EditProfilePage {
   onDismiss() {
     this.viewCtrl.dismiss();
   }
-
 }

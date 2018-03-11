@@ -59,7 +59,7 @@ export class SigninPage{
 
   presentSignInAlert(mess: string) {
     const alert = this.alertCtrl.create({
-      title: 'Signin failed',
+      title: 'Sign in failed',
       message: mess,
       buttons: ['Ok']
     });
@@ -68,7 +68,7 @@ export class SigninPage{
 
   presentSignUpAlert(mess: string) {
     const alert = this.alertCtrl.create({
-      title: 'Signup failed',
+      title: 'Sign up failed',
       message: mess,
       buttons: ['Ok']
     });
@@ -77,7 +77,7 @@ export class SigninPage{
 
   initSignin(){
     const loading = this.loadingCtrl.create({
-      content: 'Sign you in ...'
+      content: 'Signing you in ...'
     });
     loading.present();
 
@@ -103,7 +103,7 @@ export class SigninPage{
 
   initSignup(){
     const loading = this.loadingCtrl.create({
-      content: 'Sign you up ...'
+      content: 'Signing you up ...'
     });
     loading.present();
 
@@ -112,10 +112,8 @@ export class SigninPage{
       //Navigate to sign in
       this.isSignup = false;
 
-      this.presentToast('User was created sucessfully');
+      this.presentToast('User was created successfully');
       this.initSignin();
-
-      this.saveUserData();
 
       loading.dismiss();
 

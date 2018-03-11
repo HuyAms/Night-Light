@@ -77,12 +77,14 @@
           ngModel
           autoresize
           [disabled]="!avaChange && !haveAva"
+          required
         ></ion-textarea>
         <ion-textarea
           *ngIf="haveAva"
           name="aboutme"
           [ngModel]="currentAva.description"
           autoresize
+          required
         ></ion-textarea>
       </ion-item>
     </ion-list>

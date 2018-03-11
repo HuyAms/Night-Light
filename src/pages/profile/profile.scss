@@ -49,6 +49,16 @@ page-profile {
         transform: translateY(-50%);
       }
     }
+    ion-card {
+      ion-card-content {
+        h4 {
+          font-family: $font-header;
+          text-transform: uppercase;
+          color: color($colors, primary) !important;
+          font-weight: bold !important;
+        }
+      }
+    }
 
     .numStories {
       margin: 10px;
