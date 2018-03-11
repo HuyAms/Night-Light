@@ -215,9 +215,6 @@ export class HomePage {
   onPresentProfileModal(userId) {
     let profileModal = this.modalCtrl.create(ProfilePage, {user_id: userId});
     profileModal.present();
-    profileModal.onDidDismiss(() => {
-      this.onRefresh();
-    });
   }
 
   presentToast(mess: string) {
@@ -230,27 +227,15 @@ export class HomePage {
     toast.present();
   }
 
-  fetchSingleStory(file_id) {
-    this.storyService.getSinglePost(file_id).subscribe(response => {
-
-      this.stories = [];
-      this.stories.push(response);
-
-      //add username to story
-      this.stories.map(story => {
-        this.userService.getUserDataById(story.user_id).subscribe(response => {
-          story.username = response.username;
-        });
+  attachAvatar(stories) {
+    stories.map(story => {
+      let tag = 'nightlight_ava_' + story.user_id;
+      this.tagService.getStorybyTag(tag).subscribe(response => {
+        if (response[0]) {
+          story.user_ava = this.mediaUrl + response[0].filename;
+        }
+      })
       });
-      //add number of like to each story and indicate if it's been liked by user
-      this.attachLikeCount(this.stories);
-
-      //add comment counts to story
-      this.attachCommentCount(this.stories);
-
-    }, (error: HttpErrorResponse) => {
-      this.presentToast(error.error.message);
-    });
   }
 
   attachLikeCount(stories) {
@@ -281,6 +266,33 @@ export class HomePage {
     });
   }
 
+  fetchSingleStory(file_id) {
+    this.storyService.getSinglePost(file_id).subscribe(response => {
+
+      this.stories = [];
+      this.stories.push(response);
+
+      //add username to story
+      this.stories.map(story => {
+        this.userService.getUserDataById(story.user_id).subscribe(response => {
+          story.username = response.username;
+        });
+      });
+
+      //add profile picture to stories
+      this.attachAvatar(this.stories);
+
+      //add number of like to each story and indicate if it's been liked by user
+      this.attachLikeCount(this.stories);
+
+      //add comment counts to story
+      this.attachCommentCount(this.stories);
+
+    }, (error: HttpErrorResponse) => {
+      this.presentToast(error.error.message);
+    });
+  }
+
   fetchStories() {
     this.tagService.getAllPost().subscribe(response => {
       this.stories = response;
@@ -295,6 +307,9 @@ export class HomePage {
 
       //add number of like to each story and indicate if it's been liked by user
       this.attachLikeCount(this.stories);
+
+      //add profile picture to stories
+      this.attachAvatar(this.stories);
 
       //add comment counts to story
       this.attachCommentCount(this.stories);

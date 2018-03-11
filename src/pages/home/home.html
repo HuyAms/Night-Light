@@ -37,8 +37,8 @@
           <ion-col col-8 no-padding>
             <ion-item class="cardHeader" no-padding (click)="onGoToProfile(story.user_id)">
               <ion-avatar item-start>
-                <img class="avatar"
-                  src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg">
+                <img class="avatar" *ngIf="!story.user_ava" src="assets/imgs/Generic-Profile.png">
+                <img class="avatar" *ngIf="story.user_ava" src="{{story.user_ava}}">
               </ion-avatar>
               <ion-row>
                 <h2>{{story.username}}</h2>

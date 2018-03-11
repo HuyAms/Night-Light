@@ -33,4 +33,8 @@ export class TagService {
     return this.http.get(this.apiUrl + '/tags/file/' + file_id);
   }
 
+  getStorybyTag(tag): Observable<Story[]> {
+    return this.http.get<Story[]>(this.apiUrl + '/tags/' + tag);
+  }
+
 }

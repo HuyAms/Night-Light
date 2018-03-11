@@ -10,4 +10,5 @@ export class Story {
   likedByUser: boolean;
   time_added: string;
   tag: string;
+  user_ava: string;
 }

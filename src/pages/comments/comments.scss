@@ -38,7 +38,7 @@ page-comments {
       border-color: transparent  white transparent;
     }
 
-    h4 {
+    h2 {
       font-weight: bold;
       font-family: $font-header;
       color: color($colors, primary);
@@ -51,9 +51,14 @@ page-comments {
 
   .no-comment {
     color: color($colors, textOnLight);
-    font-family: $font-content;
+
     p {
       font-size: 16px;
+      font-family: $font-content;
+    }
+    h4 {
+      font-family: $font-header;
+      font-weight: bold;
     }
   }
 }
