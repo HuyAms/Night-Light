@@ -98,9 +98,19 @@ export class EditProfilePage {
     //POST ava to server
     this.storyService.upload(formData).subscribe(response => {
       console.log(response);
+
       //Get file_id from response and pass it to tagFile()
       this.avaTag.file_id = response['file_id'];
       this.tagFile();
+
+      //Delete old profile pic
+      if (this.currentAva) {
+        this.storyService.deletePost(this.currentAva.file_id).subscribe(response => {
+          console.log(response);
+        }, (error: HttpErrorResponse) => {
+          this.presentToast("Unable to post. Please check again");
+        })
+      }
     }, (error: HttpErrorResponse) => {
       this.presentToast("Unable to post. Please check again");
     })
@@ -123,7 +133,7 @@ export class EditProfilePage {
         console.log(response);
 
         this.presentToast("All changes saved.");
-        this.navCtrl.setRoot(ProfilePage);
+        this.onDismiss();
       }, (error: HttpErrorResponse) => {
         this.presentToast("Unable to save changes. Please check again");
         form.reset();
@@ -148,7 +158,7 @@ export class EditProfilePage {
       console.log(response);
 
       this.presentToast("All changes saved.");
-      this.navCtrl.setRoot(ProfilePage);
+      this.onDismiss();
     }, (error: HttpErrorResponse) => {
       this.presentToast("Unable to save changes. Please check again");
       form.reset();
