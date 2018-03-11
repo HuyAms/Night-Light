@@ -72,10 +72,17 @@
           About me
         </ion-label>
         <ion-textarea
+          *ngIf="!haveAva"
           name="aboutme"
           ngModel
           autoresize
-          [disabled]="!avaChange"
+          [disabled]="!avaChange && !haveAva"
+        ></ion-textarea>
+        <ion-textarea
+          *ngIf="haveAva"
+          name="aboutme"
+          [ngModel]="currentAva.description"
+          autoresize
         ></ion-textarea>
       </ion-item>
     </ion-list>

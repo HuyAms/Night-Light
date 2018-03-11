@@ -28,6 +28,7 @@ export class EditProfilePage {
   user_id = localStorage.getItem('user_id');
   passwordChange: boolean;
   avaChange: boolean;
+  AboutChange: boolean;
   currentAva: Story;
   haveAva: boolean;
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
