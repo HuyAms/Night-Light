@@ -38,10 +38,10 @@ page-signin {
     border: 1px solid rgba(246, 246, 246, 0.2) !important;
     font-size: 0.9em;
     ion-label {
-      color: color($colors, textOnLight) !important;
+      color: color($colors, light) !important;
     }
     ion-input {
-      color: color($colors, primary) !important;
+      color: color($colors, textOnDark) !important;
     }
   }
   ion-list {
