@@ -1,20 +1,16 @@
 import {Component} from '@angular/core';
-import {
-  IonicPage, ModalController, NavController, NavParams,
-  ToastController, ViewController,
-} from 'ionic-angular';
+import {IonicPage, ModalController, NavController, NavParams, ToastController, ViewController,} from 'ionic-angular';
 import {UserService} from '../../providers/user.service';
 import {User} from '../../model/user';
 import {Story} from '../../model/story';
 import {HttpErrorResponse} from '@angular/common/http';
 import {StoryService} from '../../providers/story.service';
-import {EmailComposer} from '@ionic-native/email-composer';
 import {HomePage} from "../home/home";
-import {SettingsPageModule} from "../settings/settings.module";
 import {SettingsPage} from "../settings/settings";
 import {EditProfilePage} from "../edit-profile/edit-profile";
 import {MailcomposerPage} from "../mailcomposer/mailcomposer";
 import {TagService} from "../../providers/tag.service.";
+import {SettingsService} from "../../providers/settings.service";
 
 
 @IonicPage()
@@ -47,11 +43,13 @@ export class ProfilePage {
               private storyService: StoryService,
               private toastCtrl: ToastController,
               private modalCtrl: ModalController,
-              private tagService: TagService) {
+              private tagService: TagService,
+              private settingsService: SettingsService) {
     this.user_id = navParams.get('user_id');
   }
 
   ionViewDidLoad() {
+    console.log('ionViewDidLoad')
     if (this.user_id) {
       this.avaTag = 'nightlight_ava_' + this.user_id;
       this.getUserInfo(this.user_id);
@@ -70,7 +68,7 @@ export class ProfilePage {
     let num = 1;
     stories.map(story => {
       this.tagService.getTag(story.file_id).subscribe(tag => {
-        if(tag[0]) {
+        if (tag[0]) {
           story.tag = tag[0]["tag"];
           if (story.tag === this.avaTag) {
             this.userAva = story;
@@ -85,7 +83,16 @@ export class ProfilePage {
         num++;
       })
     });
+  }
 
+  ionViewWillEnter() {
+   if (!this.user_id) {
+     this.getMyStories();
+   }
+  }
+
+  checkGridMode() {
+    return this.settingsService.isGrid();
   }
 
   getUserInfo(user_id) {
@@ -171,5 +178,9 @@ export class ProfilePage {
 
   onSettings() {
     this.navCtrl.push(SettingsPage);
+  }
+
+  onDeleteStory() {
+    console.log('delete story');
   }
 }
