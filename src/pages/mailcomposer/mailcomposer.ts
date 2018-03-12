@@ -29,16 +29,12 @@ export class MailcomposerPage {
     });
   }
 
-  // retrieveAttachment() {
-  //   console.log('ionViewDidLoad MailcomposerPage');
-  // }
 
   sendMessage() {
     const value = this.emailForm.value;
-    let to: string = value.subject.to;
+    let to: string = value.to;
     let subject: string = value.subject;
     let message: string = value.message;
-
 
     this.emailComposer.isAvailable()
       .then((available: boolean) => {
@@ -47,12 +43,6 @@ export class MailcomposerPage {
 
             let email = {
               to: to,
-              attachments: [
-                'file://img/logo.png',
-                'res://icon.png',
-                'base64:icon.png//iVBORw0KGgoAAAANSUhEUg...',
-                'file://README.pdf'
-              ],
               subject: subject,
               body: message,
               isHtml: true
