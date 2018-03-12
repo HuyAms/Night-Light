@@ -87,4 +87,5 @@
     <engine name="android" spec="~7.0.0" />
     <plugin name="cordova-plugin-vibration" spec="^3.0.1" />
     <plugin name="cordova-plugin-email-composer" spec="^0.8.15" />
+    <plugin name="cordova-plugin-headercolor" spec="^1.0.0" />
 </widget>

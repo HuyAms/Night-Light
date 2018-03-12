@@ -80,7 +80,7 @@ import {TagService} from '../providers/tag.service.';
     EmailComposer,
     SettingsService,
     Vibration,
-    TagService
+    TagService,
   ]
 })
 export class AppModule {}

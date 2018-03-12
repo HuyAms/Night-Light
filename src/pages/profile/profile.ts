@@ -22,6 +22,7 @@ export class ProfilePage {
 
   user_id: string;
   isMe: boolean;
+  myID = localStorage.getItem('user_id');
   curUser: User = {
     username: '',
     password: '',
@@ -30,7 +31,7 @@ export class ProfilePage {
   };
   userAva: Story;
   avaTag: string;
-
+  fromHome: boolean;
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
   stories: Story[];
@@ -46,11 +47,12 @@ export class ProfilePage {
               private tagService: TagService,
               private settingsService: SettingsService) {
     this.user_id = navParams.get('user_id');
+    this.fromHome = navParams.get('fromHome');
+    console.log(this.fromHome);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad')
-    if (this.user_id) {
+    if (this.user_id && this.user_id != this.myID) {
       this.avaTag = 'nightlight_ava_' + this.user_id;
       this.getUserInfo(this.user_id);
       this.getUserStories(this.user_id);

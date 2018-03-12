@@ -33,7 +33,6 @@ page-home {
     padding: 0px !important;
   }
 
-
   .story-card {
     padding: 15px;
     p {
@@ -52,7 +51,7 @@ page-home {
     }
   }
 
-  .cardHeader {
+  .cardHeaderName {
     h2 {
       font-family: $font-header;
       font-weight: bold;
@@ -64,7 +63,6 @@ page-home {
       font-size: 14px !important;
     }
   }
-
 
   .interactive-button {
     padding-left: 5px;
@@ -89,4 +87,24 @@ page-home {
     background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
   }
 
+  @media only screen and (max-width: 360px) and (max-height: 640px) {
+    .interactive-button {
+      font-size: 1.2rem;
+      height: 1.8em;
+    }
+    .cardHeader {
+      [col-8] {
+        max-width: 65%;
+      }
+      [col-4] {
+        max-width: 40%;
+        flex: 0 0 35%;
+      }
+      .cardHeaderName {
+        ion-label {
+          margin: 0;
+        }
+      }
+    }
+  }
 }

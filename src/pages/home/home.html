@@ -1,11 +1,6 @@
 
 <ion-header no-border>
   <ion-toolbar *ngIf="!calledFromProfile">
-    <ion-buttons end>
-      <button ion-button icon-only (click)="onRefresh()" color="light">
-        <ion-icon name="refresh"></ion-icon>
-      </button>
-    </ion-buttons>
     <ion-segment [(ngModel)]="curTab" (ionChange)="onSegmentChange($event)">
       <ion-segment-button value="discover">Discover
       </ion-segment-button>
@@ -30,12 +25,21 @@
 
 <ion-content style="background-color: #ededed" padding>
 
+  <ion-refresher (ionRefresh)="onRefresh($event)" *ngIf="!calledFromProfile">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <ion-slides no-margin>
     <ion-slide *ngFor="let story of stories; let i = index">
       <ion-card class="card">
-        <ion-row center align-items-center padding-left="10px">
+        <ion-row class="cardHeader" center align-items-center padding-left="10px">
           <ion-col col-8 no-padding>
-            <ion-item class="cardHeader" no-padding (click)="onGoToProfile(story.user_id)">
+            <ion-item class="cardHeaderName" no-padding (click)="onGoToProfile(story.user_id)">
               <ion-avatar item-start>
                 <img class="avatar" *ngIf="!story.user_ava" src="assets/imgs/Generic-Profile.png">
                 <img class="avatar" *ngIf="story.user_ava" src="{{story.user_ava}}">

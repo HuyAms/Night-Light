@@ -16,7 +16,6 @@ import {CommentService} from "../../providers/comment.service";
 import {ProfilePage} from "../profile/profile";
 import {SettingsService} from "../../providers/settings.service";
 import {Subject} from "rxjs/Subject";
-import {Vibration} from "@ionic-native/vibration";
 import {TagService} from "../../providers/tag.service.";
 
 
@@ -31,6 +30,7 @@ export class HomePage {
   text: string;
   speaking: boolean = false;
   stories: Story[];
+  storiesTemp: Story[];
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
   currentUser_id = localStorage.getItem('user_id');
   curTab: string = 'new';
@@ -70,13 +70,15 @@ export class HomePage {
     this.likeDoneSubject.subscribe(
       (data) => {
         if (this.curTab === 'hot') {
-          this.stories.sort(this.compareStoriesByLike);
+          this.stories= this.storiesTemp.sort(this.compareStoriesByLike);
           this.slides.update();
         }
         else if (this.curTab === 'discover') {
-          this.stories = this.shuffle(this.stories);
+          this.stories = this.shuffle(this.storiesTemp);
           this.slides.update();
-          //this.vibration.vibrate(2000);
+        } else if (this.curTab === 'new') {
+          this.stories = this.storiesTemp.reverse();
+          this.slides.update();
         }
       }
     )
@@ -183,9 +185,10 @@ export class HomePage {
     })
   }
 
-  onRefresh() {
+  onRefresh(refresher) {
     this.loadHomeContent();
     this.slides.slideTo(0);
+    refresher.complete();
   }
 
   refreshLike(file_id, index) {
@@ -213,7 +216,7 @@ export class HomePage {
   }
 
   onPresentProfileModal(userId) {
-    let profileModal = this.modalCtrl.create(ProfilePage, {user_id: userId});
+    let profileModal = this.modalCtrl.create(ProfilePage, {user_id: userId, fromHome: 'true'});
     profileModal.present();
   }
 
@@ -251,7 +254,7 @@ export class HomePage {
         }
 
         like++;
-        if (like == this.stories.length) {
+        if (like == this.storiesTemp.length) {
           this.likeDoneSubject.next(true);
         }
       });
@@ -295,24 +298,23 @@ export class HomePage {
 
   fetchStories() {
     this.tagService.getAllPost().subscribe(response => {
-      this.stories = response;
-      this.stories.reverse();
+      this.storiesTemp = response;
 
       //add username to story
-      this.stories.map(story => {
+      this.storiesTemp.map(story => {
         this.userService.getUserDataById(story.user_id).subscribe(response => {
           story.username = response.username;
         });
       });
 
       //add number of like to each story and indicate if it's been liked by user
-      this.attachLikeCount(this.stories);
+      this.attachLikeCount(this.storiesTemp);
 
       //add profile picture to stories
-      this.attachAvatar(this.stories);
+      this.attachAvatar(this.storiesTemp);
 
       //add comment counts to story
-      this.attachCommentCount(this.stories);
+      this.attachCommentCount(this.storiesTemp);
 
     }, (error: HttpErrorResponse) => {
       this.presentToast(error.error.message);

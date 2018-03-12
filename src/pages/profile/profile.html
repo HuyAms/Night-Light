@@ -8,13 +8,13 @@
 
   <ion-navbar no-border>
     <ion-title>Profile</ion-title>
-    <ion-buttons start *ngIf="!isMe">
+    <ion-buttons start *ngIf="!isMe || fromHome">
       <button ion-button (click)="onDismiss()">
         <span ion-text color="primary" showWhen="ios" style="color: white">Close</span>
         <ion-icon name="close" showWhen="android, windows"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-buttons end *ngIf="isMe">
+    <ion-buttons end *ngIf="isMe && !fromHome">
       <button ion-button icon-only (click)="onSettings()" color="light">
         <ion-icon name="settings"></ion-icon>
       </button>
