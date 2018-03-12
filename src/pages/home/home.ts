@@ -232,7 +232,7 @@ export class HomePage {
 
   attachAvatar(stories) {
     stories.map(story => {
-      let tag = 'nightlight_ava_' + story.user_id;
+      let tag = 'NiLiOfficial_ava_' + story.user_id;
       this.tagService.getStorybyTag(tag).subscribe(response => {
         if (response[0]) {
           story.user_ava = this.mediaUrl + response[0].filename;

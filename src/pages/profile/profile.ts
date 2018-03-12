@@ -53,13 +53,13 @@ export class ProfilePage {
 
   ionViewDidLoad() {
     if (this.user_id && this.user_id != this.myID) {
-      this.avaTag = 'nightlight_ava_' + this.user_id;
+      this.avaTag = 'NiLiOfficial_ava_' + this.user_id;
       this.getUserInfo(this.user_id);
       this.getUserStories(this.user_id);
       this.isMe = false;
     } else {
       this.user_id = localStorage.getItem('user_id');
-      this.avaTag = 'nightlight_ava_' + this.user_id;
+      this.avaTag = 'NiLiOfficial_ava_' + this.user_id;
       this.getMe();
       this.getMyStories();
       this.isMe = true;

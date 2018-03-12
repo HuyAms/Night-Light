@@ -36,7 +36,7 @@ export class EditProfilePage {
   //Tag values to post tag to image
   avaTag: PostTag = {
     file_id: 0,
-    tag: 'nightlight_ava_' + this.user_id
+    tag: 'NiLiOfficial_ava_' + this.user_id
   }
 
   constructor(public navCtrl: NavController,

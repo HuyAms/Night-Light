@@ -35,7 +35,7 @@ export class PostPage {
   //Tag values to post tag to image
   postTag: PostTag = {
     file_id: 0,
-    tag: 'nightlight'
+    tag: 'NiLiOfficial'
   }
 
   setFile(evt){

@@ -45,7 +45,7 @@ attachUserInfo(comments) {
       }
     );
 
-    let tag = 'nightlight_ava_' + comment.user_id;
+    let tag = 'NiLiOfficial_ava_' + comment.user_id;
     this.tagService.getStorybyTag(tag).subscribe(response => {
       if (response[0]) {
         comment.user_ava = this.mediaUrl + response[0].filename;

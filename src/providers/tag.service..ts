@@ -18,7 +18,7 @@ export class TagService {
   }
 
   getAllPost(): Observable<Story[]>{
-    return this.http.get<Story[]>(this.apiUrl + '/tags/nightlight');
+    return this.http.get<Story[]>(this.apiUrl + '/tags/NiLiOfficial');
   }
 
   postTag(postTag) {
