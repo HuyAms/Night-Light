@@ -32,7 +32,7 @@ export class AboutusPage {
     },
     {
       imageUrl: '../../assets/imgs/ThanhTran.jpg',
-      quote: 'Hi, my name is Thanh Tran.',
+      quote: 'People didn\'t normally hate bugs. Then came IT.',
       name: 'Thanh Tran',
       position: 'Software Developer'
     }
