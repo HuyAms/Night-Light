@@ -17,12 +17,20 @@
   <div class="post-content">
     <ion-row>
       <ion-col no-padding>
-        <img class="camera" src="assets/imgs/camera_placeholder.png" *ngIf="!img"/>
-        <img class="camera" src={{img}} *ngIf="img"/>
+        <img class="story-photo" src="assets/imgs/camera_placeholder.png" *ngIf="!img"/>
+        <img class="story-photo" src={{img}} *ngIf="img"/>
       </ion-col>
     </ion-row>
-    <ion-item>
-      <input type="file" name="file" (change)="setFile($event)">
+    <ion-item text-center>
+      <input type="file" name="file" id="file-input" (change)="setFile($event)">
+      <label class="file-input-label" for="file-input" *ngIf="!file" style="color: #034F84">
+        <ion-icon name="image" padding-right></ion-icon>
+        Add a photo
+      </label>
+      <label class="file-input-label" for="file-input" *ngIf="file" style="color: #00b07d">
+        Photo added
+        <ion-icon name="checkmark" padding-left></ion-icon>
+      </label>
     </ion-item>
     <form #f="ngForm" (ngSubmit)="onSubmit(f)">
       <ion-list>
@@ -31,7 +39,7 @@
             class="title"
             type="text"
             name="title"
-            placeholder="STORY TITLE"
+            placeholder="STORY TITLE:"
             ngModel
             required
             text-center

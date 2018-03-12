@@ -2,9 +2,9 @@
 <ion-header no-border>
   <ion-toolbar *ngIf="!calledFromProfile">
     <ion-segment [(ngModel)]="curTab" (ionChange)="onSegmentChange($event)">
-      <ion-segment-button value="discover">Discover
-      </ion-segment-button>
       <ion-segment-button value="new">New
+      </ion-segment-button>
+      <ion-segment-button value="discover">Discover
       </ion-segment-button>
       <ion-segment-button value="hot">Hot
       </ion-segment-button>
@@ -27,7 +27,7 @@
 
   <ion-refresher (ionRefresh)="onRefresh($event)" *ngIf="!calledFromProfile">
     <ion-refresher-content
-      pullingIcon="arrow-dropdown"
+      pullingIcon="arrow-down"
       pullingText="Pull to refresh"
       refreshingSpinner="circles"
       refreshingText="Refreshing...">

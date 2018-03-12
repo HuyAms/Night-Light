@@ -33,7 +33,7 @@ export class HomePage {
   storiesTemp: Story[];
   mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
   currentUser_id = localStorage.getItem('user_id');
-  curTab: string = 'new';
+  curTab: string = 'discover';
   mode: string;
   singleStory_id: number;
   calledFromProfile: boolean;
@@ -237,7 +237,7 @@ export class HomePage {
         if (response[0]) {
           story.user_ava = this.mediaUrl + response[0].filename;
         }
-      })
+      });
       });
   }
 
@@ -252,7 +252,6 @@ export class HomePage {
             if (like.user_id == this.currentUser_id) story.likedByUser = true;
           });
         }
-
         like++;
         if (like == this.storiesTemp.length) {
           this.likeDoneSubject.next(true);
@@ -274,6 +273,7 @@ export class HomePage {
 
       this.stories = [];
       this.stories.push(response);
+      this.storiesTemp = this.stories;
 
       //add username to story
       this.stories.map(story => {

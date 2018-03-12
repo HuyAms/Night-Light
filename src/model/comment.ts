@@ -4,5 +4,5 @@ export class Comment {
   time_added: string;
   comment: string;
   username: string;
-  avatar: string
+  user_ava: string
 }

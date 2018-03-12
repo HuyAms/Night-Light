@@ -1,6 +1,12 @@
 page-post {
   ion-content {
     .post-content {
+      .story-photo {
+        display: block;
+        height: 40vh;
+        width: 100%;
+        object-fit: cover;
+      }
       background-color: white !important;
       .content {
         font-family: $font-content;
@@ -15,6 +21,24 @@ page-post {
         text-transform: uppercase;
         letter-spacing: 1px;
         color: color($colors, primary);
+      }
+      #file-input {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+        max-width: 80%;
+      }
+      .file-input-label {
+        border: 1px solid color($colors, primary);
+        font-size: 1.4rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: inline-block;
+        overflow: hidden;
+        padding: 0.625rem 1.25rem;
       }
     }
   }

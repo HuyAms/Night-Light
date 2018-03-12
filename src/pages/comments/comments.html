@@ -22,8 +22,8 @@
     <ion-item-sliding no-lines *ngFor="let comment of comments">
       <ion-item>
         <ion-avatar float-left (click)="onGoToProfile(comment.user_id)">
-          <img class="avatar"
-               src="http://2.bp.blogspot.com/-csl0wfrqxqk/UwzuEojb7DI/AAAAAAAAAIQ/QXtaXrJ4FVM/s1600/Harry_potter.jpg"/>
+          <img class="avatar" *ngIf="!comment.user_ava" src="assets/imgs/Generic-Profile.png">
+          <img class="avatar" *ngIf="comment.user_ava" src="{{comment.user_ava}}">
         </ion-avatar>
         <div class="comment left" float-left>
           <h2>{{comment.username}}</h2>

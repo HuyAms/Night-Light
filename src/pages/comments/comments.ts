@@ -9,6 +9,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {UserService} from "../../providers/user.service";
 import {User} from "../../model/user";
 import {ProfilePage} from "../profile/profile";
+import {TagService} from "../../providers/tag.service.";
 
 @IonicPage()
 @Component({
@@ -21,6 +22,7 @@ export class CommentsPage {
   comments: Comment[];
   comment: string = '';
   myId: string;
+  mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
   constructor(public viewCtrl: ViewController,
               public navParams: NavParams,
@@ -28,27 +30,37 @@ export class CommentsPage {
               private commentService: CommentService,
               private userService: UserService,
               private actionSheetCtrl: ActionSheetController,
-              private toastCtrl: ToastController) {
+              private toastCtrl: ToastController,
+              private tagService: TagService) {
     this.file_id = navParams.get('file_id');
     this.myId = localStorage.getItem('user_id');
-    console.log(this.myId);
     this.fetchComments();
   }
 
+attachUserInfo(comments) {
+  comments.map(comment => {
+    this.userService.getUserDataById(comment.user_id).subscribe(
+      user => {
+        comment.username = user.username;
+      }
+    );
+
+    let tag = 'nightlight_ava_' + comment.user_id;
+    this.tagService.getStorybyTag(tag).subscribe(response => {
+      if (response[0]) {
+        comment.user_ava = this.mediaUrl + response[0].filename;
+      }
+    });
+  });
+}
 
   fetchComments() {
-    console.log(this.file_id);
     this.commentService.getCommentByPostId(this.file_id).subscribe(
       response => {
         this.comments = response;
-        console.log(response);
-        this.comments.map(comment => {
-          this.userService.getUserDataById(comment.user_id).subscribe(
-            user => {
-              comment.username = user.username;
-            }
-          );
-        });
+
+        this.attachUserInfo(this.comments);
+
       }, (error: HttpErrorResponse) => {
         this.presentToast(error.error.message);
       }
