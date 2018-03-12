@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {
   ActionSheetController,
-  IonicPage, ModalController, NavController, NavParams, Slides,
+  IonicPage, ModalController, NavController, NavParams, Scroll, Slides,
   ToastController, ViewController,
 } from 'ionic-angular';
 import {TextToSpeech} from '@ionic-native/text-to-speech';
@@ -188,7 +188,6 @@ export class HomePage {
   onRefresh(refresher) {
     this.loadHomeContent();
     this.slides.slideTo(0);
-    refresher.complete();
   }
 
   refreshLike(file_id, index) {
