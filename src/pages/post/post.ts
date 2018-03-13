@@ -39,7 +39,6 @@ export class PostPage {
   }
 
   setFile(evt){
-    console.log(evt.target.files[0]);
     if (evt.target.files[0]) {
       let reader = new FileReader();
 
@@ -65,11 +64,10 @@ export class PostPage {
 
       //POST to server
       this.storyService.upload(formData).subscribe(response => {
-        console.log(response);
         //Get file_id from response and pass it to tagFile()
         this.postTag.file_id = response['file_id'];
-        console.log(response['file_id']);
         this.tagFile();
+        this.presentToast("Thanks for sharing your story!")
         this.navCtrl.setRoot(HomePage);
       }, (error: HttpErrorResponse) => {
         console.log(error.error.message);

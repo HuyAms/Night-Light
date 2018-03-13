@@ -181,6 +181,7 @@ export class ProfilePage {
   }
 
   onSettings() {
-    this.navCtrl.push(SettingsPage);
+    if (this.userAva) this.navCtrl.push(SettingsPage, {haveAva: true, userAva: this.userAva});
+    else this.navCtrl.push(SettingsPage, {haveAva: false});
   }
 }

@@ -68,17 +68,19 @@ export class EditProfilePage {
 
   setFile(evt){
     this.avaChange = true;
-    console.log(evt.target.files[0]);
+    if (evt.target.files[0]) {
+      this.avaChange = true;
 
-    let reader = new FileReader();
+      let reader = new FileReader();
 
-    reader.onload = (event:any) => {
-      this.img = event.target.result;
+      reader.onload = (event: any) => {
+        this.img = event.target.result;
+      }
+      reader.readAsDataURL(evt.target.files[0]);
+
+      this.file = evt.target.files[0];
+      this.inputFileEmpty = false;
     }
-    reader.readAsDataURL(evt.target.files[0]);
-
-    this.file = evt.target.files[0];
-    this.inputFileEmpty = false;
   }
 
   checkPasswordMatch(password, rePassword) {
