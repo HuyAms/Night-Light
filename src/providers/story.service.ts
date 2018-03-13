@@ -1,4 +1,4 @@
-import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import "rxjs/add/operator/map";
 import {Story} from "../model/story";
@@ -8,7 +8,6 @@ import {Observable} from "rxjs/Observable";
 @Injectable()
 export class StoryService {
   apiUrl = 'http://media.mw.metropolia.fi/wbma';
-  mediaUrl = 'http://media.mw.metropolia.fi/wbma/uploads/';
 
   constructor(public http: HttpClient) {
   }

@@ -6,7 +6,6 @@ import {NgForm} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
 import {PostTag} from "../../model/postTag";
 import {StoryService} from "../../providers/story.service";
-import {ProfilePage} from "../profile/profile";
 import {Story} from "../../model/story";
 import {TagService} from "../../providers/tag.service.";
 

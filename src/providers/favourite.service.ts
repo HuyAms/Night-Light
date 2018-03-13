@@ -1,7 +1,6 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs/Observable";
-import {Story} from "../model/story";
 import {Favourite} from "../model/Favourite";
 
 @Injectable()

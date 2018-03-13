@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {
   ActionSheetController,
-  IonicPage, ModalController, NavController, NavParams, Scroll, Slides,
+  IonicPage, ModalController, NavController, NavParams, Slides,
   ToastController, ViewController,
 } from 'ionic-angular';
 import {TextToSpeech} from '@ionic-native/text-to-speech';
@@ -104,7 +104,7 @@ export class HomePage {
       return;
     }
     this.speaking = true;
-    this.textToSpeech.speak({text: `Title: ${title}, Story: ${text}`, locale: 'en-GB', rate: 1.5})
+    this.textToSpeech.speak({text: `Story title: ${title}. ${text}`, locale: 'en-GB', rate: 1.5})
       .then((val) => {
           this.speaking = false;
         },

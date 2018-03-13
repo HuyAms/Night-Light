@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
 import {
-  App, IonicPage, ModalController, NavController, NavParams, ToastController, Toggle,
-  ViewController
-} from 'ionic-angular';
+  App, IonicPage, ModalController, NavParams, ToastController, Toggle} from 'ionic-angular';
 import {SigninPage} from "../signin/signin";
 import {SettingsService} from "../../providers/settings.service";
 import {EditProfilePage} from "../edit-profile/edit-profile";
@@ -18,9 +16,7 @@ export class SettingsPage {
   haveAva: boolean;
   userAva: Story;
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public viewCtrl: ViewController,
+  constructor(public navParams: NavParams,
               private settingsService: SettingsService,
               private modalCtrl: ModalController,
               private app: App,

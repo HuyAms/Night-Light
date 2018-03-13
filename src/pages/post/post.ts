@@ -1,16 +1,10 @@
 import { Component } from '@angular/core';
-import {
-  IonicPage, ModalController, NavController, NavParams,
-  ToastController,
-} from 'ionic-angular';
+import {IonicPage, NavController, ToastController} from 'ionic-angular';
 import {NgForm} from "@angular/forms";
 import {StoryService} from '../../providers/story.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {PostTag} from '../../model/postTag';
 import {HomePage} from '../home/home';
-import {Story} from "../../model/story";
-import {FavouriteService} from "../../providers/favourite.service";
-import {CommentsPage} from "../comments/comments";
 import {TagService} from "../../providers/tag.service.";
 
 
@@ -22,7 +16,6 @@ import {TagService} from "../../providers/tag.service.";
 export class PostPage {
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
               private storyService: StoryService,
               private tagService: TagService,
               private toastCtrl: ToastController){
