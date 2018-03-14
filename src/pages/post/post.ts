@@ -69,6 +69,7 @@ export class PostPage {
       })
     } else this.presentToast("Please attach a picture!")
   }
+
   //post tag
   tagFile(){
     this.tagService.postTag(this.postTag).subscribe(response => {

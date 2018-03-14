@@ -51,6 +51,7 @@ export class ProfilePage {
     console.log(this.fromHome);
   }
 
+  //assign values on init
   ionViewDidLoad() {
     if (this.user_id && this.user_id != this.myID) {
       this.avaTag = 'NiLiOfficial_ava_' + this.user_id;
@@ -66,9 +67,11 @@ export class ProfilePage {
     }
   }
 
+  //GET avatar
   filterAvatar(stories) {
     let num = 1;
     stories.map(story => {
+      //get current user's post and filter out the "avatar" post
       this.tagService.getTag(story.file_id).subscribe(tag => {
         if (tag[0]) {
           story.tag = tag[0]["tag"];
@@ -97,6 +100,7 @@ export class ProfilePage {
     return this.settingsService.isGrid();
   }
 
+  //assign user's info
   getUserInfo(user_id) {
     this.userService.getUserDataById(user_id).subscribe(response => {
       this.curUser.username = response['username'];
@@ -116,6 +120,7 @@ export class ProfilePage {
     });
   }
 
+  //assign current user's info
   getMe() {
     this.userService.getCurrentUserData().subscribe(response => {
       this.curUser.username = response['username'];
@@ -126,6 +131,7 @@ export class ProfilePage {
     });
   }
 
+  //GET all of current user's posts
   getMyStories() {
     this.storyService.getPostByCurUser().subscribe(response => {
       this.stories = response;
@@ -135,6 +141,7 @@ export class ProfilePage {
     });
   }
 
+  //error toast
   presentToast(mess: string) {
     let toast = this.toastCtrl.create({
       message: mess,
@@ -159,6 +166,7 @@ export class ProfilePage {
     })
   }
 
+  //display email composer modal
   onPresentEmailComposer(toEmail) {
     let emailComposer = this.modalCtrl.create(MailcomposerPage, {toEmail: toEmail});
     emailComposer.present();

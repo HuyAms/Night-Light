@@ -67,6 +67,7 @@ export class HomePage {
   }
 
   handleTabsChange() {
+    //execute tab-related function only after all sync functions are finished
     this.likeDoneSubject.subscribe(
       (data) => {
         if (this.curTab === 'hot') {
@@ -88,6 +89,7 @@ export class HomePage {
     return this.settingsService.hasSound();
   }
 
+  //display comment modal
   onPresentCommentModal(file_id: string, index) {
     let commentModal = this.modalCtrl.create(CommentsPage, {file_id: file_id});
     commentModal.present();
@@ -97,6 +99,7 @@ export class HomePage {
     })
   }
 
+  //Text-to-speech
   onTextSpeech(title: string, text: string) {
     if (this.speaking) {
       this.textToSpeech.speak({text: ''});  // <<< speak an empty string to interrupt.
@@ -122,6 +125,7 @@ export class HomePage {
     this.viewCtrl.dismiss();
   }
 
+  //share story
   onShare(message: string, subject: string, imageUrl: string) {
     this.socialSharing.share(message, subject, '', imageUrl)
       .then(() => {
@@ -131,6 +135,7 @@ export class HomePage {
     })
   }
 
+  //delete story
   onDelete(file_id) {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Delete this post?',
@@ -160,6 +165,7 @@ export class HomePage {
 
   }
 
+  //add like
   onClickLike(file_id, index) {
     if (!this.stories[index].likedByUser) {
       this.like(file_id, index);
@@ -169,6 +175,7 @@ export class HomePage {
     this.stories[index].likedByUser = !this.stories[index].likedByUser;
   }
 
+  //POST like
   like(file_id, index) {
     this.favoriteService.postFav(file_id).subscribe(response => {
       this.refreshLike(file_id, index);
@@ -177,6 +184,7 @@ export class HomePage {
     });
   }
 
+  //DELETE like
   unlike(file_id, index) {
     this.favoriteService.deleteFav(file_id).subscribe(response => {
       this.refreshLike(file_id, index);
@@ -190,12 +198,14 @@ export class HomePage {
     this.slides.slideTo(0);
   }
 
+  //refresh like count
   refreshLike(file_id, index) {
     this.favoriteService.getFavById(file_id).subscribe(response => {
       this.stories[index].likesCount = response.length;
     });
   }
 
+  //refresh comment count
   refreshComment(file_id, index) {
     this.commentService.getCommentByPostId(file_id).subscribe(response => {
       this.stories[index].commentCount = response.length;
@@ -203,6 +213,7 @@ export class HomePage {
   }
 
   loadHomeContent() {
+    //check if at page Home or Profile
     if (!this.calledFromProfile) {
       this.fetchStories();
     } else {
@@ -219,6 +230,7 @@ export class HomePage {
     profileModal.present();
   }
 
+  //error toast
   presentToast(mess: string) {
     let toast = this.toastCtrl.create({
       message: mess,
@@ -251,6 +263,8 @@ export class HomePage {
             if (like.user_id == this.currentUser_id) story.likedByUser = true;
           });
         }
+
+        //ensure finished syncronous functions
         like++;
         if (like == this.storiesTemp.length) {
           this.likeDoneSubject.next(true);
@@ -327,6 +341,7 @@ export class HomePage {
     this.slides.slideTo(0, 0);
   }
 
+  //randomize stories array for Discover tab
   shuffle(stories: Story[]) {
     let shuffleStories = [...stories];
     let ctr = shuffleStories.length;
@@ -345,6 +360,7 @@ export class HomePage {
     return shuffleStories;
   }
 
+  //sort stories by Like count
   compareStoriesByLike(a: Story, b: Story) {
     let likeA = a.likesCount;
     let likeB = b.likesCount;

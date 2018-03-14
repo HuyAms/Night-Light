@@ -29,7 +29,8 @@ export class MailcomposerPage {
     });
   }
 
-
+  //Contact function
+  //Allow email sending
   sendMessage() {
     const value = this.emailForm.value;
     let to: string = value.to;
