@@ -1,3 +1,7 @@
+# NightLight
+Nightlight is a social media application that focuses on sharing inspiring stories from and for people of different backgrounds. It aims to provide inspiration, to relieve stress and most importantly, to make people feel connected.
+**Book style UI: swipe to read**
+
 ## Install
 
     $ git clone https://github.com/ORG/PROJECT.git
