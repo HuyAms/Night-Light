@@ -6,7 +6,7 @@ Nightlight is a social media application that focuses on sharing inspiring stori
 ## Install
 
     $ git clone https://github.com/HuyAms/Night-Light.git
-    $ cd PROJECT
+    $ cd Night-Light
     $ npm install
 
 
