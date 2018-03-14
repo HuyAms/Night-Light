@@ -31,7 +31,7 @@
 
 **Profile**
 <br/>
-<img src="https://user-images.githubusercontent.com/26871154/37419715-c14f82fc-27bd-11e8-9758-677bdd754be7.PNG" height="400">
+<img src="https://user-images.githubusercontent.com/26871154/37419943-4c9aeb44-27be-11e8-902d-f78155684fe6.PNG" height="400">
 
 **Settings**
 <br/>
